@@ -1,0 +1,51 @@
+.container{
+    display: flex;
+    flex-direction: column;
+    height: 70%;
+    /* background-color: rgb(31, 206, 148); */
+    /* height: 100%; */
+    background-image: url('../../../images/consultorioaestetik.jpg');
+    background-size: cover; /* Ajusta la imagen al tamaño del contenedor */
+  background-position: center; /* Centra la imagen en el contenedor */
+  background-repeat: no-repeat; /* Evita que la imagen se repita */
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+}
+.info{
+    justify-content: center;
+    align-items: center;
+}
+
+.row, .col {
+    display: flex;
+    justify-content: center; /* Centra horizontalmente */
+  }
+
+  /* Alinea el título en la parte superior de la página */
+.header {
+    /* margin-top: 10px; */
+    text-align: center;
+  }
+  
+  /* Centra el mat-card en el medio de la pantalla */
+  .content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh; /* Altura para centrar el contenido */
+  }
+  
+  /* Alinea los botones y mat-card */
+  .mat-card {
+    width: 100%;
+  }
+  
+  /* Ajusta el tamaño de la letra del texto pequeño */
+  .footer .small-text {
+    font-size: 12px;  /* Tamaño de letra más pequeño */
+    text-align: center;
+    margin-top: 20px; /* Margen superior para separar del mat-card */
+  }
+
+  

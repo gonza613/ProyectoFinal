@@ -1,11 +1,68 @@
-<div class="container">  
-    <div class="header">
-        <h1>Bienvenido a la clínica virtual</h1>
+<body style="height: 100%; display: flex; flex-direction: column;">
+    <!-- Sección de la cabecera -->
+    <div class="row header" style="background-color: rgb(90, 162, 209);">
+      <div class="col s12">
+        <h1 style="margin-top: 15px; font-weight: bold;">BIENVENIDO A LA CLINICA VIERTUAL</h1>
+      </div>
     </div>
-    <div class="info">
-        <h2>Inicia sesión para acceder a las funcionalidades principales</h2>
-        <p>Como paciente registrado puedes solicitar turnos, ver tus turnos agendados y modificar tus datos personales.</p>
+  
+    <!-- Sección de contenido principal -->
+    <div class="container" style="flex: 1;">
+       
+        <div class="row content">
+
+
+        
+        <div class="col s12 m8 l6 offset-m2 offset-l3">    
+            <!-- MatCard de inicio sesion -->
+            <mat-card appearance="outlined" style="background-color: rgba(90, 162, 209, 0.966); width: 40%">
+                <mat-card-content>
+                    <h4 style="opacity: 100%;">Inicia sesión para acceder a las funcionalidades principales. Como paciente registrado puedes solicitar turnos, ver tus turnos agendados y modificar tus datos personales. En caso de no tener una cuenta, registrate haciendo click en el boton registrarse.</h4>
+                </mat-card-content>
+                <!-- <mat-card-content>
+                    <div class="row" style="margin-top: 20px">
+                        <div class="col s12">
+                            <button mat-button  (click)="navigate('login-signUp')" style="background-color:white ;">Iniciar Sesión</button>
+                        </div>
+                    </div>
+                </mat-card-content> -->
+            </mat-card>
+
+            
+            <!-- MatCard de registrarse -->
+          <!-- <mat-card appearance="outlined" style="background-color: rgba(90, 162, 209, 0.966); width: 30%; margin-left: 60px;">
+            <mat-card-content>
+              <h4 style="opacity: 100%;">Si no tienes una cuenta, puedes registrarse haciendo click en el boton</h4>
+            </mat-card-content>
+            <mat-card-content>
+              <div class="row" style="margin-top: 20px">
+                <div class="col s12">
+                  <button mat-button  (click)="navigate('login-signUp')" style="background-color:white ;">Registrarse</button>
+                </div>
+              </div>
+            </mat-card-content>
+          </mat-card> -->
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12">
+            <button mat-button  (click)="navigate('login-signUp')" style="background-color:white ;">Iniciar Sesión</button>
+        </div>
+        <div class="col s12" style="margin-left: 40px;">
+            <button mat-button  (click)="navigate('login-signUp')" style="background-color:white ;">Registrarse</button>
+        </div>
     </div>
-    <button mat-button (click)="navigate('login-signUp')">Iniciar Sesion</button>
-    <button mat-button (click)="navigate('login-signUp')">Registrarse</button>
-</div>
+ 
+    </div>
+  
+    <!-- Sección del footer que ocupa el espacio restante -->
+    <div class="row footer" style="background-color: rgb(90, 162, 209); flex-shrink: 0;">
+      <div class="col s1">
+        <p class="small-text">
+          Como paciente registrado puedes solicitar turnos, ver tus turnos agendados y modificar tus datos personales.
+        </p>
+      </div>
+    </div>
+  </body>
+  
