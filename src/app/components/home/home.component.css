@@ -1,51 +1,65 @@
-.container{
-    display: flex;
-    flex-direction: column;
-    height: 70%;
-    /* background-color: rgb(31, 206, 148); */
-    /* height: 100%; */
-    background-image: url('../../../images/consultorioaestetik.jpg');
-    background-size: cover; /* Ajusta la imagen al tamaño del contenedor */
-  background-position: center; /* Centra la imagen en el contenedor */
-  background-repeat: no-repeat; /* Evita que la imagen se repita */
-    width: 100%;
-    justify-content: center;
-    align-items: center;
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 70%;
+  background-image: url('../../../images/pexels-karolina-grabowska-4386466.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
-.info{
-    justify-content: center;
-    align-items: center;
+
+.info {
+  justify-content: center;
+  align-items: center;
 }
 
 .row, .col {
-    display: flex;
-    justify-content: center; /* Centra horizontalmente */
-  }
+  display: flex;
+  justify-content: center;
+}
 
-  /* Alinea el título en la parte superior de la página */
 .header {
-    /* margin-top: 10px; */
-    text-align: center;
-  }
-  
-  /* Centra el mat-card en el medio de la pantalla */
-  .content {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 60vh; /* Altura para centrar el contenido */
-  }
-  
-  /* Alinea los botones y mat-card */
-  .mat-card {
-    width: 100%;
-  }
-  
-  /* Ajusta el tamaño de la letra del texto pequeño */
-  .footer .small-text {
-    font-size: 12px;  /* Tamaño de letra más pequeño */
-    text-align: center;
-    margin-top: 20px; /* Margen superior para separar del mat-card */
-  }
+  text-align: center;
+}
 
-  
+.content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60vh;
+}
+
+.mat-card {
+  width: 100%; /* Cambia esto a un porcentaje adecuado o un valor fijo como '400px' */
+  max-width: 500px; /* Este valor puede ser ajustado según tus preferencias */
+}
+
+
+.footer {
+  display: flex;
+  justify-content: space-evenly; /* Espacia los elementos */
+  align-items: center; /* Centra verticalmente */
+  padding: 16px; /* Espacio interno */
+  font-size: 14px; /* Tamaño de la fuente */
+  color: #333; /* Color del texto */
+}
+
+.footer-content {
+  display: flex; /* Asegúrate de que los enlaces se distribuyan en línea */
+  align-items: center; /* Centra verticalmente los enlaces */
+}
+
+.footer-content a {
+  color: #07ad39; /* Color de los enlaces */
+  text-decoration: none; /* Sin subrayado */
+  font-size: 20px; /* Aumenta el tamaño de la fuente para los enlaces */
+  margin: 0 10px; /* Espacio horizontal entre los enlaces */
+}
+
+.footer-content a:hover {
+  text-decoration: underline; /* Subrayado al pasar el cursor */
+  color: #018f2c; /* Color deseado para el hover */
+}

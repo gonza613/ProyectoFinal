@@ -1,1 +1,75 @@
-<p>login-sign-up works!</p>
+<body>
+  <h2 mat-dialog-title class="mat-title" style="text-align: center; font-size: 24px; margin-bottom: 20px;">
+    {{ isLoginMode ? 'Iniciar Sesión' : 'Registrarse' }}
+  </h2>
+  
+  <mat-dialog-content>
+    <!-- login -->
+    <form class="form-container" *ngIf="isLoginMode" [formGroup]="loginForm">
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>DNI</mat-label>
+        <input matInput formControlName="dni" required autocomplete="username">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="contrasenia" required autocomplete="current-password">
+      </mat-form-field>
+    </form>
+  
+    <!-- registro -->
+    <form class="form-container" *ngIf="!isLoginMode" [formGroup]="signUpForm">
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre" required autocomplete="given-name">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>Apellido</mat-label>
+        <input matInput formControlName="apellido" required autocomplete="family-name">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>DNI</mat-label>
+        <input matInput formControlName="dni" required autocomplete="off">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>Correo</mat-label>
+        <input matInput formControlName="mail" type="email" required autocomplete="email">
+        <mat-error *ngIf="signUpForm.get('mail')?.hasError('email') && signUpForm.get('mail')?.touched">
+          Formato de correo incorrecto.
+        </mat-error>
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>Teléfono</mat-label>
+        <input matInput formControlName="telefono" required autocomplete="tel">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>Contraseña</mat-label>
+        <input matInput type="password" formControlName="contrasenia" required autocomplete="new-password">
+      </mat-form-field>
+  
+      <mat-form-field appearance="fill" class="full-width" style="margin-bottom: 15px;">
+        <mat-label>Repetir Contraseña</mat-label>
+        <input matInput type="password" formControlName="confirmarContrasenia" required autocomplete="new-password">
+        <mat-error *ngIf="!contraseniasCoinciden() && signUpForm.get('confirmarContrasenia')?.touched">
+          Las contraseñas no coinciden.
+        </mat-error>
+      </mat-form-field>
+    </form>
+  </mat-dialog-content>
+  
+  <mat-dialog-actions class="dialog-actions" style="padding: 16px; display: flex; justify-content: space-evenly;">
+    <button mat-button (click)="onCancel()">Cancelar</button>
+    <button *ngIf="isLoginMode" mat-raised-button (click)="login()" [disabled]="!loginForm.valid">Aceptar</button>
+    <button *ngIf="!isLoginMode" mat-raised-button (click)="signUp()" [disabled]="!signUpForm.valid || !contraseniasCoinciden()">Registrarse</button>
+    <mat-error *ngIf="!contraseniasCoinciden() && signUpForm.get('confirmarContrasenia')?.touched">
+      Las contraseñas no coinciden.
+  </mat-error>
+  
+  </mat-dialog-actions>
+  
+</body>
