@@ -59,3 +59,54 @@
     text-decoration: underline; /* Subrayado al pasar el cursor */
     color: #018f2c; /* Color deseado para el hover */
   }
+
+  .modules {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  
+  .example-card {
+    width: 300px;
+    cursor: pointer;
+  }
+  
+  mat-card {
+    transition: transform 0.2s ease-in-out;
+  }
+  
+  .mat-card-title mat-icon {
+    line-height: 1;
+    vertical-align: middle;
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+  }
+  
+  .mat-card-title {
+    display: flex;
+    align-items: center;
+  }
+
+  mat-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 48px; /* Asegúrate que el tamaño coincida */
+  }
+
+  mat-card:hover {
+    transform: scale(1.05);
+  }
+
+  .icon-text-wrapper {
+    display: flex;
+    align-items: center; /* Alinea verticalmente el ícono y el texto */
+  }
+  
+  .aligned-icon {
+    margin-right: 10px; /* Espacio entre el ícono y el texto */
+  }
+  
+  .aligned-text {
+    font-size: 24px; /* Ajusta el tamaño del texto para que sea más proporcional al ícono */
+  }
