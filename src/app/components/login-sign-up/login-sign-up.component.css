@@ -1,75 +1,23 @@
-.dialog-actions {
-  display: flex;
-  justify-content: space-evenly; 
-  gap: 10px; 
-  padding: 16px;
-}
-
-.mat-dialog-container {
-  width: 600px;  
-  max-width: 90vw; 
+.dialog-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
 }
 
 .form-container {
   display: flex;
   flex-direction: column;
-  gap: 15px; 
-  padding: 15px; 
+  gap: 15px;
+  padding: 15px;
 }
 
-.mat-form-field {
-  background-color: #520505; 
-  border-radius: 4px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+.dialog-actions {
+  display: flex;
+  justify-content: space-evenly;
+  gap: 10px;
+  padding: 16px;
 }
 
-.mat-form-field mat-label {
-  color: #0c0e5e;
-}
 
-.mat-input-element {
-  color: #c00f85; 
-}
 
-.mat-form-field:hover, 
-.mat-form-field:focus-within {
-  box-shadow: 0 0 0 2px rgba(90, 162, 209, 0.5); 
-}
 
-.mat-form-field.ng-invalid .mat-form-field-outline {
-  border-color: #f44336;
-}
-
-.mat-form-field.ng-invalid .mat-form-field-label {
-  color: #f44336;
-}
-
-.mat-button {
-  color: #fff;
-  padding: 10px 20px;
-  border-radius: 4px;
-  transition: background-color 0.3s ease; 
-}
-
-.mat-button:hover {
-  background-color: #64b5f6;
-}
-
-.mat-dialog-actions .mat-button {
-  background-color: transparent;
-  color: #0c0e5e;
-}
-
-.mat-dialog-actions .mat-raised-button {
-  background-color: #99f990;
-  color: #fff;
-}
-
-.mat-dialog-actions .mat-raised-button:hover {
-  background-color: #64b5f6;
-}
-
-.mat-error {
-  color: #f44336; 
-  font-size: 12px;
-}
