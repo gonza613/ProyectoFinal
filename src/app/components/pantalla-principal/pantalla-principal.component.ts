@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 export class PantallaPrincipalComponent {
 
   userName: string = 'Nombre del Usuario'; 
-  userType: string = 'Paciente'; //hardcodeado por ahora
+  userType: string = 'Administrador'; //hardcodeado por ahora
 
   constructor(private router: Router){}
 

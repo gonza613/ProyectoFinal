@@ -57,6 +57,102 @@
             </mat-card-title-group>
           </mat-card-header>
         </mat-card>
+
+        <!-- Lista usuarios Card -->
+        <mat-card class="example-card" appearance="outlined" *ngIf="userType=='Administrador'">
+          <mat-card-header>
+            <mat-card-title-group>
+              <!-- Icono de usuario -->
+              <mat-card-title>
+                <div class="icon-text-wrapper">
+                    <mat-icon [style.fontSize.px]="48">account_box</mat-icon>
+                    <span class="aligned-text">Lista de usuarios</span>
+                  </div>
+              </mat-card-title>
+              <mat-card-subtitle>ABM Usuario</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+        
+        <!-- Turnos programados Card -->
+        <mat-card class="example-card" appearance="outlined" *ngIf="userType=='Medico'">
+          <mat-card-header>
+            <mat-card-title-group>
+              <!-- Icono de usuario -->
+              <mat-card-title>
+                <div class="icon-text-wrapper">
+                    <mat-icon [style.fontSize.px]="48">visibility</mat-icon>
+                    <span class="aligned-text">Turnos programados</span>
+                  </div>
+              </mat-card-title>
+              <mat-card-subtitle>Ver los turnos solicitados</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+        
+        <!-- Gestion de agenda Card -->
+        <mat-card class="example-card" appearance="outlined" *ngIf="userType=='Medico'">
+          <mat-card-header>
+            <mat-card-title-group>
+              <!-- Icono de usuario -->
+              <mat-card-title>
+                <div class="icon-text-wrapper">
+                    <mat-icon [style.fontSize.px]="48">add_circle</mat-icon>
+                    <span class="aligned-text">Gestion de agenda</span>
+                  </div>
+              </mat-card-title>
+              <mat-card-subtitle>Alta de los dias y horarios disponibles</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+        
+        <!-- Crear paciente Card -->
+        <mat-card class="example-card" appearance="outlined" *ngIf="userType=='Operador'">
+          <mat-card-header>
+            <mat-card-title-group>
+              <!-- Icono de usuario -->
+              <mat-card-title>
+                <div class="icon-text-wrapper">
+                    <mat-icon [style.fontSize.px]="48">add_circle</mat-icon>
+                    <span class="aligned-text">Crear paciente</span>
+                  </div>
+              </mat-card-title>
+              <mat-card-subtitle>Alta de usuario paciente</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+        
+        <!-- Asignar turnos Card -->
+        <mat-card class="example-card" appearance="outlined" *ngIf="userType=='Operador'">
+          <mat-card-header>
+            <mat-card-title-group>
+              <!-- Icono de usuario -->
+              <mat-card-title>
+                <div class="icon-text-wrapper">
+                    <mat-icon [style.fontSize.px]="48">edit</mat-icon>
+                    <span class="aligned-text">Asignar turnos</span>
+                  </div>
+              </mat-card-title>
+              <mat-card-subtitle>Asignar turnos</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
+        
+        <!-- Agenda medico Card -->
+        <mat-card class="example-card" appearance="outlined" *ngIf="userType=='Operador'">
+          <mat-card-header>
+            <mat-card-title-group>
+              <!-- Icono de usuario -->
+              <mat-card-title>
+                <div class="icon-text-wrapper">
+                    <mat-icon [style.fontSize.px]="48">visibility</mat-icon>
+                    <span class="aligned-text">Agenda medico</span>
+                  </div>
+              </mat-card-title>
+              <mat-card-subtitle>Modificar la agenda del medico</mat-card-subtitle>
+            </mat-card-title-group>
+          </mat-card-header>
+        </mat-card>
       </div>
     
     <div class="footer" style="background-color: rgb(255, 245, 225); flex-shrink: 0;">
