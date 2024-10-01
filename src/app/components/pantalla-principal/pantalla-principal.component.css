@@ -49,9 +49,9 @@
   }
   
   .footer-content a {
-    color: #07ad39; /* Color de los enlaces */
-    text-decoration: none; /* Sin subrayado */
-    font-size: 20px; /* Aumenta el tamaño de la fuente para los enlaces */
+    color: #07ad39; 
+    text-decoration: none; 
+    font-size: 20px;
     margin: 0 10px; /* Espacio horizontal entre los enlaces */
   }
   
@@ -80,7 +80,7 @@
   .mat-card-title mat-icon {
     line-height: 1;
     vertical-align: middle;
-    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    margin-right: 10px;
   }
   
   .mat-card-title {
@@ -91,7 +91,7 @@
   mat-icon {
     width: 48px;
     height: 48px;
-    font-size: 48px; /* Asegúrate que el tamaño coincida */
+    font-size: 48px;
   }
 
   mat-card:hover {
@@ -100,13 +100,13 @@
 
   .icon-text-wrapper {
     display: flex;
-    align-items: center; /* Alinea verticalmente el ícono y el texto */
+    align-items: center; 
   }
   
   .aligned-icon {
-    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    margin-right: 10px; 
   }
   
   .aligned-text {
-    font-size: 24px; /* Ajusta el tamaño del texto para que sea más proporcional al ícono */
+    font-size: 24px; 
   }
