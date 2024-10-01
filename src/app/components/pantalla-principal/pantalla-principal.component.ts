@@ -15,8 +15,4 @@ export class PantallaPrincipalComponent {
   navigate(path: string) {
     this.router.navigate([path]);
   }
-  logout() {
-    this.router.navigate(['/home']);
-
-  }
 }

@@ -1,0 +1,22 @@
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+  }
+  
+  .username {
+    font-size: 18px;
+    color: rgb(5, 140, 66);
+    margin-left: auto; 
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+  
+  .info-icon {
+    cursor: pointer;
+    margin-left: 16px; 
+    color: rgb(5, 140, 66);
+  }
