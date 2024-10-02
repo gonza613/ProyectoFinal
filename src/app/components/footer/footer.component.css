@@ -1,28 +1,34 @@
 .footer {
-    display: flex;
-    justify-content: space-evenly; /* Espacia los elementos */
-    align-items: center; 
-    padding: 16px; /* Espacio interno */
-    font-size: 14px; /* Tamaño de la fuente */
-    color: #333; /* Color del texto */
-    bottom: 0px;
-    position: fixed;
-    text-align: center;
-  }
-  
-  .footer-content {
-    display: flex; /* Asegúrate de que los enlaces se distribuyan en línea */
-    align-items: center; /* Centra verticalmente los enlaces */
-  }
-  
-  .footer-content a {
-    color: #07ad39; /* Color de los enlaces */
-    text-decoration: none; /* Sin subrayado */
-    font-size: 20px; /* Aumenta el tamaño de la fuente para los enlaces */
-    margin: 0 10px; /* Espacio horizontal entre los enlaces */
-  }
-  
-  .footer-content a:hover {
-    text-decoration: underline; /* Subrayado al pasar el cursor */
-    color: #018f2c; /* Color deseado para el hover */
-  }
+  display: flex;
+  justify-content: space-evenly; /* Espacia los elementos */
+  align-items: center; 
+  padding: 20px; /* Ajuste del espacio interno */
+  font-size: 14px; /* Tamaño de la fuente */
+  color: #333; /* Color del texto */
+  bottom: 0px;
+  position: fixed;
+  text-align: center;
+  width: 100%; /* Ocupar todo el ancho de la pantalla */
+  background-color: rgb(255, 245, 225); /* Asegurar que el fondo cubra todo el ancho */
+}
+
+.footer-item {
+  margin: 0 20px; /* Añadir espacio entre los items */
+}
+
+.footer-content {
+  display: flex; /* Asegúrate de que los enlaces se distribuyan en línea */
+  align-items: center; /* Centra verticalmente los enlaces */
+}
+
+.footer-content a {
+  color: #07ad39; /* Color de los enlaces */
+  text-decoration: none; /* Sin subrayado */
+  font-size: 20px; /* Aumenta el tamaño de la fuente para los enlaces */
+  margin: 0 15px; /* Espacio horizontal más amplio entre los enlaces */
+}
+
+.footer-content a:hover {
+  text-decoration: underline; /* Subrayado al pasar el cursor */
+  color: #018f2c; /* Color deseado para el hover */
+}
