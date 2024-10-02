@@ -1,26 +1,3 @@
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 0 16px;
-  }
-  
-  .username {
-    font-size: 18px;
-    color: rgb(5, 140, 66);
-    margin-left: auto; 
-  }
-  
-  .spacer {
-    flex: 1;
-  }
-  
-  .info-icon {
-    cursor: pointer;
-    margin-left: 16px; 
-    color: rgb(5, 140, 66);
-  }
-  
   .main-content {
     padding: 20px;
     text-align: center;
@@ -33,31 +10,6 @@
   
   p {
     font-size: 18px;
-  }
-  .footer {
-    display: flex;
-    justify-content: space-evenly; /* Espacia los elementos */
-    align-items: center; /* Centra verticalmente */
-    padding: 16px; /* Espacio interno */
-    font-size: 14px; /* Tamaño de la fuente */
-    color: #333; /* Color del texto */
-  }
-  
-  .footer-content {
-    display: flex; /* Asegúrate de que los enlaces se distribuyan en línea */
-    align-items: center; /* Centra verticalmente los enlaces */
-  }
-  
-  .footer-content a {
-    color: #07ad39; /* Color de los enlaces */
-    text-decoration: none; /* Sin subrayado */
-    font-size: 20px; /* Aumenta el tamaño de la fuente para los enlaces */
-    margin: 0 10px; /* Espacio horizontal entre los enlaces */
-  }
-  
-  .footer-content a:hover {
-    text-decoration: underline; /* Subrayado al pasar el cursor */
-    color: #018f2c; /* Color deseado para el hover */
   }
 
   .modules {
