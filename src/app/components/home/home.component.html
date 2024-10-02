@@ -1,5 +1,5 @@
 <body style="height: 100%; display: flex; flex-direction: column;">
-  <div class="row header" style="background-color: white;">
+  <div class="row header" style="background-color: rgb(255, 245, 225);">
     <div class="col s12">
       <h1 style="margin-top: 15px; color:rgb(5, 140, 66);">BIENVENIDO A LA CLINICA VIRTUAL</h1>
     </div>
@@ -8,7 +8,7 @@
   <div class="container" style="flex: 1;">
     <div class="row content">
       <div class="col s12 m8 l6 offset-m2 offset-l3">    
-          <mat-card appearance="outlined" class="mat-card" style="color: rgb(5, 140, 66); background-color: rgba(255, 245, 225);">
+          <mat-card appearance="outlined" class="mat-card" style="color: rgb(5, 140, 66); background-color: rgb(255, 245, 225);">
               <mat-card-content>
                   <h4>Inicia sesión para acceder a las funcionalidades principales. Como paciente registrado puedes solicitar turnos, ver tus turnos agendados y modificar tus datos personales. En caso de no tener una cuenta, registrate haciendo click en el botón registrarse.</h4>
               </mat-card-content>
@@ -21,7 +21,7 @@
         <button mat-raised-button (click)="openLoginDialog(true)">Iniciar Sesión</button>
       </div>
       <div class="col s12" style="margin-left: 40px;">
-        <button mat-raised-button (click)="openLoginDialog(false)">Registrarse</button>
+        <button mat-raised-button color="" (click)="openLoginDialog(false)">Registrarse</button>
       </div>
     </div>
   </div>
