@@ -1,14 +1,15 @@
 .container {
   display: flex;
   flex-direction: column;
-  height: 70%;
   background-image: url('../../../images/pexels-karolina-grabowska-4386466.jpg');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   width: 100%;
+  height: calc(100vh - 120px);
   justify-content: center;
   align-items: center;
+  padding-bottom: 0;
 }
 
 .info {
@@ -36,7 +37,6 @@
   width: 100%; /* Cambia esto a un porcentaje adecuado o un valor fijo como '400px' */
   max-width: 500px; /* Este valor puede ser ajustado según tus preferencias */
 }
-
 
 .footer {
   display: flex;

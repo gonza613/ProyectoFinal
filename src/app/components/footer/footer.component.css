@@ -1,6 +1,6 @@
 .footer {
   display: flex;
-  justify-content: space-evenly; /* Espacia los elementos */
+  justify-content: space-between; /* Espacia los elementos */
   align-items: center; 
   padding: 20px; /* Ajuste del espacio interno */
   font-size: 14px; /* Tamaño de la fuente */
@@ -10,6 +10,7 @@
   text-align: center;
   width: 100%; /* Ocupar todo el ancho de la pantalla */
   background-color: rgb(255, 245, 225); /* Asegurar que el fondo cubra todo el ancho */
+  z-index: 1;
 }
 
 .footer-item {
