@@ -32,7 +32,7 @@
   .mat-card-title mat-icon {
     line-height: 1;
     vertical-align: middle;
-    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    margin-right: 10px;
   }
   
   .mat-card-title {
@@ -43,7 +43,7 @@
   mat-icon {
     width: 48px;
     height: 48px;
-    font-size: 48px; /* Asegúrate que el tamaño coincida */
+    font-size: 48px;
   }
 
   mat-card:hover {
@@ -52,11 +52,11 @@
 
   .icon-text-wrapper {
     display: flex;
-    align-items: center; /* Alinea verticalmente el ícono y el texto */
+    align-items: center; 
   }
   
   .aligned-icon {
-    margin-right: 10px; /* Espacio entre el ícono y el texto */
+    margin-right: 10px; 
   }
   
   .aligned-text {
