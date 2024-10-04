@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
@@ -25,6 +26,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 
 
 @NgModule({
@@ -36,6 +38,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     NavbarComponent,
     FooterComponent,
     NuevoTurnoComponent,
+    MisTurnosComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,8 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatToolbarModule,
     FontAwesomeModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent]

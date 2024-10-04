@@ -4,13 +4,15 @@ import { HomeComponent } from './components/home/home.component';
 import { LoginSignUpComponent } from './components/login-sign-up/login-sign-up.component';
 import { PantallaPrincipalComponent } from './components/pantalla-principal/pantalla-principal.component';
 import { NuevoTurnoComponent } from './components/nuevo-turno/nuevo-turno.component';
+import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
   { path: 'login-signUp', component: LoginSignUpComponent},
   { path: 'pantalla-principal', component: PantallaPrincipalComponent},
-  { path: 'nuevo-turno', component: NuevoTurnoComponent}
+  { path: 'nuevo-turno', component: NuevoTurnoComponent},
+  { path: 'mis-turnos', component: MisTurnosComponent},
 ];
 
 @NgModule({
