@@ -27,7 +27,7 @@
   
   mat-card {
     transition: transform 0.2s ease-in-out;
-    background-color: rgb(252, 250, 218);
+    background-color: #FFFAEF;
     padding: 10px;
   }
   
