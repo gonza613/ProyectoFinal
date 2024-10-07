@@ -15,6 +15,9 @@ export class NavbarComponent {
 
   logout() {
     this.router.navigate(['/home']);
+  }
 
+  home() {
+    this.router.navigate(['/pantalla-principal']);
   }
 }

@@ -1,9 +1,8 @@
+<body>
+    <app-navbar></app-navbar>
 
-<app-navbar></app-navbar>
-    <body>
-
+    <div class="form-wrapper">
         <form class="form-container" [formGroup]="turnoForm">
-    
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Cobertura</mat-label>
                 <input matInput formControlName="cobertura" required>
@@ -40,9 +39,8 @@
                 <button mat-button (click)="cancelar()">Cancelar</button>
                 <button mat-button>Aceptar</button>
             </div>
-            
         </form>
-    
-    </body>
-    <app-footer></app-footer>
+    </div>
 
+    <app-footer></app-footer>
+</body>
