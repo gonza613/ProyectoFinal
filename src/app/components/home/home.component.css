@@ -34,32 +34,32 @@
 }
 
 .mat-card {
-  width: 100%; /* Cambia esto a un porcentaje adecuado o un valor fijo como '400px' */
-  max-width: 500px; /* Este valor puede ser ajustado según tus preferencias */
+  width: 100%; 
+  max-width: 500px; 
 }
 
 .footer {
   display: flex;
-  justify-content: space-evenly; /* Espacia los elementos */
-  align-items: center; /* Centra verticalmente */
-  padding: 16px; /* Espacio interno */
-  font-size: 14px; /* Tamaño de la fuente */
-  color: #333; /* Color del texto */
+  justify-content: space-evenly; 
+  align-items: center;
+  padding: 16px; 
+  font-size: 14px; 
+  color: #333; 
 }
 
 .footer-content {
-  display: flex; /* Asegúrate de que los enlaces se distribuyan en línea */
-  align-items: center; /* Centra verticalmente los enlaces */
+  display: flex; 
+  align-items: center;
 }
 
 .footer-content a {
-  color: #07ad39; /* Color de los enlaces */
-  text-decoration: none; /* Sin subrayado */
-  font-size: 20px; /* Aumenta el tamaño de la fuente para los enlaces */
-  margin: 0 10px; /* Espacio horizontal entre los enlaces */
+  color: #07ad39; 
+  text-decoration: none; 
+  font-size: 20px; 
+  margin: 0 10px; 
 }
 
 .footer-content a:hover {
-  text-decoration: underline; /* Subrayado al pasar el cursor */
-  color: #018f2c; /* Color deseado para el hover */
+  text-decoration: underline; 
+  color: #018f2c; 
 }

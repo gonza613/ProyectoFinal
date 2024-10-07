@@ -1,35 +1,35 @@
 .footer {
   display: flex;
-  justify-content: space-between; /* Espacia los elementos */
+  justify-content: space-between;
   align-items: center; 
-  padding: 20px; /* Ajuste del espacio interno */
-  font-size: 14px; /* Tamaño de la fuente */
-  color: #333; /* Color del texto */
+  padding: 20px; 
+  font-size: 14px; 
+  color: #333; 
   bottom: 0px;
   position: fixed;
   text-align: center;
-  width: 100%; /* Ocupar todo el ancho de la pantalla */
-  background-color: rgb(255, 245, 225); /* Asegurar que el fondo cubra todo el ancho */
+  width: 100%; 
+  background-color: rgb(255, 245, 225); 
   z-index: 1;
 }
 
 .footer-item {
-  margin: 0 20px; /* Añadir espacio entre los items */
+  margin: 0 20px; 
 }
 
 .footer-content {
-  display: flex; /* Asegúrate de que los enlaces se distribuyan en línea */
-  align-items: center; /* Centra verticalmente los enlaces */
+  display: flex; 
+  align-items: center; 
 }
 
 .footer-content a {
-  color: #07ad39; /* Color de los enlaces */
-  text-decoration: none; /* Sin subrayado */
-  font-size: 20px; /* Aumenta el tamaño de la fuente para los enlaces */
-  margin: 0 15px; /* Espacio horizontal más amplio entre los enlaces */
+  color: #07ad39; 
+  text-decoration: none;
+  font-size: 20px; 
+  margin: 0 15px; 
 }
 
 .footer-content a:hover {
-  text-decoration: underline; /* Subrayado al pasar el cursor */
-  color: #018f2c; /* Color deseado para el hover */
+  text-decoration: underline; 
+  color: #018f2c;
 }
