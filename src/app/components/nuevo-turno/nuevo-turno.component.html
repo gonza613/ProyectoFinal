@@ -1,48 +1,49 @@
+<body style="background-color: rgb(169, 226, 147);">
+    <app-navbar></app-navbar>
 
-<app-navbar></app-navbar>
-    <body>
-
+    <h1>Nuevo Turno</h1>
+    <div class="form-wrapper">
         <form class="form-container" [formGroup]="turnoForm">
-    
+
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Cobertura</mat-label>
                 <input matInput formControlName="cobertura" required>
             </mat-form-field>
-    
+
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Especialidad</mat-label>
                 <input matInput formControlName="especialidad" required>
             </mat-form-field>
-    
+
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Profesional</mat-label>
                 <input matInput formControlName="profesional" required>
             </mat-form-field>
-    
+
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Fecha</mat-label>
                 <input matInput [matDatepicker]="picker" formControlName="fecha" required>
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
-    
+
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Hora</mat-label>
                 <input matInput formControlName="hora" type="time" required>
             </mat-form-field>
-    
+
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Razón</mat-label>
                 <textarea matInput formControlName="razon" required></textarea>
             </mat-form-field>
-    
+
             <div class="botones">
                 <button mat-button (click)="cancelar()">Cancelar</button>
                 <button mat-button>Aceptar</button>
             </div>
-            
-        </form>
-    
-    </body>
-    <app-footer></app-footer>
 
+        </form>
+    </div>
+
+    <app-footer></app-footer>
+</body>

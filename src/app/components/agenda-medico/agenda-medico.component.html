@@ -1,0 +1,44 @@
+<body>
+    <app-navbar></app-navbar>
+
+    <div class="gestion-agenda-container">
+        <h2>Gestión de agenda</h2>
+      
+        <mat-form-field appearance="outline">
+          <mat-label>Selecciona un día</mat-label>
+          <input matInput [matDatepicker]="datePicker" [(ngModel)]="fechaSeleccionada">
+          <mat-datepicker-toggle matSuffix [for]="datePicker"></mat-datepicker-toggle>
+          <mat-datepicker #datePicker></mat-datepicker>
+        </mat-form-field>
+      
+        <div *ngIf="listaHorarios.length > 0">
+          <h3>Horarios para el día {{ fechaSeleccionada | date:'longDate' }}:</h3>
+          <ul>
+            <li *ngFor="let horario of listaHorarios">
+              {{ horario.start }} - {{ horario.end }}
+              <button mat-icon-button (click)="eliminarHorarios(horario)">
+                <mat-icon>delete</mat-icon>
+              </button>
+            </li>
+          </ul>
+        </div>
+      
+        <button mat-raised-button color="primary" (click)="agregarHorarios()">Agregar nuevo horario</button>
+      
+        <div *ngIf="agregarHorario">
+          <mat-form-field appearance="outline">
+            <mat-label>Hora de inicio</mat-label>
+            <input matInput [(ngModel)]="nuevoHorario.start" placeholder="15:00" type="time">
+          </mat-form-field>
+      
+          <mat-form-field appearance="outline">
+            <mat-label>Hora de fin</mat-label>
+            <input matInput [(ngModel)]="nuevoHorario.end" placeholder="19:00" type="time">
+          </mat-form-field>
+      
+          <button mat-raised-button color="accent" (click)="confirmarHorarios()">Confirmar horario</button>
+        </div>
+      </div>
+      
+    <app-footer></app-footer>
+</body>

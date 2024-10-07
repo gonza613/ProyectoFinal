@@ -1,64 +1,87 @@
-  .main-content {
-    padding: 20px;
-    text-align: center;
-  }
-  
-  h1 {
-    font-size: 24px;
-    margin-bottom: 20px;
-  }
-  
-  p {
-    font-size: 18px;
-  }
+body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh; 
+  background-color: rgb(169, 226, 147);
+}
 
-  .modules {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
-  
-  .example-card {
-    width: 300px;
-    cursor: pointer;
-  }
-  
-  mat-card {
-    transition: transform 0.2s ease-in-out;
-  }
-  
-  .mat-card-title mat-icon {
-    line-height: 1;
-    vertical-align: middle;
-    margin-right: 10px;
-  }
-  
-  .mat-card-title {
-    display: flex;
-    align-items: center;
-  }
+.main-content {
+  padding: 20px;
+  text-align: center;
+}
 
-  mat-icon {
-    width: 48px;
-    height: 48px;
-    font-size: 48px;
-  }
+h1 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
 
-  mat-card:hover {
-    transform: scale(1.05);
-  }
+p {
+  font-size: 18px;
+}
 
-  .icon-text-wrapper {
-    display: flex;
-    align-items: center; 
-  }
-  
-  .aligned-icon {
-    margin-right: 10px; 
-  }
-  
-  .aligned-text {
-    font-size: 24px; /* Ajusta el tamaño del texto para que sea más proporcional al ícono */
-  }
+.modules {
+  display: flex;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.example-card {
+  width: 30%;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); 
+  transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+.mat-card {
+  transition: transform 0.2s ease-in-out;
+  border-radius: 10px;
+}
+
+.mat-card-title {
+  display: flex;
+  align-items: center;
+  justify-self: center;
+  font-weight: bold;
+}
+
+.mat-card-title-group {
+  justify-content: center;
+}
+
+mat-icon {
+  width: 48px;
+  height: 48px;
+  font-size: 32px;
+}
+
+mat-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+}
+
+.icon-text-wrapper {
+  display:contents;
+  align-items: center;
+  justify-content: center;
+}
+
+.aligned-icon {
+  font-size: 30px;
+  margin: 5px;
+}
+
+.aligned-text {
+  font-size: 20px;
+}
+
+.centered-subtitle {
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+}
+

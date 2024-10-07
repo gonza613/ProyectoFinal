@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 export class PantallaPrincipalComponent {
 
   userName: string = 'Nombre del Usuario'; 
-  userType: string = 'Paciente'; //hardcodeado por ahora
+  userType: string = 'Medico'; //hardcodeado por ahora
 
   constructor(private router: Router){}
 
@@ -22,5 +22,10 @@ export class PantallaPrincipalComponent {
 
   nuevoTurno(){
     this.router.navigate(['/nuevo-turno']);
+  }
+
+
+  agendaMedico(){
+    this.router.navigate(['/agenda-medico']);
   }
 }
