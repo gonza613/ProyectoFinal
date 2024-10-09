@@ -7,8 +7,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./navbar.component.css']
 })
 export class NavbarComponent {
-  userName: string = 'Nombre del Usuario'; 
-  userType: string = 'Tipo de Usuario'; 
+
+  usuario = localStorage.getItem('nombreUsuario');
+  rol = localStorage.getItem('rol');
 
   constructor(private router: Router){
   }

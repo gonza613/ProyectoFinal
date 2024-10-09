@@ -41,18 +41,26 @@ export class LoginSignUpComponent {
   }
 
   login() {
-
     let body = {
-      usuario: this.loginForm.controls['dni'].value,
-      password: this.loginForm.controls['contrasenia'].value
-  }
+        usuario: this.loginForm.controls['dni'].value,
+        password: this.loginForm.controls['contrasenia'].value
+    };
 
-    this.loginService.login(JSON.stringify(body)).subscribe((data: any) =>{
-      console.log('Login exitoso:', data);
-      this.router.navigate(['/pantalla-principal']);
-      this.dialogRef.close(true);
-    }
-  )
+    this.loginService.login(JSON.stringify(body)).subscribe((data: any) => {
+        if (data.codigo === 200) {
+            console.log('Login exitoso:', data);
+            
+            localStorage.setItem('nombreUsuario', data.payload.nombre + ' ' + data.payload.apellido); 
+            localStorage.setItem('rol', data.payload.rol); 
+
+            this.router.navigate(['/pantalla-principal']);
+            this.dialogRef.close(true);
+        } else {
+            console.error(data.mensaje); 
+        }
+    }, (error) => {
+        console.error('Error en el login:', error);
+    });
   }
 
   signUp() {

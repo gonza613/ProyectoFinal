@@ -13,11 +13,12 @@ const login = async (req, res) => {
         // }
 
         const connection = await getConnection();
-        const respuesta = await connection.query("SELECT id FROM usuario WHERE usuario = ? AND password = ?", [usuario, password]);
+        const respuesta = await connection.query("SELECT nombre, apellido, usuario, rol, id FROM usuario WHERE usuario = ? AND password = ?", [usuario, password]);
         console.log(respuesta);
         if(respuesta.length > 0){
-            console.log("se encontro el usuario")
-            res.json({codigo: 200, mensaje: "OK", payload: respuesta});
+            console.log("se encontro el usuario");
+            const { nombre, apellido, usuario, rol, id } = respuesta[0];
+            res.json({ codigo: 200, mensaje: "OK", payload: { nombre, apellido, usuario, rol, id } });
         }
         else{
             console.log("usuario no encontrado")
