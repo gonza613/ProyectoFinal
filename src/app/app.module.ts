@@ -29,6 +29,7 @@ import { CrearPacienteComponent } from './components/crear-paciente/crear-pacien
 import { HttpClientModule } from '@angular/common/http';
 import { MisDatosComponent } from './components/mis-datos/mis-datos.component';
 import {MatListModule} from '@angular/material/list';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -61,9 +62,9 @@ import {MatListModule} from '@angular/material/list';
     MatDatepickerModule,
     MatNativeDateModule,
     HttpClientModule,
-    MatListModule
+    MatListModule,
   ],
-  providers: [],
+  providers: [MatSnackBar],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

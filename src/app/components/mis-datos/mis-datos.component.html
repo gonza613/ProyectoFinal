@@ -1,50 +1,76 @@
 <body>
     <app-navbar></app-navbar>
-    <mat-card>
+    <div style="display: flex; justify-content: center; margin-top: 10%;">
+
+    
+    <mat-card style="width: 25%; justify-content: center; align-items: center; ">
         <mat-card-header>
-          <mat-card-title>Mis Datos</mat-card-title>
+          <mat-card-title style="margin-bottom: 20px;">Mis Datos</mat-card-title>
           <mat-card-subtitle>
             
-              <!-- registro -->
-              <form class="form-container"  [formGroup]="usuarioForm">
+            
+            <!-- registro -->
+            <form class="form-container"  [formGroup]="usuarioForm">
+                <div class="row">
                 <mat-form-field appearance="fill" class="full-width">
                   <mat-label>Nombre</mat-label>
-                  <input matInput formControlName="nombre" required autocomplete="given-name">
+                  <input matInput formControlName="nombre" autocomplete="given-name">
                 </mat-form-field>
-            
+              </div>
+                
+              <div class="row">
+                
                 <mat-form-field appearance="fill" class="full-width">
                   <mat-label>Apellido</mat-label>
-                  <input matInput formControlName="apellido" required autocomplete="family-name">
+                  <input matInput formControlName="apellido" autocomplete="family-name">
                 </mat-form-field>
-            
+              </div>
+              
+              <div class="row">
                 <mat-form-field appearance="fill" class="full-width">
                   <mat-label>DNI</mat-label>
-                  <input matInput formControlName="dni" required autocomplete="off">
+                  <input matInput formControlName="dni" autocomplete="off">
                 </mat-form-field>
-            
-    
-                
-            
-                <mat-form-field appearance="fill" class="full-width">
-                  <mat-label>Teléfono</mat-label>
-                  <input matInput formControlName="telefono" required autocomplete="tel">
-                </mat-form-field>
-            
-                <mat-form-field appearance="fill" class="full-width">
-                  <mat-label>Contraseña</mat-label>
-                  <input matInput type="password" formControlName="contrasenia" required autocomplete="new-password">
-                </mat-form-field>
+              </div>
+              
+              
+              
+              
+              <div class="row">
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Correo</mat-label>
+                <input matInput formControlName="correo">
+              </mat-form-field>
+            </div>
+
+              <div class="row">
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Teléfono</mat-label>
+                <input matInput formControlName="telefono" autocomplete="tel">
+              </mat-form-field>
+            </div>
+
+            <div class="row">
+
+              <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" formControlName="contrasenia" autocomplete="new-password">
+              </mat-form-field>
+            </div>
             
                 
               </form>
+              
 
-          </mat-card-subtitle>
+
+            </mat-card-subtitle>
         </mat-card-header>
         <mat-card-actions>
-          <button mat-button>Guardar</button>
-          <button mat-button>Cancelar</button>
+          <button mat-button (click)="editar()" *ngIf="!editing">Editar</button>
+          <button mat-button style="margin-right: 20px;" (click)="cancelar()" *ngIf="editing">Cancelar</button>
+          <button mat-button style="margin-left: 20px;"(click)="guardar()" *ngIf="editing">Guardar</button>
         </mat-card-actions>
       </mat-card>
-      <br>
+    </div>
     <app-footer></app-footer>
 </body>
