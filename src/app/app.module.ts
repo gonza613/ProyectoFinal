@@ -26,6 +26,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CrearPacienteComponent } from './components/crear-paciente/crear-paciente.component';
+import { HttpClientModule } from '@angular/common/http';
 
 
 @NgModule({
@@ -55,7 +56,8 @@ import { CrearPacienteComponent } from './components/crear-paciente/crear-pacien
     MatToolbarModule,
     FontAwesomeModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
