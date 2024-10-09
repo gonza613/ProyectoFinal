@@ -25,6 +25,7 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import { CrearPacienteComponent } from './components/crear-paciente/crear-paciente.component';
 import { HttpClientModule } from '@angular/common/http';
 
 
@@ -37,6 +38,7 @@ import { HttpClientModule } from '@angular/common/http';
     NavbarComponent,
     FooterComponent,
     NuevoTurnoComponent,
+    CrearPacienteComponent,
   ],
   imports: [
     BrowserModule,

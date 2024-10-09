@@ -19,4 +19,12 @@ export class LoginService {
     return this.http.post(`${this.apiUrl}/login`, body, { headers });
   }
 
+  register(body: any): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+      
+    return this.http.post(`${this.apiUrl}/crearUsuario`, body, { headers });
+  }
+
 }

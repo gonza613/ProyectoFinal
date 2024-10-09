@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { CrearPacienteComponent } from '../crear-paciente/crear-paciente.component';
 @Component({
   selector: 'app-pantalla-principal',
   templateUrl: './pantalla-principal.component.html',
@@ -12,8 +14,9 @@ export class PantallaPrincipalComponent implements OnInit{
 
   userName: string = 'Nombre del Usuario'; 
   // userType: string = 'Paciente';
+  userType: string = 'Operador'; 
 
-  constructor(private router: Router){}
+  constructor(private router: Router, private dialog: MatDialog){}
 
   ngOnInit(): void {
     const usuario = localStorage.getItem('nombreUsuario');
@@ -39,4 +42,19 @@ export class PantallaPrincipalComponent implements OnInit{
   nuevoTurno(){
     this.router.navigate(['/nuevo-turno']);
   }
+
+  abrirCrearPaciente() {
+    const dialogRef = this.dialog.open(CrearPacienteComponent, {
+      width: '450px'
+    });
+  
+    dialogRef.afterClosed().subscribe(result => {
+      if (result) {
+        console.log('Paciente creado:', result);
+      } else {
+        console.log('Acción cancelada');
+      }
+    });
+  }
+
 }

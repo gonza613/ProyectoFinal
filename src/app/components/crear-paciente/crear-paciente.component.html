@@ -1,0 +1,67 @@
+<body>
+    <h2 mat-dialog-title>Crear Paciente</h2>
+
+    <mat-dialog-content>
+        <form [formGroup]="pacienteForm">
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Nombre</mat-label>
+                <input matInput formControlName="nombre" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Apellido</mat-label>
+                <input matInput formControlName="apellido" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Usuario</mat-label>
+                <input matInput formControlName="usuario" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>DNI</mat-label>
+                <input matInput formControlName="dni" required>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Correo</mat-label>
+                    <input matInput formControlName="mail" type="email" required autocomplete="email">
+                    <mat-error *ngIf="pacienteForm.get('mail')?.hasError('email') && pacienteForm.get('mail')?.touched">Formato de correo incorrecto.
+                    </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Teléfono</mat-label>
+                <input matInput formControlName="telefono" required autocomplete="tel">
+            </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width">
+                <input matInput [matDatepicker]="picker" formControlName="fechanac" required>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Contraseña</mat-label>
+                <input matInput type="password" formControlName="contrasenia" required autocomplete="new-password">
+            </mat-form-field>
+          
+            <mat-form-field appearance="fill" class="full-width">
+                <mat-label>Repetir Contraseña</mat-label>
+                <input matInput type="password" formControlName="confirmarContrasenia" required autocomplete="new-password">
+                <mat-error *ngIf="!contraseniasCoinciden() && pacienteForm.get('confirmarContrasenia')?.touched">
+                  Las contraseñas no coinciden.
+                </mat-error>
+            </mat-form-field>
+        </form>
+    </mat-dialog-content>
+
+    <mat-dialog-actions class="dialog-actions" >
+        <button mat-button (click)="onCancel()">Cancelar</button>
+        <button mat-button [disabled]="!pacienteForm.valid || !contraseniasCoinciden()" (click)="onSubmit()">Guardar</button>
+        <mat-error *ngIf="!contraseniasCoinciden() && pacienteForm.get('confirmarContrasenia')?.touched">
+            Las contraseñas no coinciden.
+        </mat-error>
+    </mat-dialog-actions>
+
+</body>
