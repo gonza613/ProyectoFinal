@@ -14,7 +14,7 @@ export class PantallaPrincipalComponent implements OnInit{
 
   userName: string = 'Nombre del Usuario'; 
   // userType: string = 'Paciente';
-  userType: string = 'Operador'; 
+  // userType: string = 'Operador'; 
 
   constructor(private router: Router, private dialog: MatDialog){}
 
