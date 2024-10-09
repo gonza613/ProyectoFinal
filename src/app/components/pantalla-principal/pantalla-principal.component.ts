@@ -21,6 +21,7 @@ export class PantallaPrincipalComponent implements OnInit{
   ngOnInit(): void {
     const usuario = localStorage.getItem('nombreUsuario');
     const rol = localStorage.getItem('rol');
+    const id = localStorage.getItem('id');
 
     if (usuario && rol) {
       console.log(`Usuario conectado: ${usuario}, Rol: ${rol}`);
@@ -55,6 +56,10 @@ export class PantallaPrincipalComponent implements OnInit{
         console.log('Acción cancelada');
       }
     });
+  }
+
+  misDatos(){
+    this.router.navigate(['mis-datos']);
   }
 
 }
