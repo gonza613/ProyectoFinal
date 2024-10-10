@@ -20,15 +20,7 @@ export class PantallaPrincipalComponent implements OnInit{
   constructor(private router: Router, private dialog: MatDialog){}
 
   ngOnInit(): void {
-    const usuario = localStorage.getItem('nombreUsuario');
-    const rol = localStorage.getItem('rol');
-    const id = localStorage.getItem('id');
-
-    // if (usuario && rol && id) {
-    //   console.log(`Usuario conectado: ${usuario}, Rol: ${rol}, Id: ${id}`);
-    // } else {
-    //   console.log('No hay usuario conectado');
-    // }
+    
   }
 
   navigate(path: string) {

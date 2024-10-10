@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login-sign-up',
@@ -24,6 +25,7 @@ export class LoginSignUpComponent {
     private loginService: LoginService,
     private usuarioService: UsuariosService,
     private router: Router,
+    private _snackbar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: { isLoginMode: boolean } // trae la info del isLoginMode desde el homeComponent
   ) {
     this.isLoginMode = data.isLoginMode;
@@ -52,30 +54,29 @@ export class LoginSignUpComponent {
         password: this.loginForm.controls['contrasenia'].value
     };
 
-    this.loginService.login(JSON.stringify(body)).subscribe((data: any) => {
+      this.loginService.login(JSON.stringify(body)).subscribe((data: any) => {
         if (data.codigo === 200) {
             
             localStorage.setItem('id', data.payload[0].id); 
-
             this.id = localStorage.getItem('id');
       
-            console.log(this.id);
-            this.usuarioService.obtenerUsuario(1).subscribe((data: any) =>{
-              if(data.codigo === 200){
-                console.log(data);
-              
-                localStorage.setItem('nombreUsuario', data.payload.nombre + ' ' + data.payload.apellido); 
-                localStorage.setItem('rol', data.payload.rol);
-
+             this.usuarioService.obtenerUsuario(this.id).subscribe((dataR: any) =>{
+              if (dataR.codigo === 200) {
+                let datos = dataR.payload[0];              
+                localStorage.setItem('nombreUsuario', datos.nombre + ' ' + datos.apellido); 
+                localStorage.setItem('rol', datos.rol);
               } else {
-                console.log(data.mensaje);
+                console.error(dataR.mensaje);
               }
             })
 
-            this.router.navigate(['/pantalla-principal']);
-            this.dialogRef.close(true);
+            this.openSnackBar('Ingresando...','Aceptar')             
+            setTimeout(() => {
+              this.router.navigate(['/pantalla-principal']);
+              this.dialogRef.close(true);
+            }, 2000); 
         } else {
-            console.error(data.mensaje); 
+          this.openSnackBar(data.mensaje,'Aceptar')             
         }
       })
   }
@@ -93,13 +94,12 @@ export class LoginSignUpComponent {
       // usuario: this.signUpForm.controls['usuario'].value
     }
     this.loginService.register(JSON.stringify(body)).subscribe((data : any) =>{
-      console.log(data);
       if (data.codigo === 200) {
-  
+        this.openSnackBar('Usuario creado correctamente','Aceptar')
         // this.router.navigate(['/home'])
         this.dialogRef.close(true);
-    } else {
-      console.error(data.mensaje);
+      } else {
+      this.openSnackBar(data.mensaje,'Aceptar')
     }
   })
   }
@@ -111,4 +111,9 @@ export class LoginSignUpComponent {
   onCancel() {
     this.dialogRef.close(false);
   }
+
+  openSnackBar(message: string, action: string) {
+    this._snackbar.open(message, action , {duration:2000});
+  }
+
 }
