@@ -24,11 +24,11 @@ export class PantallaPrincipalComponent implements OnInit{
     const rol = localStorage.getItem('rol');
     const id = localStorage.getItem('id');
 
-    if (usuario && rol && id) {
-      console.log(`Usuario conectado: ${usuario}, Rol: ${rol}, Id: ${id}`);
-    } else {
-      console.log('No hay usuario conectado');
-    }
+    // if (usuario && rol && id) {
+    //   console.log(`Usuario conectado: ${usuario}, Rol: ${rol}, Id: ${id}`);
+    // } else {
+    //   console.log('No hay usuario conectado');
+    // }
   }
 
   navigate(path: string) {

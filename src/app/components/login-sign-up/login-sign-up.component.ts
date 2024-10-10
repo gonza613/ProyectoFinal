@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
   selector: 'app-login-sign-up',
@@ -15,10 +16,13 @@ export class LoginSignUpComponent {
   signUpForm: FormGroup;
   isLoginMode : boolean;
 
+  id: any;
+
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<LoginSignUpComponent>,
     private loginService: LoginService,
+    private usuarioService: UsuariosService,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: { isLoginMode: boolean } // trae la info del isLoginMode desde el homeComponent
   ) {
@@ -50,22 +54,30 @@ export class LoginSignUpComponent {
 
     this.loginService.login(JSON.stringify(body)).subscribe((data: any) => {
         if (data.codigo === 200) {
-            console.log('Login exitoso:', data);
             
-            localStorage.setItem('nombreUsuario', data.payload.nombre + ' ' + data.payload.apellido); 
-            localStorage.setItem('rol', data.payload.rol); 
             localStorage.setItem('id', data.payload[0].id); 
 
-            
+            this.id = localStorage.getItem('id');
+      
+            console.log(this.id);
+            this.usuarioService.obtenerUsuario(1).subscribe((data: any) =>{
+              if(data.codigo === 200){
+                console.log(data);
+              
+                localStorage.setItem('nombreUsuario', data.payload.nombre + ' ' + data.payload.apellido); 
+                localStorage.setItem('rol', data.payload.rol);
+
+              } else {
+                console.log(data.mensaje);
+              }
+            })
 
             this.router.navigate(['/pantalla-principal']);
             this.dialogRef.close(true);
         } else {
             console.error(data.mensaje); 
         }
-    }, (error) => {
-        console.error('Error en el login:', error);
-    });
+      })
   }
 
   signUp() {
