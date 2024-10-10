@@ -52,6 +52,9 @@ export class LoginSignUpComponent {
             
             localStorage.setItem('nombreUsuario', data.payload.nombre + ' ' + data.payload.apellido); 
             localStorage.setItem('rol', data.payload.rol); 
+            localStorage.setItem('id', data.payload[0].id); 
+
+            
 
             this.router.navigate(['/pantalla-principal']);
             this.dialogRef.close(true);

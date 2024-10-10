@@ -11,6 +11,7 @@ export class PantallaPrincipalComponent implements OnInit{
 
   usuario = localStorage.getItem('nombreUsuario');
   rol = localStorage.getItem('rol');
+  id = localStorage.getItem('id');
 
   userName: string = 'Nombre del Usuario'; 
   // userType: string = 'Paciente';
@@ -21,9 +22,10 @@ export class PantallaPrincipalComponent implements OnInit{
   ngOnInit(): void {
     const usuario = localStorage.getItem('nombreUsuario');
     const rol = localStorage.getItem('rol');
+    const id = localStorage.getItem('id');
 
-    if (usuario && rol) {
-      console.log(`Usuario conectado: ${usuario}, Rol: ${rol}`);
+    if (usuario && rol && id) {
+      console.log(`Usuario conectado: ${usuario}, Rol: ${rol}, Id: ${id}`);
     } else {
       console.log('No hay usuario conectado');
     }
@@ -36,6 +38,7 @@ export class PantallaPrincipalComponent implements OnInit{
   logout() {
     localStorage.removeItem('nombreUsuario');
     localStorage.removeItem('rol');
+    localStorage.removeItem('id');
     this.router.navigate(['/home']);
   }
 
