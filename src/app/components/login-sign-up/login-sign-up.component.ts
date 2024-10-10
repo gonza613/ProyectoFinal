@@ -32,11 +32,13 @@ export class LoginSignUpComponent {
     this.signUpForm = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
+      usuario: ['', Validators.required],
       dni: ['', Validators.required],
       mail: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
       contrasenia: ['', Validators.required],
-      confirmarContrasenia: ['', Validators.required]
+      confirmarContrasenia: ['', Validators.required],
+      fechanac: ['', Validators.required],
     });
   }
 
@@ -67,9 +69,27 @@ export class LoginSignUpComponent {
   }
 
   signUp() {
-    if (this.signUpForm.valid && this.contraseniasCoinciden()) {
-      this.dialogRef.close(true);
+    let body = {
+      dni : this.signUpForm.controls['dni'].value,
+      apellido: this.signUpForm.controls['apellido'].value,
+      nombre: this.signUpForm.controls['nombre'].value,
+      fecha_nacimiento: this.signUpForm.controls['fechanac'].value,
+      password: this.signUpForm.controls['contrasenia'].value,
+      rol: 'Paciente',
+      email: this.signUpForm.controls['mail'].value,
+      telefono:this.signUpForm.controls['telefono'].value,
+      // usuario: this.signUpForm.controls['usuario'].value
     }
+    this.loginService.register(JSON.stringify(body)).subscribe((data : any) =>{
+      console.log(data);
+      if (data.codigo === 200) {
+  
+        // this.router.navigate(['/home'])
+        this.dialogRef.close(true);
+    } else {
+      console.error(data.mensaje);
+    }
+  })
   }
 
   contraseniasCoinciden(): boolean {
