@@ -27,6 +27,9 @@ import { FooterComponent } from './components/footer/footer.component';
 import { MatNativeDateModule } from '@angular/material/core';
 import { CrearPacienteComponent } from './components/crear-paciente/crear-paciente.component';
 import { HttpClientModule } from '@angular/common/http';
+import { MisDatosComponent } from './components/mis-datos/mis-datos.component';
+import {MatListModule} from '@angular/material/list';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 @NgModule({
@@ -39,6 +42,7 @@ import { HttpClientModule } from '@angular/common/http';
     FooterComponent,
     NuevoTurnoComponent,
     CrearPacienteComponent,
+    MisDatosComponent,
   ],
   imports: [
     BrowserModule,
@@ -57,9 +61,10 @@ import { HttpClientModule } from '@angular/common/http';
     FontAwesomeModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    HttpClientModule
+    HttpClientModule,
+    MatListModule,
   ],
-  providers: [],
+  providers: [MatSnackBar],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

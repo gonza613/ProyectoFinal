@@ -60,4 +60,8 @@ export class PantallaPrincipalComponent implements OnInit{
     });
   }
 
+  misDatos(){
+    this.router.navigate(['mis-datos']);
+  }
+
 }
