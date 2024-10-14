@@ -6,6 +6,7 @@ import { PantallaPrincipalComponent } from './components/pantalla-principal/pant
 import { NuevoTurnoComponent } from './components/nuevo-turno/nuevo-turno.component';
 import { CrearPacienteComponent } from './components/crear-paciente/crear-paciente.component';
 import { MisDatosComponent } from './components/mis-datos/mis-datos.component';
+import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -14,8 +15,8 @@ const routes: Routes = [
   { path: 'pantalla-principal', component: PantallaPrincipalComponent},
   { path: 'nuevo-turno', component: NuevoTurnoComponent},
   { path: 'crear-paciente', component: CrearPacienteComponent},
-  { path: 'mis-datos', component: MisDatosComponent}
-
+  { path: 'mis-datos', component: MisDatosComponent},
+  { path: 'mis-turnos', component: MisTurnosComponent},
 ];
 
 @NgModule({

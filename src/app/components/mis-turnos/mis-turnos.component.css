@@ -1,0 +1,16 @@
+h2{
+    margin-bottom: -10px ;
+}
+
+
+*{
+    background-color: #FFFAEF;
+}
+
+.mdc-dialog__content{
+    padding: 0px !important;
+}
+
+.mat-mdc-dialog-actions {
+    justify-content: end;
+}

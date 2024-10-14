@@ -23,7 +23,7 @@
       </mat-card>
 
       <!-- Mis Turnos Card -->
-      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='paciente'">
+      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='paciente'" (click)="openDialog()">
           <mat-card-header>
               <mat-card-title-group>
                   <mat-card-title>

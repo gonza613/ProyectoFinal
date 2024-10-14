@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CrearPacienteComponent } from '../crear-paciente/crear-paciente.component';
+import { MisTurnosComponent } from '../mis-turnos/mis-turnos.component';
 @Component({
   selector: 'app-pantalla-principal',
   templateUrl: './pantalla-principal.component.html',
@@ -12,10 +13,6 @@ export class PantallaPrincipalComponent implements OnInit{
   usuario = localStorage.getItem('nombreUsuario');
   rol = localStorage.getItem('rol');
   id = localStorage.getItem('id');
-
-  userName: string = 'Nombre del Usuario'; 
-  // userType: string = 'Paciente';
-  // userType: string = 'Operador'; 
 
   constructor(private router: Router, private dialog: MatDialog){}
 
@@ -54,6 +51,9 @@ export class PantallaPrincipalComponent implements OnInit{
 
   misDatos(){
     this.router.navigate(['mis-datos']);
+  }
+  openDialog() {
+    this.dialog.open(MisTurnosComponent);
   }
 
 }

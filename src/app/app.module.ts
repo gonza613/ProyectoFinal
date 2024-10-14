@@ -15,6 +15,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatTableModule } from '@angular/material/table';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
@@ -30,6 +31,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { MisDatosComponent } from './components/mis-datos/mis-datos.component';
 import {MatListModule} from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 
 
 @NgModule({
@@ -43,6 +45,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     NuevoTurnoComponent,
     CrearPacienteComponent,
     MisDatosComponent,
+    MisTurnosComponent,
   ],
   imports: [
     BrowserModule,
@@ -63,6 +66,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatNativeDateModule,
     HttpClientModule,
     MatListModule,
+    MatTableModule
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent]
