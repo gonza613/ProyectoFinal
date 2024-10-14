@@ -1,7 +1,8 @@
 import { Component, OnInit, inject } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-mis-datos',
@@ -16,7 +17,7 @@ export class MisDatosComponent implements OnInit{
   editing: boolean = false;
   private _snackBar = inject(MatSnackBar);
 
-  constructor(private usuarioService: UsuariosService, private fb: FormBuilder){
+  constructor(private usuarioService: UsuariosService, private fb: FormBuilder, private route: Router){
     
     
     this.usuarioForm = this.fb.group({
@@ -64,6 +65,13 @@ export class MisDatosComponent implements OnInit{
     this.usuarioForm.controls['telefono'].disable()
   }
 
+  volver(){
+    this.navigate('/pantalla-principal')
+  }
+
+  navigate(path: string) {
+    this.route.navigate([path]);
+  }
 
   guardar(){
 

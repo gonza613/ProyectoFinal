@@ -47,7 +47,7 @@ export class CrearPacienteComponent {
         nombre: this.pacienteForm.controls['nombre'].value,
         fecha_nacimiento: this.pacienteForm.controls['fechanac'].value,
         password: this.pacienteForm.controls['contrasenia'].value,
-        rol: 'Paciente',
+        rol: 'paciente',
         email: this.pacienteForm.controls['mail'].value,
         telefono:this.pacienteForm.controls['telefono'].value,
         // usuario: this.pacienteForm.controls['usuario'].value

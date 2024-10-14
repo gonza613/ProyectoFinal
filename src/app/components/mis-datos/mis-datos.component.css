@@ -1,0 +1,36 @@
+body{
+    background-color: rgb(169, 226, 147);
+}
+
+.botones {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.form-container {
+    background-color: #fff; 
+    padding: 20px;
+    border-radius: 10px; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+    width: 100%;
+    max-width: 500px; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px; 
+    margin-bottom: 60px; 
+}
+
+.form-wrapper {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    flex: 1; 
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.full-width {
+    width: 100%;
+}
