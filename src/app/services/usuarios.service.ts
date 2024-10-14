@@ -20,6 +20,14 @@ export class UsuariosService {
     return this.http.get(`${this.apiUrl}/obtenerUsuario/${id}`, { headers });
   }
 
+  obtenerUsuarios(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+      
+    return this.http.get(`${this.apiUrl}/obtenerUsuarios`, { headers });
+  }
+
   actualizarUsuario(id: any, body: any): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'

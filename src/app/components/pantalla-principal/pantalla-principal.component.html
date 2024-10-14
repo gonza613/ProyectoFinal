@@ -23,7 +23,7 @@
       </mat-card>
 
       <!-- Mis Turnos Card -->
-      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='paciente'" (click)="openDialog()">
+      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='paciente'" (click)="abrirMisTurnos()">
           <mat-card-header>
               <mat-card-title-group>
                   <mat-card-title>
@@ -53,7 +53,7 @@
       </mat-card>
 
       <!-- Lista usuarios Card -->
-      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='administrador'">
+      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='administrador'" (click)="abrirListaUsuario()">
           <mat-card-header>
               <mat-card-title-group>
                   <mat-card-title>
