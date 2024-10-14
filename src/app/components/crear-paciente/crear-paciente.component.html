@@ -41,6 +41,15 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
+
+            <mat-form-field appearance="fill" class="full-width" *ngIf="rol=='administrador'">
+                <mat-label>Tipo usuario</mat-label>
+                <mat-select formControlName="tipo_usuario" required>
+                  <mat-option value="administrado">Administrador</mat-option>
+                  <mat-option value="operador">Operador</mat-option>
+                  <mat-option value="medico">Medico</mat-option>
+                </mat-select>
+              </mat-form-field>
           
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Contraseña</mat-label>

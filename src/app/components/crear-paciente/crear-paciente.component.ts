@@ -11,6 +11,7 @@ import { LoginService } from 'src/app/services/login.service';
 })
 export class CrearPacienteComponent {
   pacienteForm: FormGroup;
+  rol = localStorage.getItem('rol');
 
   constructor(
     private fb: FormBuilder,
@@ -25,6 +26,7 @@ export class CrearPacienteComponent {
       mail: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
       contrasenia: ['', Validators.required],
+      tipo_usuario: ['', Validators.required],
       confirmarContrasenia: ['', Validators.required],
       fechanac: ['', Validators.required],
     });
@@ -47,11 +49,21 @@ export class CrearPacienteComponent {
         nombre: this.pacienteForm.controls['nombre'].value,
         fecha_nacimiento: this.pacienteForm.controls['fechanac'].value,
         password: this.pacienteForm.controls['contrasenia'].value,
-        rol: 'paciente',
         email: this.pacienteForm.controls['mail'].value,
         telefono:this.pacienteForm.controls['telefono'].value,
+        rol:'',
         // usuario: this.pacienteForm.controls['usuario'].value
       }
+
+     // Verifica el rol
+      if (this.rol == 'operador') {
+        // Si es operador, asigna rol 'paciente'
+        body.rol = 'paciente';
+      } else {
+        // Si no es operador, asigna el rol del formulario 'tipo_usuario'
+        body.rol = this.pacienteForm.controls['tipo_usuario'].value;
+      }
+
 
       this.login.register(JSON.stringify(body)).subscribe((data : any) =>{
         console.log('Registro exitoso');
