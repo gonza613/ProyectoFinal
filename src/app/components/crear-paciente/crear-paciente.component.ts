@@ -66,8 +66,14 @@ export class CrearPacienteComponent {
 
 
       this.login.register(JSON.stringify(body)).subscribe((data : any) =>{
-        console.log('Registro exitoso');
-        this.dialogRef.close(this.pacienteForm.value);
+        console.warn(data);
+        
+        if (data.codigo === 200){
+          console.log('Registro exitoso');
+          this.dialogRef.close(this.pacienteForm.value);
+        } else {
+          console.log(data.mensaje)
+        }
       })
     }
   }

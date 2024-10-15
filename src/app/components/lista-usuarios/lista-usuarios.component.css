@@ -1,16 +1,14 @@
 h2{
-    margin-bottom: -10px ;
+    text-align: center;
+    margin: 10px ;
 }
 
-
-*{
+body {
+    display: flex;
+    flex-direction: column;
     background-color: rgb(169, 226, 147);
-}
+  }
 
-.mdc-dialog__content{
-    padding: 0px !important;
-}
-
-.mat-mdc-dialog-actions {
-    justify-content: end;
-}
+  .ng-container{
+    margin-bottom: 100px;
+  }
