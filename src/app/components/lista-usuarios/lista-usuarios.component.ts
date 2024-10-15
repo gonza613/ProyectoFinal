@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { MisDatosComponent } from '../mis-datos/mis-datos.component';
+import { EditarPacienteComponent } from '../editar-paciente/editar-paciente.component';
 
 @Component({
   selector: 'app-lista-usuarios',
@@ -13,7 +16,7 @@ export class ListaUsuariosComponent implements OnInit{
   dataSource: any;
   token: any = localStorage.getItem('token')
 
-  constructor(private usuariosService: UsuariosService){
+  constructor(private usuariosService: UsuariosService, private dialog: MatDialog){
 
   }
 
@@ -32,8 +35,11 @@ export class ListaUsuariosComponent implements OnInit{
     })
   }
 
-  editarUsuario(){
-    
+  editarUsuario(id: any){
+    const dialogRef = this.dialog.open(EditarPacienteComponent, {
+      width: '450px',
+      data: { id: id }
+    });
   }
 
 }

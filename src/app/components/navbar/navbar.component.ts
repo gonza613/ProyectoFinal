@@ -22,6 +22,8 @@ export class NavbarComponent {
     localStorage.removeItem('rol');
     localStorage.removeItem('nombreUsuario');
     localStorage.removeItem('id');
+    localStorage.removeItem('jwt');
+
   }
 
   home() {

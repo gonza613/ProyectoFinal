@@ -7,8 +7,19 @@ body {
     display: flex;
     flex-direction: column;
     background-color: rgb(169, 226, 147);
+    min-height: 100vh;
   }
 
-  .ng-container{
+  /* .ng-container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
     margin-bottom: 100px;
+    text-transform: capitalize;
+    width: 80%;
   }
+
+  .mat-elevation-z8{
+    align-items: center;
+
+  } */

@@ -34,6 +34,7 @@ import {MatListModule} from '@angular/material/list';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
+import { EditarPacienteComponent } from './components/editar-paciente/editar-paciente.component';
 
 
 @NgModule({
@@ -49,6 +50,7 @@ import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuari
     MisDatosComponent,
     MisTurnosComponent,
     ListaUsuariosComponent,
+    EditarPacienteComponent,
   ],
   imports: [
     BrowserModule,
