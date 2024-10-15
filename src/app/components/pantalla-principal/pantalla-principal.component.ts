@@ -14,10 +14,16 @@ export class PantallaPrincipalComponent implements OnInit{
   usuario = localStorage.getItem('nombreUsuario');
   rol = localStorage.getItem('rol');
   id = localStorage.getItem('id');
+  tituloCrear: string = '';
 
   constructor(private router: Router, private dialog: MatDialog){}
 
   ngOnInit(): void {
+    if(this.rol === 'operador'){
+      this.tituloCrear = 'Crear paciente';
+    } else{
+      this.tituloCrear = 'Crear usuario';
+    }
     
   }
 

@@ -6,7 +6,7 @@
   font-size: 14px; 
   color: #333; 
   bottom: 0px;
-  position: fixed;
+  position: relative;
   text-align: center;
   width: 100%; 
   background-color: rgb(255, 245, 225); 
