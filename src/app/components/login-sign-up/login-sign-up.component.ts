@@ -5,6 +5,7 @@ import { LoginService } from 'src/app/services/login.service';
 import { Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-login-sign-up',
@@ -16,7 +17,8 @@ export class LoginSignUpComponent {
   loginForm: FormGroup;
   signUpForm: FormGroup;
   isLoginMode : boolean;
-
+  token: any;
+  rol: any;
   id: any;
 
   constructor(
@@ -57,18 +59,10 @@ export class LoginSignUpComponent {
       this.loginService.login(JSON.stringify(body)).subscribe((data: any) => {
         if (data.codigo === 200) {
             
+            localStorage.setItem('jwt', data.jwt)
             localStorage.setItem('id', data.payload[0].id); 
-            this.id = localStorage.getItem('id');
-      
-             this.usuarioService.obtenerUsuario(this.id).subscribe((dataR: any) =>{
-              if (dataR.codigo === 200) {
-                let datos = dataR.payload[0];              
-                localStorage.setItem('nombreUsuario', datos.nombre + ' ' + datos.apellido); 
-                localStorage.setItem('rol', datos.rol);
-              } else {
-                console.error(dataR.mensaje);
-              }
-            })
+            localStorage.setItem('rol', data.payload[0].rol);
+            localStorage.setItem('nombreUsuario', data.payload[0].nombre + ' ' + data.payload[0].apellido); 
 
             this.openSnackBar('Ingresando...','Aceptar')             
             setTimeout(() => {
