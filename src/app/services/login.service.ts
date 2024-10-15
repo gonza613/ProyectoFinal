@@ -7,7 +7,7 @@ import { Observable } from 'rxjs';
 })
 export class LoginService {
   private apiUrl = 'http://localhost:4000/api';  // La URL del backend
-
+  token : any = localStorage.getItem('jwt');
   constructor(private http: HttpClient) { }
 
   // Método para hacer el login
@@ -20,7 +20,8 @@ export class LoginService {
 
   register(body: any): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      'authorization': this.token
     });
       
     return this.http.post(`${this.apiUrl}/crearUsuario`, body, { headers });

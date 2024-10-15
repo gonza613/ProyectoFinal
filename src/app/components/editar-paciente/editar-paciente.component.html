@@ -2,7 +2,7 @@
     <h2 mat-dialog-title>Crear Paciente</h2>
 
     <mat-dialog-content>
-        <form [formGroup]="pacienteForm">
+        <form [formGroup]="editarUsuarioForm">
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Nombre</mat-label>
                 <input matInput formControlName="nombre" required>
@@ -25,8 +25,8 @@
 
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Correo</mat-label>
-                    <input matInput formControlName="mail" type="email" required autocomplete="email">
-                    <mat-error *ngIf="pacienteForm.get('mail')?.hasError('email') && pacienteForm.get('mail')?.touched">Formato de correo incorrecto.
+                    <input matInput formControlName="email" type="email" required autocomplete="email">
+                    <mat-error *ngIf="editarUsuarioForm.get('email')?.hasError('email') && editarUsuarioForm.get('email')?.touched">Formato de correo incorrecto.
                     </mat-error>
             </mat-form-field>
 
@@ -42,12 +42,13 @@
                 <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
 
-            <mat-form-field appearance="fill" class="full-width" *ngIf="rol=='administrador'">
+            <mat-form-field appearance="fill" class="full-width" >
                 <mat-label>Tipo usuario</mat-label>
                 <mat-select formControlName="tipo_usuario" required>
                   <mat-option value="administrador">Administrador</mat-option>
                   <mat-option value="operador">Operador</mat-option>
                   <mat-option value="medico">Medico</mat-option>
+                  <mat-option value="paciente">Paciente</mat-option>
                 </mat-select>
               </mat-form-field>
           
@@ -56,22 +57,14 @@
                 <input matInput type="password" formControlName="contrasenia" required autocomplete="new-password">
             </mat-form-field>
           
-            <mat-form-field appearance="fill" class="full-width">
-                <mat-label>Repetir Contraseña</mat-label>
-                <input matInput type="password" formControlName="confirmarContrasenia" required autocomplete="new-password">
-                <mat-error *ngIf="!contraseniasCoinciden() && pacienteForm.get('confirmarContrasenia')?.touched">
-                  Las contraseñas no coinciden.
-                </mat-error>
-            </mat-form-field>
+
         </form>
     </mat-dialog-content>
 
     <mat-dialog-actions class="dialog-actions" >
         <button mat-button (click)="onCancel()">Cancelar</button>
-        <button mat-button [disabled]="!pacienteForm.valid || !contraseniasCoinciden()" (click)="onSubmit()">Guardar</button>
-        <mat-error *ngIf="!contraseniasCoinciden() && pacienteForm.get('confirmarContrasenia')?.touched">
-            Las contraseñas no coinciden.
-        </mat-error>
+        <button mat-button [disabled]="!editarUsuarioForm.valid" (click)="guardar()">Guardar</button>
+        
     </mat-dialog-actions>
 
 </body>

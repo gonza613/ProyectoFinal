@@ -57,7 +57,7 @@ export class PantallaPrincipalComponent implements OnInit{
     this.dialog.open(MisTurnosComponent);
   }
   abrirListaUsuario() {
-    this.dialog.open(ListaUsuariosComponent);
+    this.router.navigate(['lista-usuarios']);
   }
 
 }
