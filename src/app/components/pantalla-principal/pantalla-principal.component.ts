@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CrearPacienteComponent } from '../crear-paciente/crear-paciente.component';
 import { MisTurnosComponent } from '../mis-turnos/mis-turnos.component';
+import { ListaUsuariosComponent } from '../lista-usuarios/lista-usuarios.component';
 @Component({
   selector: 'app-pantalla-principal',
   templateUrl: './pantalla-principal.component.html',
@@ -52,8 +53,11 @@ export class PantallaPrincipalComponent implements OnInit{
   misDatos(){
     this.router.navigate(['mis-datos']);
   }
-  openDialog() {
+  abrirMisTurnos() {
     this.dialog.open(MisTurnosComponent);
+  }
+  abrirListaUsuario() {
+    this.dialog.open(ListaUsuariosComponent);
   }
 
 }
