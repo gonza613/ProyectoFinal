@@ -12,6 +12,7 @@ export class HomeComponent {
 
   constructor(private router: Router, private dialog: MatDialog
   ){
+    localStorage.clear()
   }
 
   openLoginDialog(isLoginMode: boolean) {
