@@ -66,4 +66,9 @@ export class PantallaPrincipalComponent implements OnInit{
     this.router.navigate(['lista-usuarios']);
   }
 
+  abrirTurnosProgramados(){
+    this.router.navigate(['turnos-programados']);
+
+  }
+
 }

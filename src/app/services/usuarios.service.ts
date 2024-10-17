@@ -8,9 +8,11 @@ import { Observable } from 'rxjs';
 export class UsuariosService {
 
   private apiUrl = 'http://localhost:4000/api';  // La URL del backend
-  token:any = localStorage.getItem('jwt');
+  token:any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { 
+    this.token = localStorage.getItem('jwt');
+  }
 
   // Método para hacer el login
   obtenerUsuario(id: any ): Observable<any> {

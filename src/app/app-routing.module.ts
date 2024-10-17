@@ -8,6 +8,7 @@ import { CrearPacienteComponent } from './components/crear-paciente/crear-pacien
 import { MisDatosComponent } from './components/mis-datos/mis-datos.component';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
+import { TurnosProgramadosComponent } from './components/turnos-programados/turnos-programados.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'mis-datos', component: MisDatosComponent},
   { path: 'mis-turnos', component: MisTurnosComponent},
   { path: 'lista-usuarios', component: ListaUsuariosComponent},
+  { path: 'turnos-programados', component: TurnosProgramadosComponent},
 ];
 
 @NgModule({
