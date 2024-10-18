@@ -7,21 +7,20 @@ import { Observable } from 'rxjs';
 })
 export class TurnosService {
   private apiUrl = 'http://localhost:4000/api';  // La URL del backend
-  token : any = localStorage.getItem('jwt');
   constructor(private http: HttpClient) { }
 
-  obtenerTurnoPaciente(id: any): Observable<any> {
+  obtenerTurnoPaciente(id: any, token: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
-      'authorization': this.token
+      'authorization': token
     });
     return this.http.get(`${this.apiUrl}/obtenerTurnoPaciente/${id}`, { headers });
   }
 
- obtenerTurnoMedico(id: any, fecha:any): Observable<any> {
+ obtenerTurnoMedico(id: any, fecha:any, token:string): Observable<any> {
   const headers = new HttpHeaders({
     'Content-Type': 'application/json',
-    'authorization': this.token
+    'authorization': token
   });
   return this.http.get(`${this.apiUrl}/obtenerTurnosMedico/${id}/${fecha}`, { headers });
 }

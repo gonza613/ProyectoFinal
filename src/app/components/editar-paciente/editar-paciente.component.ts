@@ -2,6 +2,7 @@ import { Component, inject, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Route, Router } from '@angular/router';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 
 @Component({
@@ -13,10 +14,11 @@ export class EditarPacienteComponent implements OnInit {
 
   editarUsuarioForm: FormGroup;
   datos : any;
+  token: any;
   private _snackBar = inject(MatSnackBar);
 
 
-  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<EditarPacienteComponent>, private usuarioService: UsuariosService, @Inject(MAT_DIALOG_DATA) public data: { id: any }){
+  constructor(private fb: FormBuilder, private dialogRef: MatDialogRef<EditarPacienteComponent>, private usuarioService: UsuariosService, @Inject(MAT_DIALOG_DATA) public data: { id: any }, private router: Router){
     this.editarUsuarioForm = this.fb.group({
       nombre: [''],
       apellido: [''],
@@ -28,18 +30,17 @@ export class EditarPacienteComponent implements OnInit {
       tipo_usuario: [''],
       contrasenia: ['']
     });
+
+    this.token=localStorage.getItem('jwt')
   }
   ngOnInit(): void {
     this.obtenerUsuarios();
   }
 
   obtenerUsuarios(){
-    this.usuarioService.obtenerUsuario(this.data.id).subscribe((data:any)=>{
-      console.log(data);
+    this.usuarioService.obtenerUsuario(this.data.id,this.token).subscribe((data:any)=>{
       if(data.codigo === 200){
-
         this.datos = data.payload[0];
-        console.log(this.datos)
         this.editarUsuarioForm.controls['nombre'].setValue(this.datos.nombre);
         this.editarUsuarioForm.controls['apellido'].setValue(this.datos.apellido);
         this.editarUsuarioForm.controls['usuario'].setValue(this.datos.usuario);
@@ -50,8 +51,10 @@ export class EditarPacienteComponent implements OnInit {
         this.editarUsuarioForm.controls['tipo_usuario'].setValue(this.datos.rol);
         this.editarUsuarioForm.controls['contrasenia'].setValue(this.datos.password);
         this.editarUsuarioForm.enable();
-      } else {
-        console.warn(data.mensaje);
+      } else if (data.codigo === -1){
+        this.jwtExpirado();
+      }else {
+        this.openSnackBar(data.mensaje);
       }
     })
   }
@@ -69,22 +72,35 @@ export class EditarPacienteComponent implements OnInit {
         rol: this.editarUsuarioForm.controls['tipo_usuario'].value,
         password: this.editarUsuarioForm.controls['contrasenia'].value,
       }
-      this.usuarioService.actualizarUsuario(this.data.id,body).subscribe((data: any) =>{
-        console.log(data);
-        if(data.codigo===200){
-        this.openSnackBar('Cambios guardados con exito', 'Aceptar');
+      this.usuarioService.actualizarUsuario(this.data.id,body, this.token).subscribe((data: any) =>{
+        if(data.codigo === 200){
+        this.openSnackBar('Cambios guardados con exito');
         this.dialogRef.close(true);
-      } else{
-        this.openSnackBar('No se pudo guardar los cambios correctamente', 'Aceptar');
+      } else if (data.codigo === -1){
+        this.jwtExpirado();
+      }else{
+        this.openSnackBar('No se pudo guardar los cambios correctamente');
         }
       })
     }
   
-    openSnackBar(message: string, action: string) {
-      this._snackBar.open(message, action);
-    }
-  
+
   onCancel(){
     this.dialogRef.close(true);
   }
+
+  jwtExpirado() {
+    this.openSnackBar('Sesión expirada.');
+
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 1000);
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'Cerrar', {
+      duration: 5000,
+    });
+  }
+
 }

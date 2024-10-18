@@ -15,7 +15,8 @@ export class MisDatosComponent implements OnInit{
   datos : any;
   usuarioForm: FormGroup;
   editing: boolean = false;
-  private _snackBar = inject(MatSnackBar);
+  token:any;
+  private snackBar = inject(MatSnackBar);
 
   constructor(private usuarioService: UsuariosService, private fb: FormBuilder, private route: Router){
     
@@ -29,6 +30,8 @@ export class MisDatosComponent implements OnInit{
       contrasenia: [''],
       correo: [''],
     });
+
+    this.token = localStorage.getItem('jwt')
   }
 
   ngOnInit(): void {
@@ -36,18 +39,22 @@ export class MisDatosComponent implements OnInit{
   }
 
   obtenerUsuarios(){
-    this.usuarioService.obtenerUsuario(this.id).subscribe((data:any)=>{
-      console.log(data);
-      this.datos = data.payload[0];
-      console.log(this.datos)
-      this.usuarioForm.controls['nombre'].setValue(this.datos.nombre);
-      this.usuarioForm.controls['apellido'].setValue(this.datos.apellido);
-      this.usuarioForm.controls['dni'].setValue(this.datos.dni);
-      this.usuarioForm.controls['mail'].setValue(this.datos.mail);
-      this.usuarioForm.controls['telefono'].setValue(this.datos.telefono);
-      this.usuarioForm.controls['contrasenia'].setValue(this.datos.password);
-      this.usuarioForm.controls['correo'].setValue(this.datos.email);
-      this.usuarioForm.disable();
+    this.usuarioService.obtenerUsuario(this.id,this.token).subscribe((data:any)=>{
+      if (data.codigo === 200){
+        this.datos = data.payload[0];
+        this.usuarioForm.controls['nombre'].setValue(this.datos.nombre);
+        this.usuarioForm.controls['apellido'].setValue(this.datos.apellido);
+        this.usuarioForm.controls['dni'].setValue(this.datos.dni);
+        this.usuarioForm.controls['mail'].setValue(this.datos.mail);
+        this.usuarioForm.controls['telefono'].setValue(this.datos.telefono);
+        this.usuarioForm.controls['contrasenia'].setValue(this.datos.password);
+        this.usuarioForm.controls['correo'].setValue(this.datos.email);
+        this.usuarioForm.disable();
+      } else if (data.codigo === -1){
+        this.jwtExpirado();
+      } else {
+        this.openSnackBar(data.mensaje);
+      }
     })
   }
 
@@ -74,7 +81,6 @@ export class MisDatosComponent implements OnInit{
   }
 
   guardar(){
-
     let body= {
       dni: this.datos.dni,
       apellido: this.datos.apellido,
@@ -85,21 +91,34 @@ export class MisDatosComponent implements OnInit{
       email: this.usuarioForm.controls['correo'].value,
       telefono: this.usuarioForm.controls['telefono'].value
     }
-    this.usuarioService.actualizarUsuario(this.id,body).subscribe((data: any) =>{
+    this.usuarioService.actualizarUsuario(this.id,body, this.token).subscribe((data: any) =>{
       if(data.codigo===200){
       this.editing=false;
-      this.openSnackBar('Cambios guardados con exito', 'Aceptar');
+      this.openSnackBar('Cambios guardados con exito');
       this.usuarioForm.controls['correo'].disable()
       this.usuarioForm.controls['contrasenia'].disable()
       this.usuarioForm.controls['telefono'].disable()
-    } else{
-      this.openSnackBar('No se pudo guardar los cambios correctamente', 'Aceptar');
-      }
+    } else if (data.codigo === -1){
+      this.jwtExpirado();
+    }else{
+      this.openSnackBar(data.mensaje)
+    }
     })
   }
 
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action);
+  jwtExpirado() {
+    this.openSnackBar('Sesión expirada.');
+
+    setTimeout(() => {
+      this.route.navigate(['/home']);
+    }, 1000);
   }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 5000,
+    });
+  }
+
 
 }
