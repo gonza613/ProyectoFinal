@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { Data } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Data, Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
 
 @Component({
@@ -12,11 +13,14 @@ import { LoginService } from 'src/app/services/login.service';
 export class CrearPacienteComponent {
   pacienteForm: FormGroup;
   rol = localStorage.getItem('rol');
+  titulo: string ='';
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CrearPacienteComponent>,
-    private login: LoginService
+    private login: LoginService,
+    private router: Router,
+    private snackBar:MatSnackBar
   ) {
     this.pacienteForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -30,6 +34,12 @@ export class CrearPacienteComponent {
       confirmarContrasenia: ['', Validators.required],
       fechanac: ['', Validators.required],
     });
+
+    if(this.rol === 'administrador'){
+      this.titulo = 'Usuario'
+    } else {
+      this.titulo = 'Paciente'
+    }
   }
 
   contraseniasCoinciden(): boolean {
@@ -55,26 +65,36 @@ export class CrearPacienteComponent {
         // usuario: this.pacienteForm.controls['usuario'].value
       }
 
-     // Verifica el rol
       if (this.rol == 'operador') {
-        // Si es operador, asigna rol 'paciente'
         body.rol = 'paciente';
       } else {
-        // Si no es operador, asigna el rol del formulario 'tipo_usuario'
         body.rol = this.pacienteForm.controls['tipo_usuario'].value;
       }
 
-
-      this.login.register(JSON.stringify(body)).subscribe((data : any) =>{
-        console.warn(data);
-        
+      this.login.register(JSON.stringify(body)).subscribe((data : any) =>{        
         if (data.codigo === 200){
-          console.log('Registro exitoso');
           this.dialogRef.close(this.pacienteForm.value);
-        } else {
-          console.log(data.mensaje)
+          this.openSnackBar('Registro exitoso')
+        } else if (data.codigo === -1){
+          this.jwtExpirado;
+        }else {
+          this.openSnackBar(data.mensaje)
         }
       })
     }
+  }
+
+  jwtExpirado() {
+    this.openSnackBar('Sesión expirada.');
+
+    setTimeout(() => {
+      this.router.navigate(['/home']);
+    }, 1000);
+  }
+
+  openSnackBar(message: string) {
+    this.snackBar.open(message, 'Cerrar', {
+      duration: 5000,
+    });
   }
 }

@@ -46,14 +46,6 @@ export class PantallaPrincipalComponent implements OnInit{
     const dialogRef = this.dialog.open(CrearPacienteComponent, {
       width: '450px'
     });
-  
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
-        console.log('Paciente creado:', result);
-      } else {
-        console.log('Acción cancelada');
-      }
-    });
   }
 
   misDatos(){
@@ -64,6 +56,11 @@ export class PantallaPrincipalComponent implements OnInit{
   }
   abrirListaUsuario() {
     this.router.navigate(['lista-usuarios']);
+  }
+
+  abrirTurnosProgramados(){
+    this.router.navigate(['turnos-programados']);
+
   }
 
 }
