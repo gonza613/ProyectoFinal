@@ -25,5 +25,13 @@ export class TurnosService {
   return this.http.get(`${this.apiUrl}/obtenerTurnosMedico/${id}/${fecha}`, { headers });
 }
 
+asignarTurno(body: any, token: string): Observable<any> {
+ const headers = new HttpHeaders({
+   'Content-Type': 'application/json',
+   'authorization': token
+ });
+ return this.http.post(`${this.apiUrl}/asignarTurnoPaciente`, body ,{ headers });
+}
+
 
 }

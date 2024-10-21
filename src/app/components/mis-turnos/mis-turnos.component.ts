@@ -21,6 +21,22 @@ export class MisTurnosComponent implements OnInit{
   token: any;
   turnos:Turnos[] = [];
   displayedColumns = ['fecha','hora','agenda','paciente'];
+  especialidades:  { [key: number]: string } = {
+                   1:'Traumatologia',
+                   2:'Cardiologia',
+                   3:'Gastroenterologia',
+                   4:'Ginecologia',
+                   5:'Clinico',
+                   6:'Odontologia',
+                   7:'Dermatologia',
+                   8:'Oftalmologia',
+                   9:'Pediatra',
+                   10:'Urologia',
+                   11:'Neurologia',
+                   12:'Nutricion',
+                   13:'Psicologia',
+                   14:'Fonoaudiologia',
+  }
   //displayedColumns : any;
   constructor(private turnosService: TurnosService,
     private router:Router,
@@ -44,6 +60,10 @@ export class MisTurnosComponent implements OnInit{
       this.openSnackBar(data.mensaje);
     }
   })
+ }
+
+ obetenerEspecialidad(id: number){
+  return this.especialidades[id];
  }
 
  jwtExpirado() {
