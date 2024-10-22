@@ -83,7 +83,7 @@
       </mat-card>
 
       <!-- Gestion de agenda Card -->
-      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='medico'">
+      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='medico'" (click)="abrirGestionAgenda()">
           <mat-card-header>
               <mat-card-title-group>
                   <mat-card-title>

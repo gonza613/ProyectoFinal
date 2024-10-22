@@ -10,6 +10,7 @@ import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component
 import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
 import { TurnosProgramadosComponent } from './components/turnos-programados/turnos-programados.component';
 import { authGuard } from './services/auth.guard';
+import { AgendaMedicoComponent } from './components/agenda-medico/agenda-medico.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
@@ -22,6 +23,7 @@ const routes: Routes = [
   { path: 'mis-turnos', component: MisTurnosComponent, canActivate: [authGuard]},
   { path: 'lista-usuarios', component: ListaUsuariosComponent, canActivate: [authGuard]},
   { path: 'turnos-programados', component: TurnosProgramadosComponent, canActivate: [authGuard]},
+  { path: 'gestion-agenda', component: AgendaMedicoComponent, canActivate: [authGuard]}
 ];
 
 @NgModule({

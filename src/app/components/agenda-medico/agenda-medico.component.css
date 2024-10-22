@@ -1,0 +1,11 @@
+body {
+    display: flex;
+    flex-direction: column;
+    min-height: 80vh;
+    background-color: rgb(169, 226, 147);
+  }
+  
+  .main-content {
+    padding: 20px;
+    text-align: center;
+  }
