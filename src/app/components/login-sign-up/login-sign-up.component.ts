@@ -82,7 +82,7 @@ export class LoginSignUpComponent {
       nombre: this.signUpForm.controls['nombre'].value,
       fecha_nacimiento: this.signUpForm.controls['fechanac'].value,
       password: this.signUpForm.controls['contrasenia'].value,
-      rol: 'Paciente',
+      rol: 'paciente',
       email: this.signUpForm.controls['mail'].value,
       telefono:this.signUpForm.controls['telefono'].value,
       // usuario: this.signUpForm.controls['usuario'].value

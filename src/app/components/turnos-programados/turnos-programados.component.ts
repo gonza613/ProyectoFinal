@@ -50,7 +50,12 @@ export class TurnosProgramadosComponent implements OnInit{
       fecha=this.fecha.controls['fecha'].value
       fecha=fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate();
     }    
-    this.turnosService.obtenerTurnoMedico(this.id, fecha, this.token).subscribe((data: any) => {
+
+    let body = {
+      id_medico : this.id,
+      fecha : fecha
+    }
+    this.turnosService.obtenerTurnoMedico(JSON.stringify(body), this.token).subscribe((data: any) => {
       if(data.codigo === 200){
         this.turnos = data.payload;
         if(this.turnos[0]){

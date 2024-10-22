@@ -17,12 +17,12 @@ export class TurnosService {
     return this.http.get(`${this.apiUrl}/obtenerTurnoPaciente/${id}`, { headers });
   }
 
- obtenerTurnoMedico(id: any, fecha:any, token:string): Observable<any> {
+ obtenerTurnoMedico(body: any, token:string): Observable<any> {
   const headers = new HttpHeaders({
     'Content-Type': 'application/json',
     'authorization': token
   });
-  return this.http.get(`${this.apiUrl}/obtenerTurnosMedico/${id}/${fecha}`, { headers });
+  return this.http.post(`${this.apiUrl}/obtenerTurnosMedico`, body, { headers });
 }
 
 asignarTurno(body: any, token: string): Observable<any> {

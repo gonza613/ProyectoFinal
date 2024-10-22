@@ -20,8 +20,7 @@ export class LoginService {
 
   register(body: any): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      'authorization': this.token
+      'Content-Type': 'application/json'
     });
       
     return this.http.post(`${this.apiUrl}/crearUsuario`, body, { headers });
