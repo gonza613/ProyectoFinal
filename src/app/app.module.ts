@@ -35,6 +35,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
 import { EditarPacienteComponent } from './components/editar-paciente/editar-paciente.component';
+import { TurnosProgramadosComponent } from './components/turnos-programados/turnos-programados.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { EditarPacienteComponent } from './components/editar-paciente/editar-pac
     MisTurnosComponent,
     ListaUsuariosComponent,
     EditarPacienteComponent,
+    TurnosProgramadosComponent,
   ],
   imports: [
     BrowserModule,

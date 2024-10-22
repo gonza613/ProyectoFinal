@@ -8,17 +8,20 @@ import { CrearPacienteComponent } from './components/crear-paciente/crear-pacien
 import { MisDatosComponent } from './components/mis-datos/mis-datos.component';
 import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component';
 import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
+import { TurnosProgramadosComponent } from './components/turnos-programados/turnos-programados.component';
+import { authGuard } from './services/auth.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: '/home', pathMatch: 'full' },
   { path: 'home', component: HomeComponent},
   { path: 'login-signUp', component: LoginSignUpComponent},
-  { path: 'pantalla-principal', component: PantallaPrincipalComponent},
-  { path: 'nuevo-turno', component: NuevoTurnoComponent},
-  { path: 'crear-paciente', component: CrearPacienteComponent},
-  { path: 'mis-datos', component: MisDatosComponent},
-  { path: 'mis-turnos', component: MisTurnosComponent},
-  { path: 'lista-usuarios', component: ListaUsuariosComponent},
+  { path: 'pantalla-principal', component: PantallaPrincipalComponent, canActivate: [authGuard]},
+  { path: 'nuevo-turno', component: NuevoTurnoComponent, canActivate: [authGuard]},
+  { path: 'crear-paciente', component: CrearPacienteComponent, canActivate: [authGuard]},
+  { path: 'mis-datos', component: MisDatosComponent, canActivate: [authGuard]},
+  { path: 'mis-turnos', component: MisTurnosComponent, canActivate: [authGuard]},
+  { path: 'lista-usuarios', component: ListaUsuariosComponent, canActivate: [authGuard]},
+  { path: 'turnos-programados', component: TurnosProgramadosComponent, canActivate: [authGuard]},
 ];
 
 @NgModule({
