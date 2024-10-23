@@ -4,6 +4,9 @@ import { TurnosService } from 'src/app/services/turnos.service';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { AltaHorariosComponent } from '../agenda-medico/alta-horarios/alta-horarios.component';
+import { NotaComponent } from './nota/nota.component';
 
 
 export interface Turnos {
@@ -12,7 +15,7 @@ export interface Turnos {
   cobertura: string;
   nombre_medico: string;
   nombre_paciente: string;
-  nota: number;
+  nota: string;
 } 
 
 @Component({
@@ -27,11 +30,13 @@ export class TurnosProgramadosComponent implements OnInit{
   displayedColumns : any;
   fecha: FormGroup;
   fechaTurno: any;
+  nota:any;
     fechaSeleccionada: any | null = null;
   constructor(private turnosService: TurnosService, 
     private fb: FormBuilder, 
     private snackBar: MatSnackBar,
-    private router: Router ){
+    private router: Router,
+    private dialog: MatDialog ){
     this.id = localStorage.getItem('id');
     this.token = localStorage.getItem('jwt');
     this.displayedColumns = ['fecha','hora','nombre_medico','nombre_paciente','cobertura','nota'];
@@ -70,6 +75,24 @@ export class TurnosProgramadosComponent implements OnInit{
       }
     })
   }
+
+  verNota(nota: string){ 
+    // this.nota=nota
+      const dialogRef = this.dialog.open(NotaComponent, {
+        width: '450px',
+        data : {nota: nota}
+      });
+      console.log(nota);
+
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.router.navigate(['/turnos-programados']);
+        } else {
+          console.log('Acción cancelada');
+        }
+      });
+    }
+  
 
   jwtExpirado() {
     this.openSnackBar('Sesión expirada.');

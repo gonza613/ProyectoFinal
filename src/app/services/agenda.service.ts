@@ -18,12 +18,12 @@ export class AgendaService {
     return this.http.get(`${this.apiUrl}/obtenerAgenda/${id_medico}`, { headers });
   }
 
-  crearAgenda( token: string): Observable<any> {
+  crearAgenda(body:any, token: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       'authorization': token
     });
-    return this.http.get(`${this.apiUrl}/crearAgenda`, { headers });
+    return this.http.post(`${this.apiUrl}/crearAgenda`,body,{ headers });
   }
 
 

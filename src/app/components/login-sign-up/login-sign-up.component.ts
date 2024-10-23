@@ -63,12 +63,8 @@ export class LoginSignUpComponent {
             localStorage.setItem('id', data.payload[0].id); 
             localStorage.setItem('rol', data.payload[0].rol);
             localStorage.setItem('nombreUsuario', data.payload[0].nombre + ' ' + data.payload[0].apellido); 
-
-            this.openSnackBar('Ingresando...','Aceptar')             
-            setTimeout(() => {
               this.router.navigate(['/pantalla-principal']);
               this.dialogRef.close(true);
-            }, 2000); 
         } else {
           this.openSnackBar(data.mensaje,'Aceptar')             
         }

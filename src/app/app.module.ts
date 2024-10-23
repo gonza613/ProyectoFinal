@@ -38,6 +38,7 @@ import { EditarPacienteComponent } from './components/editar-paciente/editar-pac
 import { TurnosProgramadosComponent } from './components/turnos-programados/turnos-programados.component';
 import { AgendaMedicoComponent } from './components/agenda-medico/agenda-medico.component';
 import { AltaHorariosComponent } from './components/agenda-medico/alta-horarios/alta-horarios.component';
+import { NotaComponent } from './components/turnos-programados/nota/nota.component';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { AltaHorariosComponent } from './components/agenda-medico/alta-horarios/
     TurnosProgramadosComponent,
     AgendaMedicoComponent,
     AltaHorariosComponent,
+    NotaComponent,
   ],
   imports: [
     BrowserModule,

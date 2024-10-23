@@ -32,7 +32,6 @@ export class AgendaMedicoComponent {
     this.horarios.get('fecha')?.valueChanges.subscribe((value) => {
       this.fecha = this.horarios.controls['fecha'].value.toISOString().split('T')[0]
     })
-
     // this.horarios.get('fecha')?.valueChanges.subscribe((value) => {
     //   this.obtenerAgenda(this.horarios.controls['fecha'].value);
   }
