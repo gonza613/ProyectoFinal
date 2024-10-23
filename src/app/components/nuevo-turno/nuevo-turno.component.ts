@@ -60,6 +60,7 @@ export class NuevoTurnoComponent {
     this.turnoForm.get('profesional')?.valueChanges.subscribe((value) => {
       if (value) {
         this.turnoForm.get('fecha')?.enable();
+        this.obtenerAgenda(this.turnoForm.controls['profesional'].value);        
       } else {
         this.turnoForm.get('fecha')?.disable();
       }
@@ -67,7 +68,7 @@ export class NuevoTurnoComponent {
     this.turnoForm.get('fecha')?.valueChanges.subscribe((value) => {
       if (value) {
         this.turnoForm.get('hora')?.enable();
-        this.obtenerAgenda(this.turnoForm.controls['especialidad'].value);
+        
       } else {
         this.turnoForm.get('hora')?.disable();
       }
@@ -115,7 +116,6 @@ export class NuevoTurnoComponent {
         this.openSnackBar(data.mensaje)
       }
     })
-
   }
 
   obtenerProfesionales(id:any) {
@@ -156,25 +156,30 @@ export class NuevoTurnoComponent {
   }
 
   obtenerAgenda(id: string) {
-    this.agendaService.obtenerAgenda(id, this.token).subscribe((data: any) => {
-      console.log(data);
-      
+    this.agendaService.obtenerAgenda(id, this.token).subscribe((data: any) => {      
         if (data.codigo === 200) {
             // Aquí asumimos que las fechas están en el campo 'fecha'
             this.agenda = data.payload.map((item: any) => new Date(item.fecha));
-            console.log('Fechas disponibles:', this.agenda);
+        } else if (data.codigo === -1){
+          this.jwtExpirado();
         } else {
-            console.error(data.mensaje);
+          this.openSnackBar(data.mensaje)
         }
-    }, error => {
-        console.error('Error al obtener agenda:', error);
     });
   }
-  disponibilidadDias = (d: Date | null): boolean => {
-    if (!d) return false;
-    return this.availableDates.some(date => date.getTime() === d.getTime());
-  };
 
+
+  // Función que filtra las fechas permitidas
+dateFilter = (fecha: Date | null): boolean => {
+  // Si la fecha es null, no la permitimos
+  if (!fecha) return false;
+
+  // Convertimos el día actual a un string sin la hora para comparar solo la fecha
+  const fechaStr = fecha.toDateString();
+
+  // Comprobamos si la fecha está en el array de fechas válidas
+  return this.agenda.some(f => f.toDateString() === fechaStr);
+};
 
   jwtExpirado() {
     this.openSnackBar('Sesión expirada.');

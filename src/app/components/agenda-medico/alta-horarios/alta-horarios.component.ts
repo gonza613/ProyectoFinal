@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AgendaService } from 'src/app/services/agenda.service';
 import { EspecialidadService } from '../../../services/especialidad.service';
+import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-alta-horarios',
@@ -30,36 +31,41 @@ export class AltaHorariosComponent {
     this.fecha = data.fecha;
   }
 
-  async crearAgenda(){
+  recuperarEspecialidad(){
     let especialidad;
         this.especialidadesService.obtenerEspecialidadesMedico(this.id,this.token).subscribe((data: any) =>{        
         if(data.codigo === 200){
            especialidad = data.payload[0].id_especialidad
-           let body = {
-            id_medico: this.id,
-            id_especialidad: especialidad,
-            fecha: this.fecha,
-            hora_entrada: this.forma.controls['hora_desde'].value,
-            hora_salida: this.forma.controls['hora_hasta'].value
-          }          
-          this.agendaService.crearAgenda(JSON.stringify(body),this.token).subscribe((data:any) =>{
-            if (data.codigo === 200){
-              this.openSnackBar('Guardado correctamente');
-              this.dialog.closeAll();
-              window.location.reload();
-
-              } else if (data.codigo === -1){
-              this.jwtExpirado();
-            } else {
-              this.openSnackBar(data.mensaje)
-            }
-          })
+           this.crearAgenda(especialidad)
         }else if (data.codigo === -1){
           this.jwtExpirado();
         } else {
           this.openSnackBar(data.mensaje) 
         }
       })
+  }
+
+  crearAgenda(especialidad: number){
+    let body = {
+      id_medico: this.id,
+      id_especialidad: especialidad,
+      fecha: this.fecha,
+      hora_entrada: this.forma.controls['hora_desde'].value,
+      hora_salida: this.forma.controls['hora_hasta'].value
+    }     
+
+    this.agendaService.crearAgenda(JSON.stringify(body),this.token).subscribe((data:any) =>{
+      if (data.codigo === 200){
+        this.openSnackBar('Guardado correctamente');
+        this.dialog.closeAll();
+        window.location.reload();
+
+        } else if (data.codigo === -1){
+        this.jwtExpirado();
+      } else {
+        this.openSnackBar(data.mensaje)
+      }
+    })
   }
 
   jwtExpirado() {

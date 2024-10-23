@@ -32,8 +32,6 @@ export class AgendaMedicoComponent {
     this.horarios.get('fecha')?.valueChanges.subscribe((value) => {
       this.fecha = this.horarios.controls['fecha'].value.toISOString().split('T')[0]
     })
-    // this.horarios.get('fecha')?.valueChanges.subscribe((value) => {
-    //   this.obtenerAgenda(this.horarios.controls['fecha'].value);
   }
 
   obtenerAgenda(fecha:any){
@@ -41,7 +39,6 @@ export class AgendaMedicoComponent {
       fecha = this.horarios.controls['fecha'].value;
     }
     this.agendaService.obtenerAgenda(this.id, this.token).subscribe((data: any) => {
-      console.log(data);
       if(data.codigo === 200){
 
       // Obtener la fecha seleccionada del FormControl

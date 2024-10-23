@@ -21,7 +21,7 @@
                 <mat-label>Profesional</mat-label>
                 <!-- Cambiamos el input por un mat-select con ngFor -->
                 <mat-select formControlName="profesional" required>
-                  <mat-option *ngFor="let profesional of profesionales" [value]="profesional.apellido">
+                  <mat-option *ngFor="let profesional of profesionales" [value]="profesional.id_medico">
                     {{ profesional.nombre }} {{ profesional.apellido }}
                   </mat-option>
                 </mat-select>
@@ -29,7 +29,7 @@
     
               <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Fecha</mat-label>
-                <input matInput [matDatepicker]="picker" [matDatepickerFilter]="disponibilidadDias" formControlName="fecha" required>
+                <input matInput [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" formControlName="fecha" required>
 
 
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
