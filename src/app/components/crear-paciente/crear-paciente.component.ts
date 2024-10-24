@@ -4,6 +4,8 @@ import { MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Data, Router } from '@angular/router';
 import { LoginService } from 'src/app/services/login.service';
+import { EspecialidadService } from '../../services/especialidad.service';
+import { Token } from '@angular/compiler';
 
 @Component({
   selector: 'app-crear-paciente',
@@ -11,16 +13,21 @@ import { LoginService } from 'src/app/services/login.service';
   styleUrls: ['./crear-paciente.component.css']
 })
 export class CrearPacienteComponent {
+
+  token: any = localStorage.getItem('jwt'); 
   pacienteForm: FormGroup;
   rol = localStorage.getItem('rol');
   titulo: string ='';
+  especialidades: any = [];
+  mostrarEspecialidades: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<CrearPacienteComponent>,
     private login: LoginService,
     private router: Router,
-    private snackBar:MatSnackBar
+    private snackBar:MatSnackBar,
+    private especialidadesService : EspecialidadService
   ) {
     this.pacienteForm = this.fb.group({
       nombre: ['', Validators.required],
@@ -33,6 +40,7 @@ export class CrearPacienteComponent {
       tipo_usuario: ['', Validators.required],
       confirmarContrasenia: ['', Validators.required],
       fechanac: ['', Validators.required],
+      especialidad: ['', Validators.required]
     });
 
     if(this.rol === 'administrador'){
@@ -40,6 +48,28 @@ export class CrearPacienteComponent {
     } else {
       this.titulo = 'Paciente'
     }
+
+    this.pacienteForm.get('tipo_usuario')?.valueChanges.subscribe(value => {
+      if ( value === 'medico') {
+        this.mostrarEspecialidades = true;
+        this.obtenerEspecialidades();
+      } else {
+        this.mostrarEspecialidades = false;
+        this.pacienteForm.get('especialidad')?.reset();
+      }
+    });
+  }
+
+  obtenerEspecialidades(){
+    this.especialidadesService.obtenerEspecialidades(this.token).subscribe((data : any)=>{
+      if (data.codigo === 200){
+        this.especialidades = data.payload;
+      } else if (data.codigo === -1){
+        this.jwtExpirado()
+      }else {
+        this.openSnackBar(data.mensaje)
+      }
+    })
   }
 
   contraseniasCoinciden(): boolean {
@@ -61,8 +91,7 @@ export class CrearPacienteComponent {
         password: this.pacienteForm.controls['contrasenia'].value,
         email: this.pacienteForm.controls['mail'].value,
         telefono:this.pacienteForm.controls['telefono'].value,
-        rol:'',
-        // usuario: this.pacienteForm.controls['usuario'].value
+        rol:''
       }
 
       if (this.rol == 'operador') {
@@ -71,16 +100,31 @@ export class CrearPacienteComponent {
         body.rol = this.pacienteForm.controls['tipo_usuario'].value;
       }
 
-      this.login.register(JSON.stringify(body)).subscribe((data : any) =>{        
+      this.login.register(JSON.stringify(body)).subscribe((data : any) =>{
         if (data.codigo === 200){
-          this.dialogRef.close(this.pacienteForm.value);
-          this.openSnackBar('Registro exitoso')
-        } else if (data.codigo === -1){
-          this.jwtExpirado;
-        }else {
-          this.openSnackBar(data.mensaje)
+          if (body.rol === 'medico'){
+            const medicoEspecialidadBody = {
+              id_medico: data.payload[0].id_usuario,
+              id_especialidad: this.pacienteForm.controls['especialidad'].value
+            };
+            this.especialidadesService.crearMedicoEspecialidad(medicoEspecialidadBody,this.token).subscribe((data:any) => {
+              if (data.codigo === 200) {
+                this.dialogRef.close(this.pacienteForm.value);
+                this.openSnackBar('Registro exitoso');
+              } else {
+                this.openSnackBar('Error al guardar la especialidad');
+              }
+            });
+          } else {
+            this.dialogRef.close(this.pacienteForm.value);
+            this.openSnackBar('Registro exitoso');
+          }
+        } else if (data.codigo === -1) {
+          this.jwtExpirado();
+        } else {
+          this.openSnackBar(data.mensaje);
         }
-      })
+      });
     }
   }
 
