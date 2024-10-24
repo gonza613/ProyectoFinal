@@ -20,7 +20,14 @@ export class NuevoTurnoComponent {
   especialidad: any;
   cobertura: any;
   agenda: any[] = [];
+  agendaHoras: any[] = [];
   availableDates: Date[] = [];
+  hora_entrada:any;
+  hora_salida:any;
+  horas:any[] = [];
+  numArray: number = 0;
+  turnos:any;
+  horasSinConfirmar:any [] =[];
 
   constructor(private fb: FormBuilder, 
     private router: Router,
@@ -36,6 +43,7 @@ export class NuevoTurnoComponent {
       profesional: ['', Validators.required],
       fecha: ['', Validators.required],
       hora: ['', Validators.required],
+      minutos: ['', Validators.required],
       razon: ['', Validators.required],
     });
 
@@ -67,6 +75,8 @@ export class NuevoTurnoComponent {
     });
     this.turnoForm.get('fecha')?.valueChanges.subscribe((value) => {
       if (value) {
+        this.obtenerAgenda(this.turnoForm.controls['profesional'].value);
+        this.obtenerTurnosMedico('')
         this.turnoForm.get('hora')?.enable();
         
       } else {
@@ -75,6 +85,14 @@ export class NuevoTurnoComponent {
     });
     this.turnoForm.get('hora')?.valueChanges.subscribe((value) => {
       if (value) {
+        this.obtenerMinutos(this.turnoForm.controls['hora'].value)
+        this.turnoForm.get('minutos')?.enable();
+      } else {
+        this.turnoForm.get('minutos')?.disable();
+      }
+    });
+    this.turnoForm.get('minutos')?.valueChanges.subscribe((value) => {
+      if (value !== '') {
         this.turnoForm.get('razon')?.enable();
       } else {
         this.turnoForm.get('razon')?.disable();
@@ -96,19 +114,18 @@ export class NuevoTurnoComponent {
   guardarTurno(){
     let body = {
       nota: this.turnoForm.controls['razon'].value,
-      id_agenda: 1, //harcodeado porque no hay formcontrol para eso
+      id_agenda: this.agendaHoras[this.numArray].id,
       fecha: this.turnoForm.controls['fecha'].value,
-      hora: this.turnoForm.controls['hora'].value,
+      hora: this.turnoForm.controls['hora'].value+':'+this.turnoForm.controls['minutos'].value,
       id_paciente: this.id,
       id_cobertura: this.turnoForm.controls['cobertura'].value
-      // id_especialidad: this.turnoForm.controls['especialidad'].value
     }
 
     this.turnosServie.asignarTurno(JSON.stringify(body), this.token).subscribe((data : any )=>{      
       if(data.codigo === 200){
         let fechaFormatted = this.turnoForm.controls['fecha'].value.getFullYear() + '-' + (this.turnoForm.controls['fecha'].value.getMonth() + 1) + '-' + this.turnoForm.controls['fecha'].value.getDate();
         this.openSnackBar('Turno confirmado con '+this.turnoForm.controls['profesional'].value
-          +' el dia '+fechaFormatted+' a las '+this.turnoForm.controls['hora'].value)
+          +' el dia '+fechaFormatted+' a las '+this.turnoForm.controls['hora'].value+':'+this.turnoForm.controls['minutos'].value)
         this.router.navigate(['/pantalla-principal']);
       } else if (data.codigo === -1){
         this.jwtExpirado()
@@ -158,14 +175,66 @@ export class NuevoTurnoComponent {
   obtenerAgenda(id: string) {
     this.agendaService.obtenerAgenda(id, this.token).subscribe((data: any) => {      
         if (data.codigo === 200) {
+          console.log(data);
+          
             // Aquí asumimos que las fechas están en el campo 'fecha'
             this.agenda = data.payload.map((item: any) => new Date(item.fecha));
+            
+            let fecha = new Date(this.turnoForm.controls['fecha'].value).toISOString()
+            
+            this.agendaHoras = data.payload.filter((obj: { fecha: any; }) => obj.fecha.startsWith(fecha));
+            console.log(this.agendaHoras);
+            
+            if (this.agendaHoras) {
+              this.horas = [];  // Inicializa el array de horas
+            
+              // Itera sobre los objetos en agendaHoras y concatena las horas
+              for (let i = 0; i < this.agendaHoras.length; i++) {
+                const horasEntre = this.obtenerHorasEntre(this.agendaHoras[i].hora_entrada, this.agendaHoras[i].hora_salida);
+                
+                this.numArray = i
+
+                // Concatenar las horas al array
+                this.horas = this.horas.concat(horasEntre).sort();
+              }
+            
+              console.log(this.horas);  // Esto mostrará todas las horas concatenadas
+            }
         } else if (data.codigo === -1){
           this.jwtExpirado();
         } else {
           this.openSnackBar(data.mensaje)
         }
     });
+  }
+
+  obtenerHorasEntre(entrada: string, salida: string): string[] {
+    const horas: string[] = [];
+  
+    // Convertir las horas de entrada y salida a objetos Date
+    let horaEntrada = new Date();
+    let horaSalida = new Date();
+  
+    // Separar horas y minutos de las cadenas (formato HH:mm)
+    const [horaEnt, minEnt] = entrada.split(':').map(Number);
+    const [horaSal, minSal] = salida.split(':').map(Number);
+  
+    // Establecer horas y minutos en el objeto Date
+    horaEntrada.setHours(horaEnt, minEnt, 0, 0);
+    horaSalida.setHours(horaSal, minSal, 0, 0);
+  
+    // Mientras la hora de entrada sea menor o igual a la hora de salida
+    while (horaEntrada < horaSalida) {
+      // Formatear la hora (HH:mm) y agregar al array
+      const horaFormateada = `${horaEntrada.getHours().toString().padStart(2, '0')}`;
+      horas.push(horaFormateada);
+  
+      // Incrementar la hora de entrada en 1
+      horaEntrada.setHours(horaEntrada.getHours() + 1);
+    }
+    // horaEntrada.setHours(horaEntrada.getHours() - 1);
+  
+    return horas;
   }
 
 
@@ -180,6 +249,89 @@ dateFilter = (fecha: Date | null): boolean => {
   // Comprobamos si la fecha está en el array de fechas válidas
   return this.agenda.some(f => f.toDateString() === fechaStr);
 };
+
+
+obtenerTurnosMedico(fecha: any){
+  if (fecha == ''){
+    fecha=this.turnoForm.controls['fecha'].value
+    fecha=fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate();
+  }    
+
+  let body = {
+    id_medico : this.turnoForm.controls['profesional'].value,
+    fecha : fecha
+  }
+  this.turnosServie.obtenerTurnoMedico(JSON.stringify(body), this.token).subscribe((data: any) => {
+    if(data.codigo === 200){
+      this.turnos = data.payload;
+      
+      let turnosConfirmados: any[] = [];
+      let minutosConfirmados: any[] = [];
+      let horaConfirmada: any[] = [];
+      turnosConfirmados = data.payload.filter((obj: { fecha: any; }) => obj.fecha.startsWith(fecha));
+      console.log(turnosConfirmados);
+
+      for (let i = 0; i < turnosConfirmados.length; i++) {
+       horaConfirmada = data.payload.map((obj: { hora: any; }) => obj.hora.substr(0,2));
+      }
+      
+      minutosConfirmados =  data.payload.map((obj: { hora: any; }) => obj.hora.substr(3,2));
+      console.log(minutosConfirmados);
+      
+      if (minutosConfirmados[0] == '30') {
+        
+      }
+
+      // this.horasSinConfirmar = horaConfirmada.filter((valor, indice, self) => 
+      //   self.indexOf(valor) === self.lastIndexOf(valor)
+      // );
+      // console.log(this.horasSinConfirmar);
+
+      for (let i = 0; i < turnosConfirmados.length; i++) {
+        horaConfirmada = data.payload.map((obj: { hora: any; }) => obj.hora.substr(0, 2));
+      }
+      
+      // Contar las ocurrencias de cada hora
+      const contadorHoras: { [key: string]: number } = {};
+      horaConfirmada.forEach(hora => {
+        contadorHoras[hora] = (contadorHoras[hora] || 0) + 1;
+      });
+      
+      // Filtrar solo las horas que se repiten
+      this.horasSinConfirmar = Object.keys(contadorHoras).filter(hora => contadorHoras[hora] > 1);
+      console.log(this.horasSinConfirmar);
+
+      this.horas = this.horas.filter(hora => !this.horasSinConfirmar.includes(hora));
+
+      console.log(this.horas); // Este será el nuevo array con las horas filtradas
+      
+     
+  }else if(data.codigo === -1){
+    this.jwtExpirado();
+  } else {
+      this.openSnackBar(data.mensaje);
+    }
+  })
+}
+minutosConfirmados:any [] = ['00','30']
+obtenerMinutos(hora:any){
+let turnosConfirmados: any[]= this.turnos.filter((obj: { hora: any; }) => obj.hora.startsWith(hora));
+if(turnosConfirmados.length >0){
+  turnosConfirmados = turnosConfirmados[0].hora.substr(3,2)
+} else {
+  turnosConfirmados = []
+}
+//  this.minutosConfirmados =  turnosConfirmados.map((obj: { hora: any; }) => obj.hora.substr(3,2));
+ console.log(this.minutosConfirmados);
+ console.log(turnosConfirmados);
+//  this.minutosConfirmados = this.minutosConfirmados.splice(turnosConfirmados)
+ let index;
+ while ((index = this.minutosConfirmados.indexOf(turnosConfirmados)) !== -1) {
+     this.minutosConfirmados.splice(index, 1);
+ }
+ 
+
+}
 
   jwtExpirado() {
     this.openSnackBar('Sesión expirada.');
