@@ -36,6 +36,9 @@ import { MisTurnosComponent } from './components/mis-turnos/mis-turnos.component
 import { ListaUsuariosComponent } from './components/lista-usuarios/lista-usuarios.component';
 import { EditarPacienteComponent } from './components/editar-paciente/editar-paciente.component';
 import { TurnosProgramadosComponent } from './components/turnos-programados/turnos-programados.component';
+import { AgendaMedicoComponent } from './components/agenda-medico/agenda-medico.component';
+import { AltaHorariosComponent } from './components/agenda-medico/alta-horarios/alta-horarios.component';
+import { NotaComponent } from './components/turnos-programados/nota/nota.component';
 
 
 @NgModule({
@@ -53,6 +56,9 @@ import { TurnosProgramadosComponent } from './components/turnos-programados/turn
     ListaUsuariosComponent,
     EditarPacienteComponent,
     TurnosProgramadosComponent,
+    AgendaMedicoComponent,
+    AltaHorariosComponent,
+    NotaComponent,
   ],
   imports: [
     BrowserModule,

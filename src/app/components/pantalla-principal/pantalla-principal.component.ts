@@ -24,7 +24,6 @@ export class PantallaPrincipalComponent implements OnInit{
     } else{
       this.tituloCrear = 'Crear usuario';
     }
-    
   }
 
   navigate(path: string) {
@@ -60,7 +59,10 @@ export class PantallaPrincipalComponent implements OnInit{
 
   abrirTurnosProgramados(){
     this.router.navigate(['turnos-programados']);
+  }
 
+  abrirGestionAgenda(){
+    this.router.navigate(['gestion-agenda']);
   }
 
 }

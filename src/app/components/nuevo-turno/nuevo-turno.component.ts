@@ -4,6 +4,8 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TurnosService } from 'src/app/services/turnos.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
+import { EspecialidadService } from '../../services/especialidad.service';
+import { AgendaService } from 'src/app/services/agenda.service';
 
 @Component({
   selector: 'app-nuevo-turno',
@@ -15,12 +17,18 @@ export class NuevoTurnoComponent {
   token: any = localStorage.getItem('jwt');
   id: any = localStorage.getItem('id');
   profesionales: any;
+  especialidad: any;
+  cobertura: any;
+  agenda: any[] = [];
+  availableDates: Date[] = [];
 
   constructor(private fb: FormBuilder, 
     private router: Router,
     private snackBar: MatSnackBar,
     private turnosServie: TurnosService,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private especialidadesService: EspecialidadService,
+    private agendaService: AgendaService
   ){
     this.turnoForm = this.fb.group({
       cobertura: ['', Validators.required],
@@ -44,6 +52,7 @@ export class NuevoTurnoComponent {
     this.turnoForm.get('especialidad')?.valueChanges.subscribe((value) => {
       if (value) {
         this.turnoForm.get('profesional')?.enable();
+        this.obtenerProfesionales(this.turnoForm.controls['especialidad'].value)
       } else {
         this.turnoForm.get('profesional')?.disable();
       }
@@ -51,6 +60,7 @@ export class NuevoTurnoComponent {
     this.turnoForm.get('profesional')?.valueChanges.subscribe((value) => {
       if (value) {
         this.turnoForm.get('fecha')?.enable();
+        this.obtenerAgenda(this.turnoForm.controls['profesional'].value);        
       } else {
         this.turnoForm.get('fecha')?.disable();
       }
@@ -58,6 +68,7 @@ export class NuevoTurnoComponent {
     this.turnoForm.get('fecha')?.valueChanges.subscribe((value) => {
       if (value) {
         this.turnoForm.get('hora')?.enable();
+        
       } else {
         this.turnoForm.get('hora')?.disable();
       }
@@ -70,7 +81,8 @@ export class NuevoTurnoComponent {
       }
     });
 
-    this.obtenerProfesionales()
+    this.obtenerEspecialidades()    
+    this.obtenerCoberturas()   
   }
 
   navigate(path: string) {
@@ -104,15 +116,70 @@ export class NuevoTurnoComponent {
         this.openSnackBar(data.mensaje)
       }
     })
-
   }
 
-  obtenerProfesionales() {
-    this.usuariosService.obtenerUsuarios(this.token).subscribe((data: any) => {
-      const payload = Array.isArray(data.payload) ? data.payload : Object.values(data.payload);
-      this.profesionales = payload.filter((user: { rol: string; }) => user.rol === 'medico');
+  obtenerProfesionales(id:any) {
+    this.especialidadesService.obtenerMedicoPorEspecialidad(id,this.token).subscribe((data:any)=>{
+      if (data.codigo === 200){
+        this.profesionales = data.payload;
+      } else if (data.codigo === -1){
+        this.jwtExpirado();
+      } else {
+        this.openSnackBar(data.mensaje)
+      }
+    })
+  }
+
+
+  obtenerEspecialidades(){
+    this.especialidadesService.obtenerEspecialidades(this.token).subscribe((data : any)=>{
+      if (data.codigo === 200){
+        this.especialidad = data.payload;
+      } else if (data.codigo === -1){
+        this.jwtExpirado()
+      }else {
+        this.openSnackBar(data.mensaje)
+      }
+    })
+  }
+
+  obtenerCoberturas(){
+    this.especialidadesService.obtenerCobertura(this.token).subscribe((data : any)=>{
+      if (data.codigo === 200){        
+        this.cobertura = data.payload;
+      } else if (data.codigo === -1){
+        this.jwtExpirado()
+      }else {
+        this.openSnackBar(data.mensaje)
+      }
+    })
+  }
+
+  obtenerAgenda(id: string) {
+    this.agendaService.obtenerAgenda(id, this.token).subscribe((data: any) => {      
+        if (data.codigo === 200) {
+            // Aquí asumimos que las fechas están en el campo 'fecha'
+            this.agenda = data.payload.map((item: any) => new Date(item.fecha));
+        } else if (data.codigo === -1){
+          this.jwtExpirado();
+        } else {
+          this.openSnackBar(data.mensaje)
+        }
     });
   }
+
+
+  // Función que filtra las fechas permitidas
+dateFilter = (fecha: Date | null): boolean => {
+  // Si la fecha es null, no la permitimos
+  if (!fecha) return false;
+
+  // Convertimos el día actual a un string sin la hora para comparar solo la fecha
+  const fechaStr = fecha.toDateString();
+
+  // Comprobamos si la fecha está en el array de fechas válidas
+  return this.agenda.some(f => f.toDateString() === fechaStr);
+};
 
   jwtExpirado() {
     this.openSnackBar('Sesión expirada.');

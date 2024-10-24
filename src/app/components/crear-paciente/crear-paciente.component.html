@@ -50,6 +50,13 @@
                   <mat-option value="medico">Medico</mat-option>
                 </mat-select>
               </mat-form-field>
+
+              <mat-form-field appearance="fill" class="full-width" *ngIf="mostrarEspecialidades">
+                <mat-label>Especialidad</mat-label>
+                <mat-select formControlName="especialidad" required>
+                  <mat-option *ngFor="let especialidad of especialidades" [value]="especialidad.id">{{ especialidad.descripcion }}</mat-option>
+                </mat-select>
+              </mat-form-field>
           
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Contraseña</mat-label>

@@ -45,9 +45,10 @@
           </ng-container>
 
           <ng-container matColumnDef="nota">
-            <th mat-header-cell *matHeaderCellDef> Nota</th>
-            <td mat-cell *matCellDef="let element"> {{element.nota}} </td>
+            <th mat-header-cell *matHeaderCellDef> Ver Nota</th>
+            <button><mat-icon class="mat-icon-size" mat-cell *matCellDef="let element" (click)="verNota(element.nota)">visibility</mat-icon></button>
           </ng-container>
+
         
         
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

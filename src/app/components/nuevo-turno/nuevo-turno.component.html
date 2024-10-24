@@ -6,37 +6,14 @@
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Cobertura</mat-label>
                  <mat-select formControlName="cobertura" required>
-                    <mat-option [value]="1">Particular</mat-option>
-                    <mat-option [value]="2">IAPOS</mat-option>
-                    <mat-option [value]="3">Jerarquicos</mat-option>
-                    <mat-option [value]="4">Sancor Salud</mat-option>
-                    <mat-option [value]="5">Federada</mat-option>
-                    <mat-option [value]="6">OSDE</mat-option>
-                    <mat-option [value]="7">Swiss Medical</mat-option>
-                    <mat-option [value]="8">OSECAC</mat-option>
-                    <mat-option [value]="9">GALENO</mat-option>
-                    <mat-option [value]="10">Medife</mat-option>
-                    <mat-option [value]="11">OSDOP</mat-option>
+                    <mat-option *ngFor="let cob of cobertura" [value]="cob.id">{{cob.nombre}}</mat-option>
                  </mat-select>
             </mat-form-field>
     
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Especialidad</mat-label>
                 <mat-select formControlName="especialidad" required>
-                    <mat-option [value]="1">Traumatologia</mat-option>
-                    <mat-option [value]="2">Cardiologia</mat-option>
-                    <mat-option [value]="3">Gastroenterologia</mat-option>
-                    <mat-option [value]="4">Ginecologia</mat-option>
-                    <mat-option [value]="5">Clinico</mat-option>
-                    <mat-option [value]="6">Odontologia</mat-option>
-                    <mat-option [value]="7">Dermatologia</mat-option>
-                    <mat-option [value]="8">Oftalmologia</mat-option>
-                    <mat-option [value]="9">Pediatra</mat-option>
-                    <mat-option [value]="10">Urologia</mat-option>
-                    <mat-option [value]="11">Neurologia</mat-option>
-                    <mat-option [value]="12">Nutricion</mat-option>
-                    <mat-option [value]="13">Psicologia</mat-option>
-                    <mat-option [value]="14">Fonoaudiologia</mat-option>
+                    <mat-option *ngFor="let esp of especialidad" [value]="esp.id">{{esp.descripcion}}</mat-option>
                  </mat-select>
             </mat-form-field>
     
@@ -44,18 +21,21 @@
                 <mat-label>Profesional</mat-label>
                 <!-- Cambiamos el input por un mat-select con ngFor -->
                 <mat-select formControlName="profesional" required>
-                  <mat-option *ngFor="let profesional of profesionales" [value]="profesional.apellido">
+                  <mat-option *ngFor="let profesional of profesionales" [value]="profesional.id_medico">
                     {{ profesional.nombre }} {{ profesional.apellido }}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
     
-            <mat-form-field appearance="fill" class="full-width">
+              <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Fecha</mat-label>
-                <input matInput [matDatepicker]="picker" formControlName="fecha" required>
+                <input matInput [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" formControlName="fecha" required>
+
+
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                 <mat-datepicker #picker></mat-datepicker>
-            </mat-form-field>
+              </mat-form-field>
+              
     
             <mat-form-field appearance="fill" class="full-width">
                 <mat-label>Hora</mat-label>

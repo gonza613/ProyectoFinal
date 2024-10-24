@@ -37,7 +37,7 @@ export class MisTurnosComponent implements OnInit{
                    13:'Psicologia',
                    14:'Fonoaudiologia',
   }
-  //displayedColumns : any;
+  
   constructor(private turnosService: TurnosService,
     private router:Router,
     private snackBar: MatSnackBar
