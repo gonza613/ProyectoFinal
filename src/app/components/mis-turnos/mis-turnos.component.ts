@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { TurnosService } from 'src/app/services/turnos.service';
+import { AccionesComponent } from './acciones/acciones.component';
+
 
 export interface Turnos {
   fecha: Date;
@@ -20,27 +23,12 @@ export class MisTurnosComponent implements OnInit{
   id:any;
   token: any;
   turnos:Turnos[] = [];
-  displayedColumns = ['fecha','hora','agenda','paciente'];
-  especialidades:  { [key: number]: string } = {
-                   1:'Traumatologia',
-                   2:'Cardiologia',
-                   3:'Gastroenterologia',
-                   4:'Ginecologia',
-                   5:'Clinico',
-                   6:'Odontologia',
-                   7:'Dermatologia',
-                   8:'Oftalmologia',
-                   9:'Pediatra',
-                   10:'Urologia',
-                   11:'Neurologia',
-                   12:'Nutricion',
-                   13:'Psicologia',
-                   14:'Fonoaudiologia',
-  }
+  displayedColumns = ['fecha','hora','acciones'];
   
   constructor(private turnosService: TurnosService,
     private router:Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private dialog: MatDialog
   ){
     this.id=localStorage.getItem('id');
     this.token=localStorage.getItem('jwt');
@@ -52,8 +40,10 @@ export class MisTurnosComponent implements OnInit{
 
  obtenerTurnos(){
   this.turnosService.obtenerTurnoPaciente(this.id, this.token).subscribe((data: any)=>{
+    console.log(data.payload);
+    
     if(data.codigo === 200){
-      this.turnos= data.payload;
+      this.turnos= data.payload.sort((a: any, b: any) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());     
     }else if (data.codigo === -1){
       this.jwtExpirado();
     } else {
@@ -62,9 +52,12 @@ export class MisTurnosComponent implements OnInit{
   })
  }
 
- obetenerEspecialidad(id: number){
-  return this.especialidades[id];
- }
+ abrirAcciones(id_medico: any) {
+  const dialogRef = this.dialog.open(AccionesComponent, {
+    width: '450px',
+    data: {id_medico: id_medico}
+  });
+}
 
  jwtExpirado() {
   this.openSnackBar('Sesión expirada.');

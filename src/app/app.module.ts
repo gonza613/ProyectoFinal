@@ -39,6 +39,8 @@ import { TurnosProgramadosComponent } from './components/turnos-programados/turn
 import { AgendaMedicoComponent } from './components/agenda-medico/agenda-medico.component';
 import { AltaHorariosComponent } from './components/agenda-medico/alta-horarios/alta-horarios.component';
 import { NotaComponent } from './components/turnos-programados/nota/nota.component';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { AccionesComponent } from './components/mis-turnos/acciones/acciones.component';
 
 
 @NgModule({
@@ -59,6 +61,7 @@ import { NotaComponent } from './components/turnos-programados/nota/nota.compone
     AgendaMedicoComponent,
     AltaHorariosComponent,
     NotaComponent,
+    AccionesComponent,
   ],
   imports: [
     BrowserModule,
@@ -80,7 +83,8 @@ import { NotaComponent } from './components/turnos-programados/nota/nota.compone
     HttpClientModule,
     MatListModule,
     MatTableModule,
-    MatSelectModule
+    MatSelectModule,
+    MatExpansionModule
   ],
   providers: [MatSnackBar],
   bootstrap: [AppComponent]

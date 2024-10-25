@@ -40,7 +40,7 @@ export class CrearPacienteComponent {
       tipo_usuario: ['', Validators.required],
       confirmarContrasenia: ['', Validators.required],
       fechanac: ['', Validators.required],
-      especialidad: ['', Validators.required]
+      especialidad: ['']
     });
 
     if(this.rol === 'administrador'){
@@ -51,10 +51,12 @@ export class CrearPacienteComponent {
 
     this.pacienteForm.get('tipo_usuario')?.valueChanges.subscribe(value => {
       if ( value === 'medico') {
+        this.pacienteForm.controls['especialidad'].setValidators(Validators.required);
         this.mostrarEspecialidades = true;
         this.obtenerEspecialidades();
       } else {
         this.mostrarEspecialidades = false;
+        this.pacienteForm.controls['especialidad'].clearValidators()
         this.pacienteForm.get('especialidad')?.reset();
       }
     });
