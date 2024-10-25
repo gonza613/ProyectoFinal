@@ -41,6 +41,7 @@ import { AltaHorariosComponent } from './components/agenda-medico/alta-horarios/
 import { NotaComponent } from './components/turnos-programados/nota/nota.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { AccionesComponent } from './components/mis-turnos/acciones/acciones.component';
+import { AgendaOperadorComponent } from './components/agenda-operador/agenda-operador.component';
 
 
 @NgModule({
@@ -62,6 +63,7 @@ import { AccionesComponent } from './components/mis-turnos/acciones/acciones.com
     AltaHorariosComponent,
     NotaComponent,
     AccionesComponent,
+    AgendaOperadorComponent,
   ],
   imports: [
     BrowserModule,
