@@ -113,8 +113,47 @@
           </mat-card-header>
       </mat-card>
 
-      <!-- Asignar turnos Card -->
-      <mat-card class="example-card" appearance="outlined" *ngIf="rol=='operador'">
+      <form [formGroup]="horarios">
+        <mat-form-field>
+            <input matInput [matDatepicker]="picker" formControlName="fecha">
+            
+            <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            
+        </mat-form-field>
+        <button mat-button (click)="obtenerAgenda('')">Buscar</button>
+    </form>
+
+    <div class="horarios-medicos">
+        <table mat-table class="mat-elevation-z8" [dataSource]="agenda">
+            
+            <ng-container matColumnDef="nombre_medico">
+                <th mat-header-cell *matHeaderCellDef> Nombre Medico </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha }} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="especialidad">
+                <th mat-header-cell *matHeaderCellDef> Especialidad </th>
+                <td mat-cell *matCellDef="let element"> {{element.descripcion}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="horario_atencion">
+              <th mat-header-cell *matHeaderCellDef> Horario de Atencion</th>
+              <td mat-cell *matCellDef="let element"> {{element.horario_atencion}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="acciones">
+                <th mat-header-cell *matHeaderCellDef> Acciones </th>
+                <td mat-cell *matCellDef="let element"><mat-icon class="mat-icon-size">visibility</mat-icon>
+                </td>
+              </ng-container>
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+
+      <!-- <mat-card class="example-card" appearance="outlined" *ngIf="rol=='operador'">
           <mat-card-header>
               <mat-card-title-group>
                   <mat-card-title>
@@ -128,7 +167,6 @@
           </mat-card-header>
       </mat-card>
 
-      <!-- Agenda medico Card -->
       <mat-card class="example-card" appearance="outlined" *ngIf="rol=='operador'">
           <mat-card-header>
               <mat-card-title-group>
@@ -141,7 +179,7 @@
                   <mat-card-subtitle>Modificar la agenda del medico</mat-card-subtitle>
               </mat-card-title-group>
           </mat-card-header>
-      </mat-card>
+      </mat-card> -->
   </div>
 
 </body>
