@@ -1,6 +1,7 @@
-import { NgModule } from '@angular/core';
+import { LOCALE_ID,NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { registerLocaleData } from '@angular/common';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -17,6 +18,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatTableModule } from '@angular/material/table';
 import { MatSelectModule } from '@angular/material/select';
+import localeEsAr from '@angular/common/locales/es-AR';
 
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMenuModule } from '@angular/material/menu';
@@ -41,7 +43,7 @@ import { AltaHorariosComponent } from './components/agenda-medico/alta-horarios/
 import { NotaComponent } from './components/turnos-programados/nota/nota.component';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { AccionesComponent } from './components/mis-turnos/acciones/acciones.component';
-
+    registerLocaleData(localeEsAr, 'es-Ar');
 
 @NgModule({
   declarations: [
@@ -86,7 +88,7 @@ import { AccionesComponent } from './components/mis-turnos/acciones/acciones.com
     MatSelectModule,
     MatExpansionModule
   ],
-  providers: [MatSnackBar],
+  providers: [MatSnackBar,  { provide: LOCALE_ID, useValue: 'es-Ar' }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

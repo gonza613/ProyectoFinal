@@ -1,5 +1,5 @@
 <body>
-    <h2 mat-dialog-title>Crear Paciente</h2>
+    <h2 mat-dialog-title>{{titulo}}</h2>
 
     <mat-dialog-content>
         <form [formGroup]="editarUsuarioForm">
@@ -49,6 +49,13 @@
                   <mat-option value="operador">Operador</mat-option>
                   <mat-option value="medico">Medico</mat-option>
                   <mat-option value="paciente">Paciente</mat-option>
+                </mat-select>
+              </mat-form-field>
+
+              <mat-form-field appearance="fill" class="full-width" *ngIf="mostrarEspecialidades">
+                <mat-label>Especialidad</mat-label>
+                <mat-select formControlName="especialidad" required>
+                  <mat-option *ngFor="let especialidad of especialidades" [value]="especialidad.id">{{ especialidad.descripcion }}</mat-option>
                 </mat-select>
               </mat-form-field>
           

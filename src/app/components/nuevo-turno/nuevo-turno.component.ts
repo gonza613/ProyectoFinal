@@ -121,10 +121,12 @@ export class NuevoTurnoComponent {
       id_cobertura: this.turnoForm.controls['cobertura'].value
     }
 
+    let nombreProf = this.profesionales.find((prof: { id_medico: any; }) => prof.id_medico === this.turnoForm.controls['profesional'].value)
+    nombreProf = nombreProf.nombre + ' ' + nombreProf.apellido
     this.turnosServie.asignarTurno(JSON.stringify(body), this.token).subscribe((data : any )=>{      
       if(data.codigo === 200){
         let fechaFormatted = this.turnoForm.controls['fecha'].value.getFullYear() + '-' + (this.turnoForm.controls['fecha'].value.getMonth() + 1) + '-' + this.turnoForm.controls['fecha'].value.getDate();
-        this.openSnackBar('Turno confirmado con '+this.turnoForm.controls['profesional'].value
+        this.openSnackBar('Turno confirmado con '+nombreProf
           +' el dia '+fechaFormatted+' a las '+this.turnoForm.controls['hora'].value+':'+this.turnoForm.controls['minutos'].value)
         this.router.navigate(['/pantalla-principal']);
       } else if (data.codigo === -1){
@@ -138,7 +140,9 @@ export class NuevoTurnoComponent {
   obtenerProfesionales(id:any) {
     this.especialidadesService.obtenerMedicoPorEspecialidad(id,this.token).subscribe((data:any)=>{
       if (data.codigo === 200){
-        this.profesionales = data.payload;
+        this.profesionales = data.payload;        
+        console.log(this.profesionales);
+        
       } else if (data.codigo === -1){
         this.jwtExpirado();
       } else {
@@ -232,7 +236,6 @@ export class NuevoTurnoComponent {
       // Incrementar la hora de entrada en 1
       horaEntrada.setHours(horaEntrada.getHours() + 1);
     }
-    // horaEntrada.setHours(horaEntrada.getHours() - 1);
   
     return horas;
   }

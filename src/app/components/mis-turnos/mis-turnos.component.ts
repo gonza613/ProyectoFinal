@@ -44,6 +44,8 @@ export class MisTurnosComponent implements OnInit{
     
     if(data.codigo === 200){
       this.turnos= data.payload.sort((a: any, b: any) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());     
+      console.log(this.turnos);
+      
     }else if (data.codigo === -1){
       this.jwtExpirado();
     } else {
@@ -52,10 +54,10 @@ export class MisTurnosComponent implements OnInit{
   })
  }
 
- abrirAcciones(id_medico: any) {
+ abrirAcciones(id_turno: any) {
   const dialogRef = this.dialog.open(AccionesComponent, {
     width: '450px',
-    data: {id_medico: id_medico}
+    data: {id_turno: id_turno}
   });
 }
 
