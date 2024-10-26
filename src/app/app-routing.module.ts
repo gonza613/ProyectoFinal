@@ -22,7 +22,7 @@ const routes: Routes = [
   { path: 'mis-datos', component: MisDatosComponent, canActivate: [authGuard]},
   { path: 'mis-turnos', component: MisTurnosComponent, canActivate: [authGuard]},
   { path: 'lista-usuarios', component: ListaUsuariosComponent, canActivate: [authGuard]},
-  { path: 'turnos-programados', component: TurnosProgramadosComponent, canActivate: [authGuard]},
+  { path: 'turnos-programados/:id', component: TurnosProgramadosComponent, canActivate: [authGuard]},
   { path: 'gestion-agenda', component: AgendaMedicoComponent, canActivate: [authGuard]}
 ];
 
