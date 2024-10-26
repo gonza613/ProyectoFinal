@@ -37,7 +37,7 @@ export class CrearPacienteComponent {
       mail: ['', [Validators.required, Validators.email]],
       telefono: ['', Validators.required],
       contrasenia: ['', Validators.required],
-      tipo_usuario: ['', Validators.required],
+      tipo_usuario: [''],
       confirmarContrasenia: ['', Validators.required],
       fechanac: ['', Validators.required],
       especialidad: ['']
@@ -49,6 +49,9 @@ export class CrearPacienteComponent {
       this.titulo = 'Paciente'
     }
 
+
+    if(this.rol === 'administrador'){
+    this.pacienteForm.controls['especialidad'].setValidators(Validators.required);
     this.pacienteForm.get('tipo_usuario')?.valueChanges.subscribe(value => {
       if ( value === 'medico') {
         this.pacienteForm.controls['especialidad'].setValidators(Validators.required);
@@ -61,6 +64,7 @@ export class CrearPacienteComponent {
       }
     });
   }
+}
 
   obtenerEspecialidades(){
     this.especialidadesService.obtenerEspecialidades(this.token).subscribe((data : any)=>{
