@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, Optional } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -33,7 +33,8 @@ export class NuevoTurnoComponent {
   horasSinConfirmar:any [] =[];
   fecha:any;
   id_medico:any;
-  especialidad_medico:any
+  especialidad_medico:any;
+  esMatDialog: boolean = false;
 
 
   constructor(private fb: FormBuilder, 
@@ -43,16 +44,10 @@ export class NuevoTurnoComponent {
     private usuariosService: UsuariosService,
     private especialidadesService: EspecialidadService,
     private agendaService: AgendaService,
-    @Inject(MAT_DIALOG_DATA) public data: { id_medico:any,
-    fecha:any;
-     }
+    @Optional() @Inject(MAT_DIALOG_DATA) public data: { id_medico:any,
+    fecha:any;}
   ){
-    this.fecha = data.fecha
-    this.id_medico= data.id_medico
-
-    console.log(this.fecha);
-    console.log(this.id_medico);
-    
+    this.esMatDialog = !!data;
     this.turnoForm = this.fb.group({
       paciente: [''],
       cobertura: ['', Validators.required],
@@ -63,11 +58,18 @@ export class NuevoTurnoComponent {
       minutos: ['', Validators.required],
       razon: ['', Validators.required],
     });
+    if (this.esMatDialog) {
+      this.fecha = data.fecha
+      this.id_medico= data.id_medico
+      console.log(this.id_medico);
+      console.log(this.fecha);
+      
+      this.turnoForm.disable()
+    } else {
 
-   
-   
+    
 
-    this.turnoForm.disable()
+    
     
     if (this.rol === 'operador') {
   this.turnoForm.controls['paciente'].enable()
@@ -144,6 +146,7 @@ export class NuevoTurnoComponent {
     this.obtenerEspecialidades()    
     this.obtenerCoberturas()   
     this.obtenerPacientes()   
+  }
   }
 
   navigate(path: string) {
@@ -399,8 +402,6 @@ if(turnosConfirmados.length >0){
  while ((index = this.minutosConfirmados.indexOf(turnosConfirmados)) !== -1) {
      this.minutosConfirmados.splice(index, 1);
  }
- 
-
 }
 
   jwtExpirado() {
