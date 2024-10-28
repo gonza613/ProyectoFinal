@@ -33,9 +33,10 @@ export class PantallaPrincipalComponent implements OnInit{
   token: any = localStorage.getItem('jwt');
   usuarios:any;
   especialidad:any;
-
+  dia:any;
+  muestraTurno: boolean = false;
+  id_medico:any;
   displayedColumns = ['nombre_medico','especialidad','horario_atencion','acciones'];
-
   constructor(private router: Router, private especialidadesServices: EspecialidadService, private dialog: MatDialog, private usuariosServices:UsuariosService,private turnosService: TurnosService, private snackBar: MatSnackBar, private agendaService: AgendaService, private fb: FormBuilder){
     this.horarios = this.fb.group({
       fecha: [new Date(), Validators.required]
@@ -244,11 +245,17 @@ export class PantallaPrincipalComponent implements OnInit{
     this.router.navigate(['lista-usuarios']);
   }
   abrirTurnosProgramados(id:any){
-    this.router.navigate(['turnos-programados/'+id]);
+    this.id_medico = id
+    let fechaSeleccionada = new Date(this.horarios.controls['fecha'].value);
+    this.dia = fechaSeleccionada.toISOString().split('T')[0];
+    console.log(this.dia);
+    console.log(this.id_medico);
+    if(this.muestraTurno === true){
+    this.muestraTurno=false;
+    } else {
+      this.muestraTurno=true;
+    }
   }
-  // abrirTurnosProgramadosOperador(id:any){
-  //   this.router.navigate(['turnos-programados/'+id]);
-  // }
   abrirGestionAgenda(){
     this.router.navigate(['gestion-agenda']);
   }

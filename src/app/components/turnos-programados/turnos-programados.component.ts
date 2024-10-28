@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { TurnosService } from 'src/app/services/turnos.service';
 import { DatePipe } from '@angular/common';
@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { AltaHorariosComponent } from '../agenda-medico/alta-horarios/alta-horarios.component';
 import { NotaComponent } from './nota/nota.component';
+import { PantallaPrincipalComponent } from '../pantalla-principal/pantalla-principal.component';
 
 
 export interface Turnos {
@@ -34,6 +35,8 @@ export class TurnosProgramadosComponent implements OnInit{
   nota:any;
   id_url:any;
   fechaSeleccionada: any | null = null;
+  @Input() id_urlPadre!: any
+  @Input() dia!: any
   constructor(private turnosService: TurnosService, 
     private fb: FormBuilder, 
     private snackBar: MatSnackBar,
@@ -48,12 +51,27 @@ export class TurnosProgramadosComponent implements OnInit{
       fecha: [''],
     });
     
-    
+
+
   }
+
   ngOnInit(): void {
     const today = new Date();
     const formattedDate = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
-    this.obtenerTurnosMedico(formattedDate);
+    
+    
+    if (this.rol === 'operador'){
+      console.log(this.dia);
+      
+      this.id_url = this.id_urlPadre
+      console.log(this.id_url);
+      
+      this.obtenerTurnosMedico(this.dia);
+    } else {
+
+      this.obtenerTurnosMedico(formattedDate);
+    }
+    
   }
 
   obtenerTurnosMedico(fecha: any){
