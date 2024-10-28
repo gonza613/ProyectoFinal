@@ -1,5 +1,5 @@
-<app-navbar></app-navbar>
-<body>
+<app-navbar *ngIf="this.rol === 'paciente'"></app-navbar>
+<body *ngIf="this.rol === 'paciente'">
 
     <div class="form-wrapper">
         <form class="form-container" [formGroup]="turnoForm">
@@ -81,4 +81,93 @@
     </div>
 
 </body>
-<app-footer></app-footer>
+<app-footer *ngIf="this.rol === 'paciente'"></app-footer>
+
+<mat-dialog-content *ngIf="this.rol === 'operador'">
+  
+  <div class="form-wrapper">
+    <form class="form-container" [formGroup]="turnoForm">
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Paciente</mat-label>
+             <mat-select formControlName="paciente" required>
+                <mat-option *ngFor="let paciente of pacientes" [value]="paciente.id">{{paciente.nombre+ ' '+paciente.apellido}}</mat-option>
+             </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Cobertura</mat-label>
+             <mat-select formControlName="cobertura" required>
+                <mat-option *ngFor="let cob of cobertura" [value]="cob.id">{{cob.nombre}}</mat-option>
+             </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Especialidad</mat-label>
+            <mat-select formControlName="especialidad" required>
+                <mat-option  *ngFor="let esp of especialidad" [value]="esp.id">{{esp.descripcion}}</mat-option>
+             </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Profesional</mat-label>
+            <!-- Cambiamos el input por un mat-select con ngFor -->
+            <mat-select formControlName="profesional" required>
+              <mat-option *ngFor="let profesional of profesionales" [value]="profesional.id_medico">
+                {{ profesional.nombre }} {{ profesional.apellido }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Fecha</mat-label>
+            <input matInput [matDatepicker]="picker" [matDatepickerFilter]="dateFilter" formControlName="fecha" required>
+
+
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+          </mat-form-field>
+          
+
+        <!-- <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Hora</mat-label>
+            <input matInput formControlName="hora" type="time" required>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Hora</mat-label>
+          <!-- Cambiamos el input por un mat-select con ngFor -->
+          <mat-select formControlName="hora" required>
+            <mat-option *ngFor="let hora of horas" [value]="hora">{{hora}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Minutos</mat-label>
+          <!-- Cambiamos el input por un mat-select con ngFor -->
+          <mat-select formControlName="minutos" required>
+            <mat-option *ngFor="let minuto of minutosConfirmados" [value]="minuto">{{minuto}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <!-- <mat-form-field appearance="fill" class="full-width">
+        <mat-label>Minutos</mat-label>
+        <mat-select formControlName="minutos" required >
+            <mat-option [value]='00'>00</mat-option>
+            <mat-option [value]='30'>30</mat-option>
+          </mat-select>
+        </mat-form-field> -->
+
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Razón</mat-label>
+            <textarea matInput formControlName="razon" required></textarea>
+        </mat-form-field>
+
+        <div class="botones">
+            <button mat-button (click)="cancelar()">Cancelar</button>
+            <button mat-button (click)="guardarTurno()">Aceptar</button>
+        </div>
+    </form>
+</div>
+</mat-dialog-content>

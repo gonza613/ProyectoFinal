@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { AltaHorariosComponent } from '../agenda-medico/alta-horarios/alta-horarios.component';
 import { NotaComponent } from './nota/nota.component';
 import { PantallaPrincipalComponent } from '../pantalla-principal/pantalla-principal.component';
+import { NuevoTurnoComponent } from '../nuevo-turno/nuevo-turno.component';
 
 
 export interface Turnos {
@@ -105,6 +106,17 @@ export class TurnosProgramadosComponent implements OnInit{
         this.openSnackBar(data.mensaje);
       }
     })
+  }
+
+  abrirNuevoTurno(){
+    this.dialog.open(NuevoTurnoComponent,{
+      width:'450px',
+      data:{
+        id_medico:this.id_url,
+        fecha:this.dia
+      }
+    })
+
   }
 
   verNota(nota: string){ 

@@ -145,6 +145,7 @@
             <ng-container matColumnDef="acciones">
                 <th mat-header-cell *matHeaderCellDef> Acciones </th>
                 <td mat-cell *matCellDef="let element"><mat-icon class="mat-icon-size" (click)="abrirTurnosProgramados(element.id_medico)">visibility</mat-icon>
+                    <mat-icon class="mat-icon-size" (click)="abrirEditarAgenda(element.id, element.id_medico, element.fecha, element.especialidad)">edit</mat-icon>
                 </td>
               </ng-container>
             

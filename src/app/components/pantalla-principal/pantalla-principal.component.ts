@@ -12,6 +12,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { firstValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
+import { AgendaOperadorComponent } from '../agenda-operador/agenda-operador.component';
 
 @Component({
   selector: 'app-pantalla-principal',
@@ -108,16 +109,6 @@ export class PantallaPrincipalComponent implements OnInit{
       }
    }
 
-  //  obtenerUnUsuario(id:any){
-  //   this.usuariosServices.obtenerUsuario(id,this.token).subscribe((data:any)=>{
-  //     if(data.codigo===200 && data.payload.length > 0){
-  //       console.log(data);
-  //       // return data.payload[0].nombre + ' ' + data.payload[0].apellido  
-  //     } else {
-  //       // return this.openSnackBar(data.mensaje)
-  //     }
-  //   })
-  //  }
 
   obtenerUnUsuario(id:any){
     return this.usuarios[id-1].nombre + ' ' +this.usuarios[id-1].apellido;
@@ -134,34 +125,6 @@ export class PantallaPrincipalComponent implements OnInit{
       this.especialidad=data.payload      
     })
   }
-
-  //  obtenerAgenda(id:any ,fecha:any){
-  //   if(fecha === ''){
-  //     fecha = this.horarios.controls['fecha'].value;
-  //   }
-  //   this.agendaService.obtenerAgenda(id, this.token).subscribe((data: any) => {
-  //     // console.log(data)
-  //     if(data.codigo === 200){
-
-  //     // Obtener la fecha seleccionada del FormControl
-  //     const fechaSeleccionada = new Date(this.horarios.controls['fecha'].value);
-          
-  //     // Convertir la fecha seleccionada al formato ISO completo
-  //     let fechaFormatted = fechaSeleccionada.toISOString().split('T')[0];
-
-  //       const payload = Array.isArray(data.payload) ? data.payload : Object.values(data.payload);
-
-  //       this.agenda = payload.filter((horario: { fecha: any; }) => {const fechaHorario = new Date(horario.fecha).toISOString().split('T')[0];
-  //       return fechaHorario === fechaFormatted;
-  //     });
-  //       // console.log(this.agenda);
-  //     } else if (data.codigo === -1){
-  //       this.jwtExpirado();
-  //     } else {
-  //       this.openSnackBar(data.mensaje);
-  //     }
-  //   })
-  // }
 
   obtenerAgenda(id: any, fecha: any): Promise<any> {
     return new Promise((resolve, reject) => {
@@ -222,9 +185,6 @@ export class PantallaPrincipalComponent implements OnInit{
     });
   }
 
-
-  
-
   nuevoTurno(){
     this.router.navigate(['/nuevo-turno']);
   }
@@ -259,6 +219,20 @@ export class PantallaPrincipalComponent implements OnInit{
   abrirGestionAgenda(){
     this.router.navigate(['gestion-agenda']);
   }
+
+  abrirEditarAgenda(id_agenda: any, id_medico: any, fecha: any, id_especialidad: any){
+    this.dialog.open(AgendaOperadorComponent, {
+      width: '450px',
+      data: { id_agenda: id_agenda,
+        id_medico: id_medico,
+        fecha: fecha,
+        id_especialidad: id_especialidad
+      }
+    });
+    console.log(id_agenda);
+    
+  }
+
 
   jwtExpirado() {
     this.openSnackBar('Sesión expirada.');

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
@@ -6,6 +6,7 @@ import { TurnosService } from 'src/app/services/turnos.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { EspecialidadService } from '../../services/especialidad.service';
 import { AgendaService } from 'src/app/services/agenda.service';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-nuevo-turno',
@@ -16,6 +17,7 @@ export class NuevoTurnoComponent {
   turnoForm: FormGroup;
   token: any = localStorage.getItem('jwt');
   id: any = localStorage.getItem('id');
+  rol: any = localStorage.getItem('rol');
   profesionales: any;
   especialidad: any;
   cobertura: any;
@@ -27,7 +29,12 @@ export class NuevoTurnoComponent {
   horas:any[] = [];
   numArray: number = 0;
   turnos:any;
+  pacientes:any;
   horasSinConfirmar:any [] =[];
+  fecha:any;
+  id_medico:any;
+  especialidad_medico:any
+
 
   constructor(private fb: FormBuilder, 
     private router: Router,
@@ -35,9 +42,19 @@ export class NuevoTurnoComponent {
     private turnosServie: TurnosService,
     private usuariosService: UsuariosService,
     private especialidadesService: EspecialidadService,
-    private agendaService: AgendaService
+    private agendaService: AgendaService,
+    @Inject(MAT_DIALOG_DATA) public data: { id_medico:any,
+    fecha:any;
+     }
   ){
+    this.fecha = data.fecha
+    this.id_medico= data.id_medico
+
+    console.log(this.fecha);
+    console.log(this.id_medico);
+    
     this.turnoForm = this.fb.group({
+      paciente: [''],
       cobertura: ['', Validators.required],
       especialidad: ['', Validators.required],
       profesional: ['', Validators.required],
@@ -47,12 +64,37 @@ export class NuevoTurnoComponent {
       razon: ['', Validators.required],
     });
 
-    this.turnoForm.disable()
-    this.turnoForm.controls['cobertura'].enable()
+   
+   
 
+    this.turnoForm.disable()
+    
+    if (this.rol === 'operador') {
+  this.turnoForm.controls['paciente'].enable()
+  this.turnoForm.get('paciente')?.valueChanges.subscribe((value) => {
+    if (value) {
+      this.turnoForm.get('cobertura')?.enable();
+    } else {
+      this.turnoForm.get('cobertura')?.disable();
+    }
+  });
+} else {
+  this.turnoForm.controls['cobertura'].enable()
+}
     this.turnoForm.get('cobertura')?.valueChanges.subscribe((value) => {
       if (value) {
         this.turnoForm.get('especialidad')?.enable();
+        if(this.rol === 'operador'){
+          this.especialidadesService.obtenerEspecialidadesMedico(this.id_medico,this.token).subscribe((data:any)=>{
+    
+            this.turnoForm.controls['especialidad'].setValue(this.obtenerIdEsp2(data.payload[0].id_especialidad-1))
+            this.turnoForm.controls['profesional'].setValue(this.id_medico)
+              this.turnoForm.controls['especialidad'].disable()
+              this.turnoForm.controls['profesional'].disable()
+          })
+          
+        }
+    
       } else {
         this.turnoForm.get('especialidad')?.disable();
       }
@@ -101,6 +143,7 @@ export class NuevoTurnoComponent {
 
     this.obtenerEspecialidades()    
     this.obtenerCoberturas()   
+    this.obtenerPacientes()   
   }
 
   navigate(path: string) {
@@ -112,15 +155,28 @@ export class NuevoTurnoComponent {
   }
 
   guardarTurno(){
-    let body = {
-      nota: this.turnoForm.controls['razon'].value,
-      id_agenda: this.agendaHoras[this.numArray].id,
-      fecha: this.turnoForm.controls['fecha'].value,
-      hora: this.turnoForm.controls['hora'].value+':'+this.turnoForm.controls['minutos'].value,
-      id_paciente: this.id,
-      id_cobertura: this.turnoForm.controls['cobertura'].value
-    }
+  let body;
+    if(this.rol !== 'operador'){
 
+      body = {
+        nota: this.turnoForm.controls['razon'].value,
+        id_agenda: this.agendaHoras[this.numArray].id,
+        fecha: this.turnoForm.controls['fecha'].value,
+        hora: this.turnoForm.controls['hora'].value+':'+this.turnoForm.controls['minutos'].value,
+        id_paciente: this.id,
+        id_cobertura: this.turnoForm.controls['cobertura'].value
+      }
+    } else  {
+      body = {
+        nota: this.turnoForm.controls['razon'].value,
+        id_agenda: this.agendaHoras[this.numArray].id,
+        fecha: this.fecha,
+        hora: this.turnoForm.controls['hora'].value+':'+this.turnoForm.controls['minutos'].value,
+        id_paciente: this.turnoForm.controls['paciente'].value,
+        id_cobertura: this.turnoForm.controls['cobertura'].value
+      }
+    }
+      
     this.turnosServie.asignarTurno(JSON.stringify(body), this.token).subscribe((data : any )=>{      
       if(data.codigo === 200){
         let fechaFormatted = this.turnoForm.controls['fecha'].value.getFullYear() + '-' + (this.turnoForm.controls['fecha'].value.getMonth() + 1) + '-' + this.turnoForm.controls['fecha'].value.getDate();
@@ -133,6 +189,14 @@ export class NuevoTurnoComponent {
         this.openSnackBar(data.mensaje)
       }
     })
+  }
+  obtenerIdEsp(){
+    this.especialidadesService.obtenerEspecialidadesMedico(this.id_medico,this.token).subscribe((data:any)=>{
+    this.especialidad_medico=data.payload.id_especialidad
+    })
+  }
+  obtenerIdEsp2(id:any){
+  return this.especialidad[id].id
   }
 
   obtenerProfesionales(id:any) {
@@ -158,6 +222,12 @@ export class NuevoTurnoComponent {
         this.openSnackBar(data.mensaje)
       }
     })
+  }
+
+  obtenerPacientes(){
+    this.usuariosService.obtenerUsuarios(this.token).subscribe((data:any)=>{
+      this.pacientes = data.payload.filter((data:any) => data.rol ==='paciente')
+    })    
   }
 
   obtenerCoberturas(){

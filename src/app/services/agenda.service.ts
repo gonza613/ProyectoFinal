@@ -26,5 +26,13 @@ export class AgendaService {
     return this.http.post(`${this.apiUrl}/crearAgenda`,body,{ headers });
   }
 
+  editarAgenda(id: any, body:any, token: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+      'authorization': token
+    });
+    return this.http.put(`${this.apiUrl}/modificarAgenda/${id}`,body,{ headers });
+  }
+
 
 }
