@@ -49,7 +49,8 @@
 
           <ng-container matColumnDef="nota">
             <th mat-header-cell *matHeaderCellDef> Ver Nota</th>
-            <button><mat-icon class="mat-icon-size" mat-cell *matCellDef="let element" (click)="verNota(element.nota)">visibility</mat-icon></button>
+           <td mat-cell *matCellDef="let element"> <mat-icon class="mat-icon-size" (click)="verNota(element.nota)">visibility</mat-icon>
+            <mat-icon class="mat-icon-size" (click)="eliminarTurno(element.id_turno)">delete</mat-icon></td>
           </ng-container>
 
         

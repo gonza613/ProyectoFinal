@@ -135,6 +135,14 @@ export class TurnosProgramadosComponent implements OnInit{
         }
       });
     }
+
+    eliminarTurno(id:any){
+      this.turnosService.eliminarTurno(id,this.token).subscribe((data:any)=>{
+        console.log(this.turnos);
+        console.log(data);
+        
+      })
+    }
   
 
   jwtExpirado() {

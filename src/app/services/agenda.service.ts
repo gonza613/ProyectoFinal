@@ -33,6 +33,4 @@ export class AgendaService {
     });
     return this.http.put(`${this.apiUrl}/modificarAgenda/${id}`,body,{ headers });
   }
-
-
 }

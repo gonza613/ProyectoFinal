@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { CrearPacienteComponent } from '../crear-paciente/crear-paciente.component';
 import { MisTurnosComponent } from '../mis-turnos/mis-turnos.component';
@@ -13,6 +13,7 @@ import { firstValueFrom, Observable } from 'rxjs';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
 import { AgendaOperadorComponent } from '../agenda-operador/agenda-operador.component';
+import { DialogRef } from '@angular/cdk/dialog';
 
 @Component({
   selector: 'app-pantalla-principal',
@@ -56,7 +57,7 @@ export class PantallaPrincipalComponent implements OnInit{
     } else{
       this.tituloCrear = 'Crear usuario';
     }
-    this.obtenerUsuarios()
+    this.obtenerUsuarios();
   }
 
   navigate(path: string) {
@@ -229,7 +230,10 @@ export class PantallaPrincipalComponent implements OnInit{
         id_especialidad: id_especialidad
       }
     });
-    console.log(id_agenda);
+    // this.dialogRef.afterClosed().subscribe(() => {
+    //   this.obtenerAgenda(id_medico, fecha)
+    // })
+    
     
   }
 
