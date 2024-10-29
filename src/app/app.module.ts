@@ -44,6 +44,8 @@ import { NotaComponent } from './components/turnos-programados/nota/nota.compone
 import {MatExpansionModule} from '@angular/material/expansion';
 import { AccionesComponent } from './components/mis-turnos/acciones/acciones.component';
     registerLocaleData(localeEsAr, 'es-Ar');
+import { AgendaOperadorComponent } from './components/agenda-operador/agenda-operador.component';
+
 
 @NgModule({
   declarations: [
@@ -64,6 +66,7 @@ import { AccionesComponent } from './components/mis-turnos/acciones/acciones.com
     AltaHorariosComponent,
     NotaComponent,
     AccionesComponent,
+    AgendaOperadorComponent,
   ],
   imports: [
     BrowserModule,

@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Token } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root'
@@ -32,6 +33,15 @@ asignarTurno(body: any, token: string): Observable<any> {
  });
  return this.http.post(`${this.apiUrl}/asignarTurnoPaciente`, body ,{ headers });
 }
+
+eliminarTurno(id: any, token: string): Observable<any> {
+ const headers = new HttpHeaders({
+   'Content-Type': 'application/json',
+   'authorization': token
+ });
+ return this.http.delete(`${this.apiUrl}/eliminarTurnoPaciente/${id}`,{ headers });
+}
+
 
 
 }
