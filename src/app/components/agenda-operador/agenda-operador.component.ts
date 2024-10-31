@@ -17,7 +17,7 @@ export class AgendaOperadorComponent {
   id_medico: any;
   agendaForm: FormGroup;
   token: any = localStorage.getItem('jwt');
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { id_agenda: any, id_medico: any, fecha: any, id_especialidad: any },private fb: FormBuilder, private agendaService: AgendaService, private dialogRef: MatDialogRef<AgendaOperadorComponent>, private router: Router, private snackBar: MatSnackBar){
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { id_agenda: any, id_medico: any, fecha: any, id_especialidad: any },private fb: FormBuilder, private agendaService: AgendaService, private dialogRef: MatDialogRef<AgendaOperadorComponent>, private router: Router, private snackBar: MatSnackBar, private dialog: MatDialog){
     this.id_agenda = data.id_agenda;
     this.id_medico = data.id_medico;
     this.fecha = data.fecha;
@@ -62,6 +62,10 @@ export class AgendaOperadorComponent {
     this.snackBar.open(message, 'Cerrar', {
       duration: 5000,
     });
+  }
+
+  cancelar(){
+    this.dialog.closeAll();
   }
 
 }

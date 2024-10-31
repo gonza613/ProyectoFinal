@@ -63,9 +63,7 @@ export class NuevoTurnoComponent {
       this.id_medico= data.id_medico
       console.log(this.id_medico);
       console.log(this.fecha);
-      
-      this.turnoForm.disable()
-    } else {
+      } else {
 
     
 
@@ -143,10 +141,10 @@ export class NuevoTurnoComponent {
       }
     });
 
-    this.obtenerEspecialidades()    
-    this.obtenerCoberturas()   
-    this.obtenerPacientes()   
   }
+  this.obtenerEspecialidades()    
+  this.obtenerCoberturas()   
+  this.obtenerPacientes()   
   }
 
   navigate(path: string) {

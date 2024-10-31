@@ -95,7 +95,6 @@ export class TurnosProgramadosComponent implements OnInit{
     this.turnosService.obtenerTurnoMedico(JSON.stringify(body), this.token).subscribe((data: any) => {
       if(data.codigo === 200){
         this.turnos = data.payload;
-        console.log(this.turnos);
         
         if(this.turnos[0]){
         this.openSnackBar('Turnos para el dia: '+fecha);        
@@ -155,9 +154,8 @@ export class TurnosProgramadosComponent implements OnInit{
 
     eliminarTurno(id:any){
       this.turnosService.eliminarTurno(id,this.token).subscribe((data:any)=>{
-        console.log(this.turnos);
-        console.log(data);
-        
+        this.openSnackBar('Turno eliminado correctamente.');  // arreglar
+        this.obtenerTurnosMedico(this.dia)
       })
     }
   

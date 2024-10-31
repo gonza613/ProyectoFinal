@@ -222,7 +222,7 @@ export class PantallaPrincipalComponent implements OnInit{
   }
 
   abrirEditarAgenda(id_agenda: any, id_medico: any, fecha: any, id_especialidad: any){
-    this.dialog.open(AgendaOperadorComponent, {
+    let dialogRef = this.dialog.open(AgendaOperadorComponent, {
       width: '450px',
       data: { id_agenda: id_agenda,
         id_medico: id_medico,
@@ -230,9 +230,11 @@ export class PantallaPrincipalComponent implements OnInit{
         id_especialidad: id_especialidad
       }
     });
-    // this.dialogRef.afterClosed().subscribe(() => {
-    //   this.obtenerAgenda(id_medico, fecha)
-    // })
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.obtenerUsuarios();
+      }
+    })
     
     
   }
