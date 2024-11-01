@@ -8,6 +8,8 @@ import { EspecialidadService } from '../../services/especialidad.service';
 import { AgendaService } from 'src/app/services/agenda.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
+
+
 @Component({
   selector: 'app-nuevo-turno',
   templateUrl: './nuevo-turno.component.html',
@@ -58,12 +60,13 @@ export class NuevoTurnoComponent {
       minutos: ['', Validators.required],
       razon: ['', Validators.required],
     });
+
+    this.turnoForm.disable()
+
     if (this.esMatDialog) {
-      this.fecha = data.fecha
-      this.id_medico= data.id_medico
-      console.log(this.id_medico);
-      console.log(this.fecha);
-      } else {
+      this.fecha = new Date(data.fecha + 'T00:00:00');
+      this.id_medico= data.id_medico    
+      }
 
     
 
@@ -89,10 +92,11 @@ export class NuevoTurnoComponent {
     
             this.turnoForm.controls['especialidad'].setValue(this.obtenerIdEsp2(data.payload[0].id_especialidad-1))
             this.turnoForm.controls['profesional'].setValue(this.id_medico)
-              this.turnoForm.controls['especialidad'].disable()
-              this.turnoForm.controls['profesional'].disable()
+            this.turnoForm.controls['fecha'].setValue(this.fecha)
+            this.turnoForm.controls['especialidad'].disable()
+            this.turnoForm.controls['profesional'].disable()
+            this.turnoForm.controls['fecha'].disable() 
           })
-          
         }
     
       } else {
@@ -140,8 +144,6 @@ export class NuevoTurnoComponent {
         this.turnoForm.get('razon')?.disable();
       }
     });
-
-  }
   this.obtenerEspecialidades()    
   this.obtenerCoberturas()   
   this.obtenerPacientes()   
@@ -420,3 +422,4 @@ if(turnosConfirmados.length >0){
   }
   
 }
+

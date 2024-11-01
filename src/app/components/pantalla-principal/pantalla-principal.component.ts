@@ -112,7 +112,8 @@ export class PantallaPrincipalComponent implements OnInit{
 
 
   obtenerUnUsuario(id:any){
-    return this.usuarios[id-1].nombre + ' ' +this.usuarios[id-1].apellido;
+   let medico = this.usuarios.find((user:any)=> user.id === id)
+   return medico.nombre + ' ' +medico.apellido;
   }
 
   obtenerEspecialidad(id_especialidad:any){
