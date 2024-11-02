@@ -53,6 +53,14 @@ export class ListaUsuariosComponent implements OnInit{
       width: '450px',
       data: { id: id }
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.obtenerUsuario();
+      } else {
+        console.log('Acción cancelada');
+      }
+    })
   }
 
   filtrarUsuarios() {

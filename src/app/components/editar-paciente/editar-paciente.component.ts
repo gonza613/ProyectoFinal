@@ -20,6 +20,7 @@ export class EditarPacienteComponent implements OnInit {
   rol: any = localStorage.getItem('rol');
   especialidades:any;
   mostrarEspecialidades:any;
+  hoy: Date = new Date();
   private _snackBar = inject(MatSnackBar);
 
 
@@ -59,7 +60,7 @@ export class EditarPacienteComponent implements OnInit {
 
   obtenerEspecialidades(){
     this.especialidadesService.obtenerEspecialidades(this.token).subscribe((data : any)=>{
-      if (data.codigo === 200){
+      if (data.codigo === 200 && data.payload.length > 0) {
         this.especialidades = data.payload;
       } else if (data.codigo === -1){
         this.jwtExpirado()
@@ -71,10 +72,8 @@ export class EditarPacienteComponent implements OnInit {
 
   obtenerUsuarios(){
     this.usuarioService.obtenerUsuario(this.data.id,this.token).subscribe((data:any)=>{
-      if(data.codigo === 200){
-        
+      if(data.codigo === 200 && data.payload.length > 0){
         this.datos = data.payload[0];
-        console.log(this.datos);
         this.editarUsuarioForm.controls['nombre'].setValue(this.datos.nombre);
         this.editarUsuarioForm.controls['apellido'].setValue(this.datos.apellido);
         this.editarUsuarioForm.controls['usuario'].setValue(this.datos.usuario);
@@ -86,7 +85,7 @@ export class EditarPacienteComponent implements OnInit {
         this.editarUsuarioForm.controls['contrasenia'].setValue(this.datos.password);
         if (this.datos.rol === 'medico') {
           this.especialidadesService.obtenerEspecialidadesMedico(this.datos.id,this.token).subscribe((data:any)=>{
-            this.editarUsuarioForm.controls['especialidad'].setValue(data.payload[0].id_especialidad)
+          this.editarUsuarioForm.controls['especialidad'].setValue(data.payload[0].id_especialidad)
           })
         }
         this.editarUsuarioForm.enable();
@@ -112,7 +111,7 @@ export class EditarPacienteComponent implements OnInit {
         password: this.editarUsuarioForm.controls['contrasenia'].value,
       }
 
-      const medicoEspecialidadBody = {
+      let medicoEspecialidadBody = {
         id_medico: this.datos.id,
         id_especialidad: this.editarUsuarioForm.controls['especialidad'].value
       };

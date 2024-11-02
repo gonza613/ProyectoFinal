@@ -1,11 +1,11 @@
 <app-navbar></app-navbar>
 
-<body>
+<body style="padding: 15px">
 
   <h2>Lista de usuarios</h2>
 
-  <div class="filtro-container">
-    <mat-form-field appearance="fill">
+  <div class="filtro-container" >
+    <mat-form-field appearance="fill" style="margin-right: 15px">
       <mat-label>Filtrar por</mat-label>
       <mat-select [(value)]="filtroSeleccionado">
         <mat-option value="nombre">Nombre</mat-option>
@@ -14,12 +14,12 @@
       </mat-select>
     </mat-form-field>
 
-    <mat-form-field appearance="fill">
+    <mat-form-field appearance="fill" style="margin-right: 15px">
       <mat-label>Valor</mat-label>
       <input matInput [(ngModel)]="valorFiltro">
     </mat-form-field>
 
-    <button mat-raised-button (click)="filtrarUsuarios()">Buscar</button>
+    <button mat-raised-button (click)="filtrarUsuarios()" style="margin-right: 15px">Buscar</button>
     <button mat-raised-button (click)="borrarFiltro()">Limpiar</button>
   </div>
     

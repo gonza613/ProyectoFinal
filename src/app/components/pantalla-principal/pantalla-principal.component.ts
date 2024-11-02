@@ -43,8 +43,6 @@ export class PantallaPrincipalComponent implements OnInit{
     this.horarios = this.fb.group({
       fecha: [new Date(), Validators.required]
     });
-    const hoy = new Date().toISOString();
-    // this.obtenerAgenda(hoy);
     this.horarios.get('fecha')?.valueChanges.subscribe((value) => {
       this.fecha = this.horarios.controls['fecha'].value.toISOString().split('T')[0]
     })
@@ -71,42 +69,25 @@ export class PantallaPrincipalComponent implements OnInit{
     this.router.navigate(['/home']);
   }
 
-  obtenerTurnos(id:any){
-    let body={
-      id_medico:id,
-      fecha:'2024-10-26'
-    }
-    this.turnosService.obtenerTurnoMedico(body, this.token).subscribe((data: any)=>{
-      console.log(data.payload);
-      if(data.codigo === 200){
-        this.turnos= data.payload.sort((a: any, b: any) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime());     
-      }else if (data.codigo === -1){
-        this.jwtExpirado();
-      } else {
-        this.openSnackBar(data.mensaje);
-      }
-    })
-   }
-
    async obtenerUsuarios(){
     this.medicos = await firstValueFrom(this.usuariosServices.obtenerUsuarios(this.token))
     if (this.medicos.codigo === 200 && this.medicos.payload.length > 0) {
       this.usuarios = this.medicos.payload
       this.medicos = this.medicos.payload.filter((user: any) => user.rol === 'medico')
-      console.log(this.medicos);
-      console.log(this.usuarios);
-    } else {
+    } else if (this.medicos.codigo === -1 ){
       this.openSnackBar(this.medicos.mensaje)
+    } else {
+      this.openSnackBar('No se encontraron medicos o agendas para este dia')
     }
 
-      const promesas = this.medicos.map((medico: any) => this.obtenerAgenda(medico.id,''));
+      let promesas = this.medicos.map((medico: any) => this.obtenerAgenda(medico.id,''));
       
       try {
         this.agendas = await Promise.all(promesas);
         this.agendas = this.agendas.flat();
-        console.log(this.agendas);
+        this.muestraTurno = false;
       } catch (error) {
-        console.error('Error al obtener las agendas:', error);
+        this.openSnackBar('Error al obtener las agendas:' + error);
       }
    }
 
@@ -122,9 +103,13 @@ export class PantallaPrincipalComponent implements OnInit{
 
   obtenerEspecialidades(){
     this.especialidadesServices.obtenerEspecialidades(this.token).subscribe((data:any)=>{
-      console.log(data);
-      
-      this.especialidad=data.payload      
+      if (data.codigo === 200 && data.payload.length > 0){
+      this.especialidad=data.payload
+      } else if (data.codigo === -1){
+        this.jwtExpirado()
+      } else {
+        this.openSnackBar(data.mensaje)
+      }
     })
   }
 
@@ -135,53 +120,19 @@ export class PantallaPrincipalComponent implements OnInit{
       }
       this.agendaService.obtenerAgenda(id, this.token).subscribe((data: any) => {
         if (data.codigo === 200) {
-          const fechaSeleccionada = new Date(this.horarios.controls['fecha'].value);
+          let fechaSeleccionada = new Date(this.horarios.controls['fecha'].value);
           let fechaFormatted = fechaSeleccionada.toISOString().split('T')[0];
-  
-          const payload = Array.isArray(data.payload) ? data.payload : Object.values(data.payload);
-  
-          const agendaFiltrada = payload.filter((horario: { fecha: any; }) => {
-            const fechaHorario = new Date(horario.fecha).toISOString().split('T')[0];
-            return fechaHorario === fechaFormatted;
+          let payload = Array.isArray(data.payload) ? data.payload : Object.values(data.payload);
+          let agendaFiltrada = payload.filter((horario: { fecha: any; }) => {
+          let fechaHorario = new Date(horario.fecha).toISOString().split('T')[0];
+          return fechaHorario === fechaFormatted;
           });
   
           resolve(agendaFiltrada);
         } else if (data.codigo === -1) {
           this.jwtExpirado();
-          reject('Token expirado');
         } else {
           this.openSnackBar(data.mensaje);
-          reject(data.mensaje);
-        }
-      }, error => {
-        reject(error);
-      });
-    });
-  }
-  obtenerTurnos2(id: any, fecha: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      if (fecha === '') {
-        fecha = this.horarios.controls['fecha'].value;
-      }
-      this.turnosService.obtenerTurnoPaciente(id, this.token).subscribe((data: any) => {
-        if (data.codigo === 200) {
-          const fechaSeleccionada = new Date(this.horarios.controls['fecha'].value);
-          let fechaFormatted = fechaSeleccionada.toISOString().split('T')[0];
-  
-          const payload = Array.isArray(data.payload) ? data.payload : Object.values(data.payload);
-  
-          const agendaFiltrada = payload.filter((horario: { fecha: any; }) => {
-            const fechaHorario = new Date(horario.fecha).toISOString().split('T')[0];
-            return fechaHorario === fechaFormatted;
-          });
-  
-          resolve(agendaFiltrada);
-        } else if (data.codigo === -1) {
-          this.jwtExpirado();
-          reject('Token expirado');
-        } else {
-          this.openSnackBar(data.mensaje);
-          reject(data.mensaje);
         }
       });
     });
@@ -192,7 +143,7 @@ export class PantallaPrincipalComponent implements OnInit{
   }
 
   abrirCrearPaciente() {
-    const dialogRef = this.dialog.open(CrearPacienteComponent, {
+    let dialogRef = this.dialog.open(CrearPacienteComponent, {
       width: '450px'
     });
   }
@@ -212,13 +163,7 @@ export class PantallaPrincipalComponent implements OnInit{
     this.id_medico = id
     let fechaSeleccionada = new Date(this.horarios.controls['fecha'].value);
     this.dia = fechaSeleccionada.toISOString().split('T')[0];
-    console.log(this.dia);
-    console.log(this.id_medico);
-    if(this.muestraTurno === true){
-    this.muestraTurno=false;
-    } else {
-      this.muestraTurno=true;
-    }
+    this.muestraTurno=true;
   }
   abrirGestionAgenda(){
     this.router.navigate(['gestion-agenda']);

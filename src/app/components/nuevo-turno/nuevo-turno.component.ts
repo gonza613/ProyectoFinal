@@ -7,6 +7,7 @@ import { UsuariosService } from 'src/app/services/usuarios.service';
 import { EspecialidadService } from '../../services/especialidad.service';
 import { AgendaService } from 'src/app/services/agenda.service';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DialogRef } from '@angular/cdk/dialog';
 
 
 
@@ -46,6 +47,7 @@ export class NuevoTurnoComponent {
     private usuariosService: UsuariosService,
     private especialidadesService: EspecialidadService,
     private agendaService: AgendaService,
+    private dialogRef: DialogRef,
     @Optional() @Inject(MAT_DIALOG_DATA) public data: { id_medico:any,
     fecha:any;}
   ){
@@ -153,7 +155,11 @@ export class NuevoTurnoComponent {
   }
 
   cancelar(){
-    this.router.navigate(['/pantalla-principal']);
+    if(this.dialogRef){
+      this.dialogRef.close();
+    } else {
+      this.router.navigate(['/pantalla-principal']);
+    }
   }
 
   guardarTurno(){
@@ -192,7 +198,11 @@ export class NuevoTurnoComponent {
         let fechaFormatted = this.turnoForm.controls['fecha'].value.getFullYear() + '-' + (this.turnoForm.controls['fecha'].value.getMonth() + 1) + '-' + this.turnoForm.controls['fecha'].value.getDate();
         this.openSnackBar('Turno confirmado con '+nombreProf
           +' el dia '+fechaFormatted+' a las '+this.turnoForm.controls['hora'].value+':'+this.turnoForm.controls['minutos'].value)
-        this.router.navigate(['/pantalla-principal']);
+        if (this.esMatDialog){
+          this.dialogRef.close(true);
+        }else {
+          this.router.navigate(['/pantalla-principal']);
+        }
       } else if (data.codigo === -1){
         this.jwtExpirado()
       } else {

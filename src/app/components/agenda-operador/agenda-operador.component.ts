@@ -38,14 +38,14 @@ export class AgendaOperadorComponent {
       hora_entrada: this.agendaForm.controls['hora_entrada'].value,
       hora_salida: this.agendaForm.controls['hora_salida'].value
     }
-    console.log(body)
     this.agendaService.editarAgenda(this.id_agenda, JSON.stringify(body), this.token).subscribe((data:any) => {
       if(data.codigo === 200){
         this.dialogRef.close(true);
         this.openSnackBar('Modificacion de agenda exitoso');
-        
+      } else if(data.codigo === -1){
+      this.jwtExpirado();
       } else {
-        console.error(data.mensaje)
+      this.openSnackBar(data.mensaje);
       }
     })
   }

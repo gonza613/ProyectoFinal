@@ -62,11 +62,7 @@ export class TurnosProgramadosComponent implements OnInit{
     
     
     if (this.rol === 'operador'){
-      console.log(this.dia);
-      
       this.id_url = this.id_urlPadre
-      console.log(this.id_url);
-      
       this.obtenerTurnosMedico(this.dia);
     } else {
 
@@ -125,7 +121,7 @@ export class TurnosProgramadosComponent implements OnInit{
     return edad;
 }
   abrirNuevoTurno(){
-    this.dialog.open(NuevoTurnoComponent,{
+    let dialogo = this.dialog.open(NuevoTurnoComponent,{
       width:'450px',
       data:{
         id_medico:this.id_url,
@@ -133,15 +129,21 @@ export class TurnosProgramadosComponent implements OnInit{
       }
     })
 
+    dialogo.afterClosed().subscribe(result => {
+      if (result) {
+        this.obtenerTurnosMedico(this.dia)
+      } else {
+        console.log('Acción cancelada');
+      }
+    })
+
   }
 
   verNota(nota: string){ 
-    // this.nota=nota
-      const dialogRef = this.dialog.open(NotaComponent, {
+      let dialogRef = this.dialog.open(NotaComponent, {
         width: '450px',
         data : {nota: nota}
       });
-      console.log(nota);
 
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
@@ -154,8 +156,12 @@ export class TurnosProgramadosComponent implements OnInit{
 
     eliminarTurno(id:any){
       this.turnosService.eliminarTurno(id,this.token).subscribe((data:any)=>{
+        if(data.codigo === 200){
         this.openSnackBar('Turno eliminado correctamente.');  // arreglar
-        this.obtenerTurnosMedico(this.dia)
+        this.obtenerTurnosMedico(this.dia);
+        }else if(data.codigo === -1){
+        this.jwtExpirado();
+      }
       })
     }
   
@@ -173,6 +179,4 @@ export class TurnosProgramadosComponent implements OnInit{
       duration: 5000,
     });
   }
-
-
 }
