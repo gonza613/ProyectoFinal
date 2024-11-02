@@ -20,6 +20,7 @@ export class CrearPacienteComponent {
   titulo: string ='';
   especialidades: any = [];
   mostrarEspecialidades: boolean = false;
+  hoy: Date = new Date();
 
   constructor(
     private fb: FormBuilder,

@@ -20,6 +20,7 @@ export class LoginSignUpComponent {
   token: any;
   rol: any;
   id: any;
+  hoy: Date = new Date();
 
   constructor(
     private fb: FormBuilder,

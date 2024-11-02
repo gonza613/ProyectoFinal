@@ -1,5 +1,6 @@
 <body>
     <p>El dia {{this.turno.fecha | date : 'fullDate'}} a las {{this.turno.hora}}</p>
-    <p>Espcialista: </p>
-    <p>Especialidad: </p>
+    <p>Espcialista: {{this.turno.nombre_medico + ' ' + this.turno.apellido_medico}}</p>
+    <p>Especialidad: {{this.turno.especialidad}}</p>
+    <button mat-button (click)="cerrar()">Cerrar</button>
 </body>
