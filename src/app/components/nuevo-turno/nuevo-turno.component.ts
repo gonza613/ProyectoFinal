@@ -67,11 +67,6 @@ export class NuevoTurnoComponent {
       this.fecha = new Date(data.fecha + 'T00:00:00');
       this.id_medico= data.id_medico    
       }
-
-    
-
-    
-    
     if (this.rol === 'operador') {
   this.turnoForm.controls['paciente'].enable()
   this.turnoForm.get('paciente')?.valueChanges.subscribe((value) => {
@@ -107,6 +102,10 @@ export class NuevoTurnoComponent {
       if (value) {
         this.turnoForm.get('profesional')?.enable();
         this.obtenerProfesionales(this.turnoForm.controls['especialidad'].value)
+        if(this.profesionales.length > 0) {
+          snackBar.open('No hay ningún profesional disponible para esta especialidad', 'Cerrar', {
+          duration: 3000});
+          this.turnoForm.get('profesional')?.disable();}
       } else {
         this.turnoForm.get('profesional')?.disable();
       }
@@ -158,6 +157,12 @@ export class NuevoTurnoComponent {
   }
 
   guardarTurno(){
+    if (this.turnoForm.invalid) {
+      this.snackBar.open('Por favor, completa todos los campos obligatorios', 'Cerrar', {
+        duration: 3000,
+      });
+      return;
+    }
   let body;
   let nombreProf = this.profesionales.find((prof: { id_medico: any; }) => prof.id_medico === this.turnoForm.controls['profesional'].value)
   nombreProf = nombreProf.nombre + ' ' + nombreProf.apellido

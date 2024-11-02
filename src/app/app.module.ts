@@ -26,6 +26,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -89,7 +90,8 @@ import { AgendaOperadorComponent } from './components/agenda-operador/agenda-ope
     MatListModule,
     MatTableModule,
     MatSelectModule,
-    MatExpansionModule
+    MatExpansionModule,
+    FormsModule
   ],
   providers: [MatSnackBar,  { provide: LOCALE_ID, useValue: 'es-Ar' }],
   bootstrap: [AppComponent]

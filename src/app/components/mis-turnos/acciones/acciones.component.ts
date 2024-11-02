@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { EspecialidadService } from 'src/app/services/especialidad.service';
@@ -22,7 +22,8 @@ export class AccionesComponent {
     private snackBar: MatSnackBar,
     private turnosSerivce: TurnosService,
     @Inject(MAT_DIALOG_DATA) public data: { id_turno: string },
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private dialogRef: MatDialogRef<AccionesComponent>
   ){
     this.id_turno = data.id_turno;
     this.obtenerTurno(this.id_turno);
@@ -41,7 +42,7 @@ export class AccionesComponent {
    }
 
    cerrar(){
-    this.dialog.closeAll();
+    this.dialogRef.close();
    }
 
   jwtExpirado() {

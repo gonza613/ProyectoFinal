@@ -15,7 +15,7 @@ export class AgendaMedicoComponent {
 
   id:any;
   token: any;
-  displayedColumns = ['fecha','hora_salida','hora_entrada'];
+  displayedColumns = ['fecha','hora_entrada','hora_salida'];
   horarios: FormGroup;
   agenda: any;
   fecha = new Date().toISOString().split('T')[0];

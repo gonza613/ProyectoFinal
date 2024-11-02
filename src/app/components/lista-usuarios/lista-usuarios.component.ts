@@ -13,18 +13,21 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 
 export class ListaUsuariosComponent implements OnInit{
+
   displayedColumns: string[] = ['nombre', 'apellido', 'tipousuario','acciones'];
-  listaUsuarios:any;
+  listaUsuarios: any[] = [];
   dataSource: any;
-  token: any = localStorage.getItem('jwt')
+  token: any = localStorage.getItem('jwt');
+  usuariosFiltrados: any;
+
+  filtroSeleccionado: any;
+  valorFiltro: any;
 
   constructor(private usuariosService: UsuariosService, 
     private dialog: MatDialog, 
     private router:Router,
     private snackBar: MatSnackBar
-  ){
-
-  }
+  ){}
 
   ngOnInit(){
     this.obtenerUsuario();
@@ -34,6 +37,7 @@ export class ListaUsuariosComponent implements OnInit{
     this.usuariosService.obtenerUsuarios(this.token).subscribe((data : any) =>{      
       if (data.codigo === 200){
       this.listaUsuarios = data.payload
+      console.log(this.listaUsuarios)
       this.dataSource=this.listaUsuarios
       }else if(data.codigo === -1){
         this.jwtExpirado();
@@ -49,6 +53,20 @@ export class ListaUsuariosComponent implements OnInit{
       width: '450px',
       data: { id: id }
     });
+  }
+
+  filtrarUsuarios() {
+    if (this.filtroSeleccionado && this.valorFiltro) {
+      this.usuariosFiltrados = this.listaUsuarios.filter(usuario => {
+        return usuario[this.filtroSeleccionado]?.toLowerCase().includes(this.valorFiltro.toLowerCase());
+      });
+      this.dataSource = this.usuariosFiltrados;
+    }
+  }
+
+  borrarFiltro() {
+    this.dataSource = this.listaUsuarios;
+    this.valorFiltro = '';
   }
 
   jwtExpirado() {

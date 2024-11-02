@@ -1,15 +1,17 @@
 <div class="form-wrapper">
     <h2>Agrega un nuevo horario</h2>
     <form class="form-container" [formGroup]="forma">
-    <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Hora Desde</mat-label>
-        <input matInput formControlName="hora_desde" type="time" required>
-    </mat-form-field>
-
-    <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Hora Hasta</mat-label>
-        <input matInput formControlName="hora_hasta" type="time" required>
-    </mat-form-field>
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Hora Desde</mat-label>
+            <input matInput formControlName="hora_desde" type="time" required>
+            <mat-error *ngIf="forma.controls['hora_desde'].hasError('horaInvalida')">Los minutos deben ser 00 o 30.</mat-error>
+        </mat-form-field>
+        
+        <mat-form-field appearance="fill" class="full-width">
+            <mat-label>Hora Hasta</mat-label>
+            <input matInput formControlName="hora_hasta" type="time" required>
+            <mat-error *ngIf="forma.controls['hora_hasta'].hasError('horaInvalida')">Los minutos deben ser 00 o 30.</mat-error>
+        </mat-form-field>
     </form>
 
     <button (click)="recuperarEspecialidad()">Guardar</button>

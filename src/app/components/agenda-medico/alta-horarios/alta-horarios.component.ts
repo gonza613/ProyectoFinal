@@ -25,13 +25,24 @@ export class AltaHorariosComponent {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) public data: { fecha: string }){
     this.forma = this.fb.group({
-      hora_desde: ['', Validators.required],
-      hora_hasta: ['', Validators.required]
+      hora_desde: ['', [Validators.required, this.validarHora]],
+      hora_hasta: ['', [Validators.required, this.validarHora]]
     });
     this.fecha = data.fecha;
   }
 
+
+  validarHora(control: any) {
+    const value = control.value;
+    if (value) {
+      const [horas, minutos] = value.split(':').map(Number);
+      return (minutos === 0 || minutos === 30) ? null : { horaInvalida: true };
+    }
+    return null;
+  }
+
   recuperarEspecialidad(){
+    if (this.forma.valid) {
     let especialidad;
         this.especialidadesService.obtenerEspecialidadesMedico(this.id,this.token).subscribe((data: any) =>{        
         if(data.codigo === 200){
@@ -42,7 +53,10 @@ export class AltaHorariosComponent {
         } else {
           this.openSnackBar(data.mensaje) 
         }
-      })
+      });
+    } else {
+      this.openSnackBar('Por favor, completa correctamente los horarios.');
+    }
   }
 
   crearAgenda(especialidad: number){

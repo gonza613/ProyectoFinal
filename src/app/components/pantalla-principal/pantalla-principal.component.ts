@@ -201,7 +201,9 @@ export class PantallaPrincipalComponent implements OnInit{
     this.router.navigate(['mis-datos']);
   }
   abrirMisTurnos() {
-    this.dialog.open(MisTurnosComponent);
+    this.dialog.open(MisTurnosComponent,{
+      width: '450px'
+    });
   }
   abrirListaUsuario() {
     this.router.navigate(['lista-usuarios']);

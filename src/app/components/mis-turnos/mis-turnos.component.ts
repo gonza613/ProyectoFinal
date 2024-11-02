@@ -38,17 +38,24 @@ export class MisTurnosComponent implements OnInit{
     this.obtenerTurnos();
   }
 
- obtenerTurnos(){
-  this.turnosService.obtenerTurnoPaciente(this.id, this.token).subscribe((data: any)=>{    
-    if(data.codigo === 200 && data.payload.length > 0){
-      this.turnos= data.payload.sort((a: any, b: any) => new Date(a.fecha).getTime() - new Date(b.fecha).getTime()); 
-    }else if (data.codigo === -1){
-      this.jwtExpirado();
-    } else {
-      this.openSnackBar('No tienes ningun turno');
-    }
-  })
- }
+  obtenerTurnos() {
+    this.turnosService.obtenerTurnoPaciente(this.id, this.token).subscribe((data: any) => {    
+      if (data.codigo === 200 && data.payload.length > 0) {
+        this.turnos = data.payload.sort((a: any, b: any) => {
+          const fechaA = new Date(a.fecha).getTime();
+          const fechaB = new Date(b.fecha).getTime();
+          if (fechaA === fechaB) {
+            return a.hora.localeCompare(b.hora);
+          }
+          return fechaA - fechaB; 
+        }); 
+      } else if (data.codigo === -1) {
+        this.jwtExpirado();
+      } else {
+        this.openSnackBar('No tienes ningun turno');
+      }
+    });
+  }
 
  abrirAcciones(id_turno: any) {
   const dialogRef = this.dialog.open(AccionesComponent, {
