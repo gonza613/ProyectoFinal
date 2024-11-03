@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-import { MisDatosComponent } from '../mis-datos/mis-datos.component';
 import { EditarPacienteComponent } from '../editar-paciente/editar-paciente.component';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -13,13 +12,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 
 export class ListaUsuariosComponent implements OnInit{
-
   displayedColumns: string[] = ['nombre', 'apellido', 'tipousuario','acciones'];
   listaUsuarios: any[] = [];
   dataSource: any;
   token: any = localStorage.getItem('jwt');
   usuariosFiltrados: any;
-
   filtroSeleccionado: any;
   valorFiltro: any;
 
@@ -35,7 +32,7 @@ export class ListaUsuariosComponent implements OnInit{
 
   obtenerUsuario(){
     this.usuariosService.obtenerUsuarios(this.token).subscribe((data : any) =>{      
-      if (data.codigo === 200){
+      if (data.codigo === 200 && data.payload.length > 0){
       this.listaUsuarios = data.payload
       console.log(this.listaUsuarios)
       this.dataSource=this.listaUsuarios
@@ -57,8 +54,6 @@ export class ListaUsuariosComponent implements OnInit{
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
         this.obtenerUsuario();
-      } else {
-        console.log('Acción cancelada');
       }
     })
   }
@@ -90,6 +85,4 @@ export class ListaUsuariosComponent implements OnInit{
       duration: 5000,
     });
   }
-
 }
-

@@ -17,20 +17,19 @@ export class AgendaOperadorComponent {
   id_medico: any;
   agendaForm: FormGroup;
   token: any = localStorage.getItem('jwt');
-  constructor(@Inject(MAT_DIALOG_DATA) public data: { id_agenda: any, id_medico: any, fecha: any, id_especialidad: any },private fb: FormBuilder, private agendaService: AgendaService, private dialogRef: MatDialogRef<AgendaOperadorComponent>, private router: Router, private snackBar: MatSnackBar, private dialog: MatDialog){
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: { id_agenda: any, id_medico: any, fecha: any, id_especialidad: any }, private fb: FormBuilder, private agendaService: AgendaService, private dialogRef: MatDialogRef<AgendaOperadorComponent>, private router: Router, private snackBar: MatSnackBar, private dialog: MatDialog) {
     this.id_agenda = data.id_agenda;
     this.id_medico = data.id_medico;
     this.fecha = data.fecha;
     this.id_especialidad = data.id_especialidad;
-
-    
     this.agendaForm = this.fb.group({
       hora_entrada: ['', Validators.required],
       hora_salida: ['', Validators.required]
     });
   }
 
-  editarAgenda(){
+  editarAgenda() {
     let body = {
       id_medico: this.id_medico,
       id_especialidad: this.id_especialidad,
@@ -38,14 +37,14 @@ export class AgendaOperadorComponent {
       hora_entrada: this.agendaForm.controls['hora_entrada'].value,
       hora_salida: this.agendaForm.controls['hora_salida'].value
     }
-    this.agendaService.editarAgenda(this.id_agenda, JSON.stringify(body), this.token).subscribe((data:any) => {
-      if(data.codigo === 200){
+    this.agendaService.editarAgenda(this.id_agenda, JSON.stringify(body), this.token).subscribe((data: any) => {
+      if (data.codigo === 200) {
         this.dialogRef.close(true);
         this.openSnackBar('Modificacion de agenda exitoso');
-      } else if(data.codigo === -1){
-      this.jwtExpirado();
+      } else if (data.codigo === -1) {
+        this.jwtExpirado();
       } else {
-      this.openSnackBar(data.mensaje);
+        this.openSnackBar(data.mensaje);
       }
     })
   }
@@ -64,8 +63,7 @@ export class AgendaOperadorComponent {
     });
   }
 
-  cancelar(){
+  cancelar() {
     this.dialog.closeAll();
   }
-
 }

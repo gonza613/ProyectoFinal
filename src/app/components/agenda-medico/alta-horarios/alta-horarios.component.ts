@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AgendaService } from 'src/app/services/agenda.service';
 import { EspecialidadService } from '../../../services/especialidad.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-alta-horarios',
@@ -31,7 +30,6 @@ export class AltaHorariosComponent {
     this.fecha = data.fecha;
   }
 
-
   validarHora(control: any) {
     const value = control.value;
     if (value) {
@@ -45,7 +43,7 @@ export class AltaHorariosComponent {
     if (this.forma.valid) {
     let especialidad;
         this.especialidadesService.obtenerEspecialidadesMedico(this.id,this.token).subscribe((data: any) =>{        
-        if(data.codigo === 200){
+        if(data.codigo === 200 && data.payload.length > 0){
            especialidad = data.payload[0].id_especialidad
            this.crearAgenda(especialidad)
         }else if (data.codigo === -1){
@@ -73,13 +71,16 @@ export class AltaHorariosComponent {
         this.openSnackBar('Guardado correctamente');
         this.dialog.closeAll();
         window.location.reload();
-
         } else if (data.codigo === -1){
         this.jwtExpirado();
       } else {
         this.openSnackBar(data.mensaje)
       }
     })
+  }
+
+  cancelar(){
+    this.dialog.closeAll();
   }
 
   jwtExpirado() {

@@ -12,18 +12,17 @@ import { AltaHorariosComponent } from './alta-horarios/alta-horarios.component';
   styleUrls: ['./agenda-medico.component.css']
 })
 export class AgendaMedicoComponent {
-
-  id:any;
+  id: any;
   token: any;
-  displayedColumns = ['fecha','hora_entrada','hora_salida'];
+  displayedColumns = ['fecha', 'hora_entrada', 'hora_salida'];
   horarios: FormGroup;
   agenda: any;
+  hoy: Date = new Date();
   fecha = new Date().toISOString().split('T')[0];
 
-  constructor(private router: Router, private snackBar: MatSnackBar, private fb: FormBuilder, private agendaService: AgendaService, private dialog: MatDialog){
-    this.id=localStorage.getItem('id');
-    this.token=localStorage.getItem('jwt');
-    
+  constructor(private router: Router, private snackBar: MatSnackBar, private fb: FormBuilder, private agendaService: AgendaService, private dialog: MatDialog) {
+    this.id = localStorage.getItem('id');
+    this.token = localStorage.getItem('jwt');
     this.horarios = this.fb.group({
       fecha: [new Date(), Validators.required]
     });
@@ -34,25 +33,25 @@ export class AgendaMedicoComponent {
     })
   }
 
-  obtenerAgenda(fecha:any){
-    if(fecha === ''){
+  obtenerAgenda(fecha: any) {
+    if (fecha === '') {
       fecha = this.horarios.controls['fecha'].value;
     }
     this.agendaService.obtenerAgenda(this.id, this.token).subscribe((data: any) => {
-      if(data.codigo === 200){
+      if (data.codigo === 200 && data.payload.length > 0) {
 
-      // Obtener la fecha seleccionada del FormControl
-      const fechaSeleccionada = new Date(this.horarios.controls['fecha'].value);
-          
-      // Convertir la fecha seleccionada al formato ISO completo
-      let fechaFormatted = fechaSeleccionada.toISOString().split('T')[0];
+        const fechaSeleccionada = new Date(this.horarios.controls['fecha'].value);
+
+        let fechaFormatted = fechaSeleccionada.toISOString().split('T')[0];
 
         const payload = Array.isArray(data.payload) ? data.payload : Object.values(data.payload);
 
-        this.agenda = payload.filter((horario: { fecha: any; }) => {const fechaHorario = new Date(horario.fecha).toISOString().split('T')[0];
-        return fechaHorario === fechaFormatted;});
+        this.agenda = payload.filter((horario: { fecha: any; }) => {
+          const fechaHorario = new Date(horario.fecha).toISOString().split('T')[0];
+          return fechaHorario === fechaFormatted;
+        });
         console.log(this.agenda);
-      } else if (data.codigo === -1){
+      } else if (data.codigo === -1) {
         this.jwtExpirado();
       } else {
         this.openSnackBar(data.mensaje);
@@ -62,12 +61,12 @@ export class AgendaMedicoComponent {
 
   jwtExpirado() {
     this.openSnackBar('Sesión expirada.');
-  
+
     setTimeout(() => {
       this.router.navigate(['/home']);
     }, 1000);
   }
-  
+
   openSnackBar(message: string) {
     this.snackBar.open(message, 'Cerrar', {
       duration: 5000,
@@ -77,17 +76,14 @@ export class AgendaMedicoComponent {
   abrirAltaHorarios(fecha: string) {
     const dialogRef = this.dialog.open(AltaHorariosComponent, {
       width: '450px',
-      data: { fecha : this.fecha }
+      data: { fecha: this.fecha }
     });
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        this.router.navigate(['/agenda-medico']);
+        this.obtenerAgenda(fecha)
       } else {
         console.log('Acción cancelada');
       }
     });
   }
-
-
 }
