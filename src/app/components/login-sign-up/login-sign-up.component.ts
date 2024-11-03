@@ -26,10 +26,9 @@ export class LoginSignUpComponent {
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<LoginSignUpComponent>,
     private loginService: LoginService,
-    private usuarioService: UsuariosService,
     private router: Router,
     private _snackbar: MatSnackBar,
-    @Inject(MAT_DIALOG_DATA) public data: { isLoginMode: boolean } // trae la info del isLoginMode desde el homeComponent
+    @Inject(MAT_DIALOG_DATA) public data: { isLoginMode: boolean } 
   ) {
     this.isLoginMode = data.isLoginMode;
 
@@ -58,8 +57,7 @@ export class LoginSignUpComponent {
     };
 
       this.loginService.login(JSON.stringify(body)).subscribe((data: any) => {
-        if (data.codigo === 200) {
-            
+        if (data.codigo === 200 && data.payload.length > 0) {
             localStorage.setItem('jwt', data.jwt)
             localStorage.setItem('id', data.payload[0].id); 
             localStorage.setItem('rol', data.payload[0].rol);
@@ -82,12 +80,10 @@ export class LoginSignUpComponent {
       rol: 'paciente',
       email: this.signUpForm.controls['mail'].value,
       telefono:this.signUpForm.controls['telefono'].value,
-      // usuario: this.signUpForm.controls['usuario'].value
     }
     this.loginService.register(JSON.stringify(body)).subscribe((data : any) =>{
       if (data.codigo === 200) {
         this.openSnackBar('Usuario creado correctamente','Aceptar')
-        // this.router.navigate(['/home'])
         this.dialogRef.close(true);
       } else {
       this.openSnackBar(data.mensaje,'Aceptar')

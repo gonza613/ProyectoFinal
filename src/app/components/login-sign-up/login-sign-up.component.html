@@ -8,7 +8,7 @@
     <form class="form-container" *ngIf="isLoginMode" [formGroup]="loginForm">
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>DNI</mat-label>
-        <input matInput formControlName="dni" required autocomplete="username">
+        <input matInput formControlName="dni" required autocomplete="username" type="number">
       </mat-form-field>
   
       <mat-form-field appearance="fill" class="full-width">
@@ -36,7 +36,7 @@
   
       <mat-form-field appearance="fill" class="full-width">
         <mat-label>DNI</mat-label>
-        <input matInput formControlName="dni" required autocomplete="off">
+        <input matInput formControlName="dni" required autocomplete="off" type="number">
       </mat-form-field>
   
       <mat-form-field appearance="fill" class="full-width">

@@ -165,6 +165,10 @@ export class PantallaPrincipalComponent implements OnInit{
     this.dia = fechaSeleccionada.toISOString().split('T')[0];
     this.muestraTurno=true;
   }
+
+  abrirTurnosProgramadosMedico(){
+    this.router.navigate(['turnos-programados/' + this.id]);
+  }
   abrirGestionAgenda(){
     this.router.navigate(['gestion-agenda']);
   }

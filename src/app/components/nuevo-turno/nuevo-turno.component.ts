@@ -6,7 +6,7 @@ import { TurnosService } from 'src/app/services/turnos.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { EspecialidadService } from '../../services/especialidad.service';
 import { AgendaService } from 'src/app/services/agenda.service';
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 
 
@@ -218,10 +218,8 @@ export class NuevoTurnoComponent {
 
   obtenerProfesionales(id:any) {
     this.especialidadesService.obtenerMedicoPorEspecialidad(id,this.token).subscribe((data:any)=>{
-      if (data.codigo === 200){
-        this.profesionales = data.payload;        
-        console.log(this.profesionales);
-        
+      if (data.codigo === 200 && data.payload.length > 0){
+        this.profesionales = data.payload;                
       } else if (data.codigo === -1){
         this.jwtExpirado();
       } else {
@@ -233,7 +231,7 @@ export class NuevoTurnoComponent {
 
   obtenerEspecialidades(){
     this.especialidadesService.obtenerEspecialidades(this.token).subscribe((data : any)=>{
-      if (data.codigo === 200){
+      if (data.codigo === 200 && data.payload.length > 0){
         this.especialidad = data.payload;
       } else if (data.codigo === -1){
         this.jwtExpirado()
@@ -251,7 +249,7 @@ export class NuevoTurnoComponent {
 
   obtenerCoberturas(){
     this.especialidadesService.obtenerCobertura(this.token).subscribe((data : any)=>{
-      if (data.codigo === 200){        
+      if (data.codigo === 200 && data.payload.length > 0){        
         this.cobertura = data.payload;
       } else if (data.codigo === -1){
         this.jwtExpirado()
@@ -263,8 +261,7 @@ export class NuevoTurnoComponent {
 
   obtenerAgenda(id: string) {
     this.agendaService.obtenerAgenda(id, this.token).subscribe((data: any) => {      
-        if (data.codigo === 200) {
-          console.log(data);
+        if (data.codigo === 200 && data.payload.length > 0) {
             this.agenda = data.payload.map((item: any) => new Date(item.fecha));
             let fecha = new Date(this.turnoForm.controls['fecha'].value).toISOString()
             this.agendaHoras = data.payload.filter((obj: { fecha: any; }) => obj.fecha.startsWith(fecha));
@@ -335,7 +332,7 @@ obtenerTurnosMedico(fecha: any) {
   };
 
   this.turnosServie.obtenerTurnoMedico(JSON.stringify(body), this.token).subscribe((data: any) => {
-    if (data.codigo === 200) {
+    if (data.codigo === 200 && data.payload.length > 0) {
       this.turnos = data.payload;
 
       const horasContadas: { [key: string]: number } = this.turnos.reduce((acc:any, turno:any) => {

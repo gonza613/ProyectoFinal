@@ -1,18 +1,18 @@
 <app-navbar></app-navbar>
     <body>
-        <h1>Selecciona el dia para ver tus horarios</h1>
+        <h2 style="display: flex;justify-content: center;">Selecciona el dia para ver tus horarios</h2>
 
 
     <form [formGroup]="horarios">
-        <mat-form-field>
+        <mat-form-field style="margin-right: 10px;">
             <input matInput [matDatepicker]="picker" formControlName="fecha">
             
             <mat-datepicker-toggle matIconSuffix [for]="picker" ></mat-datepicker-toggle>
             <mat-datepicker #picker></mat-datepicker>
             
         </mat-form-field>
-        <button mat-button (click)="obtenerAgenda('')">Buscar</button>
-        <button mat-button (click)="abrirAltaHorarios(fecha)">Agregar Horario</button>
+        <button mat-button (click)="obtenerAgenda('')" style="margin-right: 10px;">Buscar</button>
+        <button mat-button (click)="abrirAltaHorarios(fecha)" style="margin-right: 10px;">Agregar Horario</button>
     </form>
         
         <div class="horarios-programados">

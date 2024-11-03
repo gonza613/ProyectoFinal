@@ -37,6 +37,7 @@ export class TurnosProgramadosComponent implements OnInit{
   nota:any;
   id_url:any;
   fechaSeleccionada: any | null = null;
+  hoy: Date = new Date();
   @Input() id_urlPadre!: any
   @Input() dia!: any
   constructor(private turnosService: TurnosService, 
@@ -50,7 +51,7 @@ export class TurnosProgramadosComponent implements OnInit{
     this.displayedColumns = ['fecha','hora','nombre_paciente','edad','cobertura','nota'];
     this.id_url = this.activatedRoute.snapshot.paramMap.get('id')
     this.fecha = this.fb.group({
-      fecha: [''],
+      fecha: [this.hoy],
     });
     
 
