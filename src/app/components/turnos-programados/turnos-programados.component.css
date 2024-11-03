@@ -3,6 +3,7 @@ body {
     flex-direction: column;
     background-color: rgb(169, 226, 147);
     min-height: 100vh;
+    padding: 10px;
   }
 h2{
   display: flex;

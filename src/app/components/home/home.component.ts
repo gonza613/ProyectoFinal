@@ -20,13 +20,9 @@ export class HomeComponent {
       width: '450px',
       data: { isLoginMode: isLoginMode }
     });
-    console.log(isLoginMode);
-
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.router.navigate(['/pantalla-principal']);
-      } else {
-        console.log('Acción cancelada');
       }
     });
   }

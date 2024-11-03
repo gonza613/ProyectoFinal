@@ -17,12 +17,9 @@ export class NavbarComponent {
   logout() {
     localStorage.removeItem('nombreUsuario');
     localStorage.removeItem('rol');
-    
-    this.router.navigate(['/home']);
-    localStorage.removeItem('rol');
-    localStorage.removeItem('nombreUsuario');
     localStorage.removeItem('id');
     localStorage.removeItem('jwt');
+    this.router.navigate(['/home']);
 
   }
 

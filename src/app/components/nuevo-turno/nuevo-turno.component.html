@@ -1,5 +1,5 @@
-<app-navbar *ngIf="this.rol === 'paciente'"></app-navbar>
-<body *ngIf="this.rol === 'paciente'">
+<app-navbar *ngIf="rol === 'paciente'"></app-navbar>
+<body *ngIf="rol === 'paciente'">
 
     <div class="form-wrapper">
         <form class="form-container" [formGroup]="turnoForm">
@@ -81,9 +81,9 @@
     </div>
 
 </body>
-<app-footer *ngIf="this.rol === 'paciente'"></app-footer>
+<app-footer *ngIf="rol === 'paciente'"></app-footer>
 
-<mat-dialog-content *ngIf="this.rol === 'operador'">
+<mat-dialog-content *ngIf="rol === 'operador'">
   
   <div class="form-wrapper">
     <form class="form-container" [formGroup]="turnoForm">

@@ -1,6 +1,6 @@
 <mat-dialog-content>
 <div class="form-wrapper">
-    <h2>Agrega un nuevo horario</h2>
+    <h2>Modifica horario</h2>
     <form class="form-container" [formGroup]="agendaForm">
         <mat-form-field appearance="fill" class="full-width">
             <mat-label>Hora Desde</mat-label>
@@ -13,7 +13,7 @@
         </mat-form-field>
     </form>
     
-    <button (click)="editarAgenda()">Guardar</button>
-    <button (click)="cancelar()">cancelar</button>
+    <button mat-button (click)="editarAgenda()">Guardar</button>
+    <button mat-button (click)="cancelar()">Cancelar</button>
 </div>
 </mat-dialog-content>

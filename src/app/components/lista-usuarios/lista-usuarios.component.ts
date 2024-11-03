@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { UsuariosService } from 'src/app/services/usuarios.service';
-import { MisDatosComponent } from '../mis-datos/mis-datos.component';
 import { EditarPacienteComponent } from '../editar-paciente/editar-paciente.component';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -14,17 +13,18 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 export class ListaUsuariosComponent implements OnInit{
   displayedColumns: string[] = ['nombre', 'apellido', 'tipousuario','acciones'];
-  listaUsuarios:any;
+  listaUsuarios: any[] = [];
   dataSource: any;
-  token: any = localStorage.getItem('jwt')
+  token: any = localStorage.getItem('jwt');
+  usuariosFiltrados: any;
+  filtroSeleccionado: any;
+  valorFiltro: any;
 
   constructor(private usuariosService: UsuariosService, 
     private dialog: MatDialog, 
     private router:Router,
     private snackBar: MatSnackBar
-  ){
-
-  }
+  ){}
 
   ngOnInit(){
     this.obtenerUsuario();
@@ -32,8 +32,9 @@ export class ListaUsuariosComponent implements OnInit{
 
   obtenerUsuario(){
     this.usuariosService.obtenerUsuarios(this.token).subscribe((data : any) =>{      
-      if (data.codigo === 200){
+      if (data.codigo === 200 && data.payload.length > 0){
       this.listaUsuarios = data.payload
+      console.log(this.listaUsuarios)
       this.dataSource=this.listaUsuarios
       }else if(data.codigo === -1){
         this.jwtExpirado();
@@ -49,6 +50,26 @@ export class ListaUsuariosComponent implements OnInit{
       width: '450px',
       data: { id: id }
     });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result) {
+        this.obtenerUsuario();
+      }
+    })
+  }
+
+  filtrarUsuarios() {
+    if (this.filtroSeleccionado && this.valorFiltro) {
+      this.usuariosFiltrados = this.listaUsuarios.filter(usuario => {
+        return usuario[this.filtroSeleccionado]?.toLowerCase().includes(this.valorFiltro.toLowerCase());
+      });
+      this.dataSource = this.usuariosFiltrados;
+    }
+  }
+
+  borrarFiltro() {
+    this.dataSource = this.listaUsuarios;
+    this.valorFiltro = '';
   }
 
   jwtExpirado() {
@@ -64,6 +85,4 @@ export class ListaUsuariosComponent implements OnInit{
       duration: 5000,
     });
   }
-
 }
-
