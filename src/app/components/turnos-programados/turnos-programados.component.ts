@@ -4,11 +4,12 @@ import { TurnosService } from 'src/app/services/turnos.service';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { AltaHorariosComponent } from '../agenda-medico/alta-horarios/alta-horarios.component';
 import { NotaComponent } from './nota/nota.component';
 import { PantallaPrincipalComponent } from '../pantalla-principal/pantalla-principal.component';
 import { NuevoTurnoComponent } from '../nuevo-turno/nuevo-turno.component';
+import { firstValueFrom } from 'rxjs';
 
 
 export interface Turnos {
@@ -89,30 +90,23 @@ export class TurnosProgramadosComponent implements OnInit{
     }
   }
     this.turnosService.obtenerTurnoMedico(JSON.stringify(body), this.token).subscribe((data: any) => {
-      if(data.codigo === 200){
+      if(data.codigo === 200 && data.payload.length > 0){
         this.turnos = data.payload;
-        
-        if(this.turnos[0]){
         this.openSnackBar('Turnos para el dia: '+fecha);        
-      } else {
-        this.openSnackBar('No se encontraron turnos para el dia: '+fecha);        
-      }
     }else if(data.codigo === -1){
       this.jwtExpirado();
     } else {
-        this.openSnackBar(data.mensaje);
-      }
+        this.openSnackBar('No se encontraron turnos para el dia: '+fecha);
+    }
     })
   }
 
   calcularEdad(fechaNacimiento: string): number {
-    let hoy = new Date(); // Fecha actual
-    let nacimiento = new Date(fechaNacimiento); // Fecha de nacimiento
+    let hoy = new Date();
+    let nacimiento = new Date(fechaNacimiento);
 
-    // Calculamos la diferencia de años
     let edad = hoy.getFullYear() - nacimiento.getFullYear();
 
-    // Verificamos si el cumpleaños ya ha pasado este año, de no ser así, restamos un año
     let mes = hoy.getMonth() - nacimiento.getMonth();
     if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
         edad--;
@@ -121,22 +115,18 @@ export class TurnosProgramadosComponent implements OnInit{
     return edad;
 }
   abrirNuevoTurno(){
-    let dialogo = this.dialog.open(NuevoTurnoComponent,{
+    const dialogo = this.dialog.open(NuevoTurnoComponent,{
       width:'450px',
       data:{
         id_medico:this.id_url,
         fecha:this.dia
       }
     })
-
-    dialogo.afterClosed().subscribe(result => {
-      if (result) {
+    dialogo.afterClosed().subscribe((result) => {
+        this.turnos = [];
+        console.log(this.turnos);
         this.obtenerTurnosMedico(this.dia)
-      } else {
-        console.log('Acción cancelada');
-      }
     })
-
   }
 
   verNota(nota: string){ 
@@ -148,20 +138,14 @@ export class TurnosProgramadosComponent implements OnInit{
       dialogRef.afterClosed().subscribe(result => {
         if (result) {
           this.router.navigate(['/turnos-programados']);
-        } else {
-          console.log('Acción cancelada');
         }
       });
     }
 
     eliminarTurno(id:any){
       this.turnosService.eliminarTurno(id,this.token).subscribe((data:any)=>{
-        if(data.codigo === 200){
-        this.openSnackBar('Turno eliminado correctamente.');  // arreglar
+        this.openSnackBar('Turno eliminado correctamente.'); 
         this.obtenerTurnosMedico(this.dia);
-        }else if(data.codigo === -1){
-        this.jwtExpirado();
-      }
       })
     }
   

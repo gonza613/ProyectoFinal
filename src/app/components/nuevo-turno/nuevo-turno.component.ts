@@ -6,8 +6,7 @@ import { TurnosService } from 'src/app/services/turnos.service';
 import { UsuariosService } from 'src/app/services/usuarios.service';
 import { EspecialidadService } from '../../services/especialidad.service';
 import { AgendaService } from 'src/app/services/agenda.service';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { DialogRef } from '@angular/cdk/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 
 
@@ -38,6 +37,8 @@ export class NuevoTurnoComponent {
   id_medico:any;
   especialidad_medico:any;
   esMatDialog: boolean = false;
+  minutosConfirmados!:any [];
+
 
 
   constructor(private fb: FormBuilder, 
@@ -47,11 +48,13 @@ export class NuevoTurnoComponent {
     private usuariosService: UsuariosService,
     private especialidadesService: EspecialidadService,
     private agendaService: AgendaService,
-    private dialogRef: DialogRef,
-    @Optional() @Inject(MAT_DIALOG_DATA) public data: { id_medico:any,
+    private dialogRef?: MatDialog,
+    @Optional() @Inject(MAT_DIALOG_DATA) public data?: { id_medico:any,
     fecha:any;}
   ){
     this.esMatDialog = !!data;
+    console.log(this.esMatDialog);
+
     this.turnoForm = this.fb.group({
       paciente: [''],
       cobertura: ['', Validators.required],
@@ -65,7 +68,7 @@ export class NuevoTurnoComponent {
 
     this.turnoForm.disable()
 
-    if (this.esMatDialog) {
+    if (this.esMatDialog && data) {
       this.fecha = new Date(data.fecha + 'T00:00:00');
       this.id_medico= data.id_medico    
       }
@@ -86,7 +89,6 @@ export class NuevoTurnoComponent {
         this.turnoForm.get('especialidad')?.enable();
         if(this.rol === 'operador'){
           this.especialidadesService.obtenerEspecialidadesMedico(this.id_medico,this.token).subscribe((data:any)=>{
-    
             this.turnoForm.controls['especialidad'].setValue(this.obtenerIdEsp2(data.payload[0].id_especialidad-1))
             this.turnoForm.controls['profesional'].setValue(this.id_medico)
             this.turnoForm.controls['fecha'].setValue(this.fecha)
@@ -95,7 +97,7 @@ export class NuevoTurnoComponent {
             this.turnoForm.controls['fecha'].disable() 
           })
         }
-    
+
       } else {
         this.turnoForm.get('especialidad')?.disable();
       }
@@ -125,7 +127,6 @@ export class NuevoTurnoComponent {
         this.obtenerAgenda(this.turnoForm.controls['profesional'].value);
         this.obtenerTurnosMedico('')
         this.turnoForm.get('hora')?.enable();
-        
       } else {
         this.turnoForm.get('hora')?.disable();
       }
@@ -147,7 +148,7 @@ export class NuevoTurnoComponent {
     });
   this.obtenerEspecialidades()    
   this.obtenerCoberturas()   
-  this.obtenerPacientes()   
+  this.obtenerPacientes()
   }
 
   navigate(path: string) {
@@ -155,8 +156,8 @@ export class NuevoTurnoComponent {
   }
 
   cancelar(){
-    if(this.dialogRef){
-      this.dialogRef.close();
+    if(this.esMatDialog){
+      this.dialogRef?.closeAll();
     } else {
       this.router.navigate(['/pantalla-principal']);
     }
@@ -199,7 +200,7 @@ export class NuevoTurnoComponent {
         this.openSnackBar('Turno confirmado con '+nombreProf
           +' el dia '+fechaFormatted+' a las '+this.turnoForm.controls['hora'].value+':'+this.turnoForm.controls['minutos'].value)
         if (this.esMatDialog){
-          this.dialogRef.close(true);
+        this.dialogRef?.closeAll();
         }else {
           this.router.navigate(['/pantalla-principal']);
         }
@@ -210,11 +211,7 @@ export class NuevoTurnoComponent {
       }
     })
   }
-  obtenerIdEsp(){
-    this.especialidadesService.obtenerEspecialidadesMedico(this.id_medico,this.token).subscribe((data:any)=>{
-    this.especialidad_medico=data.payload.id_especialidad
-    })
-  }
+
   obtenerIdEsp2(id:any){
   return this.especialidad[id].id
   }
@@ -268,29 +265,16 @@ export class NuevoTurnoComponent {
     this.agendaService.obtenerAgenda(id, this.token).subscribe((data: any) => {      
         if (data.codigo === 200) {
           console.log(data);
-          
-            // Aquí asumimos que las fechas están en el campo 'fecha'
             this.agenda = data.payload.map((item: any) => new Date(item.fecha));
-            
             let fecha = new Date(this.turnoForm.controls['fecha'].value).toISOString()
-            
             this.agendaHoras = data.payload.filter((obj: { fecha: any; }) => obj.fecha.startsWith(fecha));
-            console.log(this.agendaHoras);
-            
             if (this.agendaHoras) {
-              this.horas = [];  // Inicializa el array de horas
-            
-              // Itera sobre los objetos en agendaHoras y concatena las horas
+              this.horas = [];
               for (let i = 0; i < this.agendaHoras.length; i++) {
-                const horasEntre = this.obtenerHorasEntre(this.agendaHoras[i].hora_entrada, this.agendaHoras[i].hora_salida);
-                
+                let horasEntre = this.obtenerHorasEntre(this.agendaHoras[i].hora_entrada, this.agendaHoras[i].hora_salida);
                 this.numArray = i
-
-                // Concatenar las horas al array
                 this.horas = this.horas.concat(horasEntre).sort();
               }
-            
-              console.log(this.horas);  // Esto mostrará todas las horas concatenadas
             }
         } else if (data.codigo === -1){
           this.jwtExpirado();
@@ -329,97 +313,65 @@ export class NuevoTurnoComponent {
   }
 
 
-  // Función que filtra las fechas permitidas
+
 dateFilter = (fecha: Date | null): boolean => {
-  // Si la fecha es null, no la permitimos
-  if (!fecha) return false;
-
-  // Convertimos el día actual a un string sin la hora para comparar solo la fecha
-  const fechaStr = fecha.toDateString();
-
-  // Comprobamos si la fecha está en el array de fechas válidas
+  if (!fecha) {
+    return false
+  };
+  let fechaStr = fecha.toDateString();
   return this.agenda.some(f => f.toDateString() === fechaStr);
 };
 
 
-obtenerTurnosMedico(fecha: any){
-  if (fecha == ''){
-    fecha=this.turnoForm.controls['fecha'].value
-    fecha=fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate();
-  }    
-
-  let body = {
-    id_medico : this.turnoForm.controls['profesional'].value,
-    fecha : fecha
+obtenerTurnosMedico(fecha: any) {
+  if (fecha === '') {
+    fecha = this.turnoForm.controls['fecha'].value;
+    fecha = fecha.getFullYear() + '-' + (fecha.getMonth() + 1) + '-' + fecha.getDate();
   }
+
+  const body = {
+    id_medico: this.turnoForm.controls['profesional'].value,
+    fecha: fecha
+  };
+
   this.turnosServie.obtenerTurnoMedico(JSON.stringify(body), this.token).subscribe((data: any) => {
-    if(data.codigo === 200){
+    if (data.codigo === 200) {
       this.turnos = data.payload;
-      
-      let turnosConfirmados: any[] = [];
-      let minutosConfirmados: any[] = [];
-      let horaConfirmada: any[] = [];
-      turnosConfirmados = data.payload.filter((obj: { fecha: any; }) => obj.fecha.startsWith(fecha));
-      console.log(turnosConfirmados);
 
-      for (let i = 0; i < turnosConfirmados.length; i++) {
-       horaConfirmada = data.payload.map((obj: { hora: any; }) => obj.hora.substr(0,2));
-      }
-      
-      minutosConfirmados =  data.payload.map((obj: { hora: any; }) => obj.hora.substr(3,2));
-      console.log(minutosConfirmados);
-      
-      if (minutosConfirmados[0] == '30') {
-        
-      }
-
-      // this.horasSinConfirmar = horaConfirmada.filter((valor, indice, self) => 
-      //   self.indexOf(valor) === self.lastIndexOf(valor)
-      // );
-      // console.log(this.horasSinConfirmar);
-
-      for (let i = 0; i < turnosConfirmados.length; i++) {
-        horaConfirmada = data.payload.map((obj: { hora: any; }) => obj.hora.substr(0, 2));
-      }
-      
-      // Contar las ocurrencias de cada hora
-      const contadorHoras: { [key: string]: number } = {};
-      horaConfirmada.forEach(hora => {
-        contadorHoras[hora] = (contadorHoras[hora] || 0) + 1;
-      });
-      
-      // Filtrar solo las horas que se repiten
-      this.horasSinConfirmar = Object.keys(contadorHoras).filter(hora => contadorHoras[hora] > 1);
-      console.log(this.horasSinConfirmar);
+      const horasContadas: { [key: string]: number } = this.turnos.reduce((acc:any, turno:any) => {
+        const hora = turno.hora.substr(0, 2);
+        acc[hora] = (acc[hora] || 0) + 1;
+        return acc;
+      }, {});
+      this.horasSinConfirmar = Object.keys(horasContadas).filter(hora => horasContadas[hora] > 1);
 
       this.horas = this.horas.filter(hora => !this.horasSinConfirmar.includes(hora));
-
-      console.log(this.horas); // Este será el nuevo array con las horas filtradas
-      
-     
-  }else if(data.codigo === -1){
-    this.jwtExpirado();
-  } else {
+    } else if (data.codigo === -1) {
+      this.jwtExpirado();
+    } else {
       this.openSnackBar(data.mensaje);
     }
-  })
+  });
 }
-minutosConfirmados:any [] = ['00','30']
-obtenerMinutos(hora:any){
-let turnosConfirmados: any[]= this.turnos.filter((obj: { hora: any; }) => obj.hora.startsWith(hora));
-if(turnosConfirmados.length >0){
-  turnosConfirmados = turnosConfirmados[0].hora.substr(3,2)
-} else {
-  turnosConfirmados = []
-}
-//  this.minutosConfirmados =  turnosConfirmados.map((obj: { hora: any; }) => obj.hora.substr(3,2));
- console.log(this.minutosConfirmados);
- console.log(turnosConfirmados);
-//  this.minutosConfirmados = this.minutosConfirmados.splice(turnosConfirmados)
- let index;
- while ((index = this.minutosConfirmados.indexOf(turnosConfirmados)) !== -1) {
-     this.minutosConfirmados.splice(index, 1);
- }
+
+obtenerMinutos(hora: any) {
+  let turnosConfirmados: any[] = this.turnos.filter((obj: { hora: any; }) => obj.hora.startsWith(hora));
+
+  let minutosDisponibles: string[] = ['00', '30'];
+
+  turnosConfirmados.forEach((turno: any) => {
+    const minutoTurno = turno.hora.substr(3, 2);
+    const index = minutosDisponibles.indexOf(minutoTurno);
+    if (index !== -1) {
+      minutosDisponibles.splice(index, 1);
+    }
+  });
+  if (minutosDisponibles.length === 0) {
+    this.turnoForm.controls['hora'].setValue('');
+    this.openSnackBar('La hora seleccionada ya está ocupada por ambos turnos.');
+  } else {
+    this.minutosConfirmados = minutosDisponibles;
+  }
 }
 
   jwtExpirado() {
